@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Submit Practice - Best Practices Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #34495e;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 2em;
+    }
+    form label {
+      display: block;
+      margin: 1em 0 0.5em;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+    input[type="file"] {
+      margin-bottom: 1em;
+    }
+    .checkbox-group {
+      margin-bottom: 1em;
+    }
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 1em;
+    }
+    .readonly {
+      background-color: #e9ecef;
+    }
+    button {
+      padding: 0.75em 1.5em;
+      background-color: #008866;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #006655;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+  <h1 style="text-align:center;">Best Practice Platform [Draft]</h1>
+  <h1>Submit a Best Practice</h1>
+  </header>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="library.html">Library</a>
+    <a href="submission.html">Submit</a>
+    <a href="tracker.html">Tracker</a>
+    <a href="audit.html">Audit</a>
+    <a href="admin.html">Admin</a>
+    <a href="login.html" style="float:right;">Login</a>
+  </nav>
+  <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+  <main>
+    <form>
+      <label for="title">Title *</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">Description *</label>
+      <textarea id="description" name="description" rows="4" required></textarea>
+
+      <label for="category">Category *</label>
+      <select id="category" name="category" required>
+        <option value="">Select</option>
+        <option value="Quality">Quality</option>
+        <option value="Safety">Safety</option>
+        <option value="Efficiency">Efficiency</option>
+      </select>
+
+      <label for="area">Functional Area *</label>
+      <select id="area" name="area" required>
+        <option value="">Select</option>
+        <option value="Production">Production</option>
+        <option value="Logistics">Logistics</option>
+        <option value="Finance">Finance</option>
+      </select>
+
+      <label for="region">Region / Plant *</label>
+      <select id="region" name="region" required>
+        <option value="">Select</option>
+        <option value="Plant A">Plant A</option>
+        <option value="Plant B">Plant B</option>
+        <option value="Plant C">Plant C</option>
+      </select>
+
+      <label>Applicability *</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="applicability" value="Local"> Local</label>
+        <label><input type="checkbox" name="applicability" value="Regional"> Regional</label>
+        <label><input type="checkbox" name="applicability" value="Global"> Global</label>
+      </div>
+
+      <label for="responsible">Responsible *</label>
+      <input type="text" id="responsible" name="responsible" required>
+
+      <label for="status">Status *</label>
+      <select id="status" name="status" required>
+        <option value="">Select</option>
+        <option value="Draft">Draft</option>
+        <option value="Under Review">Under Review</option>
+        <option value="Approved">Approved</option>
+        <option value="Implemented">Implemented</option>
+      </select>
+
+      <label for="documents">Supporting Documents</label>
+      <input type="file" id="documents" name="documents" multiple>
+
+      <label for="kpis">Expected KPIs</label>
+      <textarea id="kpis" name="kpis" rows="2" placeholder="E.g., Time reduction (10%), Productivity increase (15%)"></textarea>
+
+      <label for="created">Creation Date *</label>
+      <input type="text" id="created" name="created" class="readonly" readonly>
+
+      <label for="history">Version History *</label>
+      <textarea id="history" name="history" class="readonly" readonly>Version 1.0 - Initial creation</textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <script>
+    function capitalize(str) {
+      if (!str) return "";
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    const user = localStorage.getItem("username");
+    const role = localStorage.getItem("userRole");
+    if (user && role) {
+      const formattedUser = capitalize(user);
+      const formattedRole = capitalize(role);
+      document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
+    }
+
+    // Preencher data de criação automaticamente
+    document.getElementById("created").value = new Date().toLocaleDateString();
+  </script>
+</body>
+</html>

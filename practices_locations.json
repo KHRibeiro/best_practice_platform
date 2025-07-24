@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Forklift Safety Protocol",
+    "category": "Safety",
+    "status": "Approved",
+    "lat": -22.8583,
+    "lng": -47.2142,
+    "link": "detail.html"
+  },
+  {
+    "title": "Lean Manufacturing Checklist",
+    "category": "Efficiency",
+    "status": "Pending",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "link": "detail.html"
+  }
+]

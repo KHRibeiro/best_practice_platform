@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="style.css" rel="stylesheet"/>
+<title>Library - Best Practices Platform</title>
+<style>
+    
+	body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #34495e;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 2em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.75em;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+    }
+    input[type="text"], select {
+      padding: 0.5em;
+      margin: 0.5em 0;
+      width: 200px;
+    }
+  </style>
+<link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet"/><script src="https://unpkg.com/leaflet/dist/leaflet.js"></script></head>
+<body>
+<header>
+<h1 style="text-align:center; color:white;">Best Practice Platform [Draft]</h1>
+<h1>Best Practice Library</h1>
+</header>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="library.html">Library</a>
+<a href="submission.html">Submit</a>
+<a href="tracker.html">Tracker</a>
+<a href="audit.html">Audit</a>
+<a href="admin.html">Admin</a>
+<a href="login.html" style="float:right;">Login</a>
+</nav>
+<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
+<main>
+<h2>Best Practices Library</h2>
+
+<div id="map" style="height: 400px; margin-top: 20px;"></div>
+
+<form id="filter-form">
+<label for="title-filter">Title:</label>
+<input id="title-filter" placeholder="Search by title" type="text"/>
+<label for="category-filter">Category:</label>
+<select id="category-filter">
+<option value="">All</option>
+<option value="Safety">Safety</option>
+<option value="Quality">Quality</option>
+<option value="Efficiency">Efficiency</option>
+</select>
+</form>
+<table id="practices-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Category</th>
+<th>Status</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="detail.html">Forklift Safety Protocol</a></td>
+<td>Safety</td>
+<td>Approved</td>
+<td>HOR</td>
+</tr>
+<tr>
+<td><a href="detail.html">Lean Manufacturing Checklist</a></td>
+<td>Efficiency</td>
+<td>Pending</td>
+<td>SIT</td>
+</tr>
+<tr>
+<td><a href="detail.html">5S Implementation Guide</a></td>
+<td>Quality</td>
+<td>Approved</td>
+<td>SAL</td>
+</tr>
+</tbody>
+</table>
+<p><a href="detail.html"><button>View Best Practice Detail</button></a></p>
+</main>
+<script>
+    function capitalize(str) {
+      if (!str) return "";
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    const user = localStorage.getItem("username");
+    const role = localStorage.getItem("userRole");
+    if (user && role) {
+      const formattedUser = capitalize(user);
+      const formattedRole = capitalize(role);
+      document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
+    }
+
+    document.getElementById('title-filter').addEventListener('input', filterTable);
+    document.getElementById('category-filter').addEventListener('change', filterTable);
+
+    function filterTable() {
+      const title = document.getElementById('title-filter').value.toLowerCase();
+      const category = document.getElementById('category-filter').value;
+      const rows = document.querySelectorAll('#practices-table tbody tr');
+
+      rows.forEach(row => {
+        const titleText = row.cells[0].textContent.toLowerCase();
+        const categoryText = row.cells[1].textContent;
+        const matchTitle = titleText.includes(title);
+        const matchCategory = category === "" || categoryText === category;
+        row.style.display = matchTitle && matchCategory ? "" : "none";
+      });
+    }
+  </script>
+
+
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const markersData = [
+      { name: "São Paulo Plant", region: "Americas", lat: -23.55, lng: -46.63, practices: 12 },
+      { name: "Berlin Facility", region: "Europe", lat: 52.52, lng: 13.405, practices: 9 },
+      { name: "Shanghai Hub", region: "Asia", lat: 31.23, lng: 121.47, practices: 15 },
+      { name: "Chicago Site", region: "Americas", lat: 41.88, lng: -87.63, practices: 10 }
+    ];
+
+    const markers = [];
+
+    markersData.forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lng])
+        .bindPopup(`<b>${loc.name}</b><br>Practices: ${loc.practices}`)
+        .addTo(map);
+      marker.region = loc.region;
+      markers.push(marker);
+    });
+
+    function filterRegion(region) {
+      markers.forEach(marker => {
+        if (region === 'All' || marker.region === region) {
+          marker.addTo(map);
+        } else {
+          map.removeLayer(marker);
+        }
+      });
+    }
+  </script>
+	
+	</body>
+</html>

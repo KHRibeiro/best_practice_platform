@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Global Best Practices Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+    }
+    #sidebar {
+      width: 300px;
+      padding: 10px;
+      background: #f4f4f4;
+      border-right: 1px solid #ccc;
+    }
+    #map {
+      flex: 1;
+      height: 100vh;
+    }
+    .filter-buttons button {
+      margin: 5px 5px 5px 0;
+      padding: 5px 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 5px;
+      text-align: left;
+    }
+    th {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Best Practices</h2>
+    <div class="filter-buttons">
+      <button onclick="filterRegion('All')">All</button>
+      <button onclick="filterRegion('Americas')">Americas</button>
+      <button onclick="filterRegion('Europe')">Europe</button>
+      <button onclick="filterRegion('Asia')">Asia</button>
+    </div>
+    <h3>High Score</h3>
+    <table>
+      <thead>
+        <tr><th>Location</th><th>Practices</th></tr>
+      </thead>
+      <tbody id="scoreTable">
+        <tr><td>Brazil</td><td>12</td></tr>
+        <tr><td>Germany</td><td>9</td></tr>
+        <tr><td>China</td><td>15</td></tr>
+        <tr><td>USA</td><td>10</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const markersData = [
+      { name: "São Paulo Plant", region: "Americas", lat: -23.55, lng: -46.63, practices: 12 },
+      { name: "Berlin Facility", region: "Europe", lat: 52.52, lng: 13.405, practices: 9 },
+      { name: "Shanghai Hub", region: "Asia", lat: 31.23, lng: 121.47, practices: 15 },
+      { name: "Chicago Site", region: "Americas", lat: 41.88, lng: -87.63, practices: 10 }
+    ];
+
+    const markers = [];
+
+    markersData.forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lng])
+        .bindPopup(`<b>${loc.name}</b><br>Practices: ${loc.practices}`)
+        .addTo(map);
+      marker.region = loc.region;
+      markers.push(marker);
+    });
+
+    function filterRegion(region) {
+      markers.forEach(marker => {
+        if (region === 'All' || marker.region === region) {
+          marker.addTo(map);
+        } else {
+          map.removeLayer(marker);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

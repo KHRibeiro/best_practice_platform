@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Admin Panel</title>
+    <style>
+    
+	body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #34495e;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 2em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.75em;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+    }
+    input[type="text"], select {
+      padding: 0.5em;
+      margin: 0.5em 0;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+	
+  <header>
+  <h1 style="text-align:center; color:white;">Best Practice Platform [Draft]</h1>
+  <h1>Admin Panel</h1>  
+  </header>
+  <nav>
+	
+    <a href="index.html">Dashboard</a>
+    <a href="library.html">Library</a>
+    <a href="submission.html">Submit</a>
+    <a href="tracker.html">Tracker</a>
+    <a href="audit.html">Audit</a>
+    <a href="admin.html">Admin</a>
+	<a href="login.html" style="float:right;">Login</a>
+  </nav>
+  <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+  <main>
+    <p>Manage users, roles, and workflows.</p>
+  </main>
+  
+<script src="script.js"></script>
+
+<script>
+  function capitalize(str) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  const user = localStorage.getItem("username");
+  const role = localStorage.getItem("userRole"); // corrigido aqui
+
+  if (user && role) {
+    const formattedUser = capitalize(user);
+    const formattedRole = capitalize(role);
+    document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
+  }
+</script>
+
+</body>
+</html>
