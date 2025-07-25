@@ -105,6 +105,18 @@
     </section>
 
     <p><a href="library.html"><button>Back to Library</button></a></p>
+	
+	
+
+<hr>
+<h3>Gerar Publicação Informativa</h3>
+<button onclick="gerarTexto()">Gerar Texto</button>
+<br><br>
+<textarea id="textoGerado" rows="10" cols="100" placeholder="Clique no botão acima para gerar o texto..."></textarea>
+<br><br>
+<button onclick="copiarTexto()">Copiar Texto</button>
+
+
   </main>
   
   <script>
@@ -122,6 +134,38 @@
     document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
   }
 </script>
-  
+
+<script>
+function gerarTexto() {
+  const texto = `🚀 *Nova Best Practice Disponível!*
+
+Temos o prazer de anunciar uma nova Best Practice que promete elevar nossos padrões de excelência! Esta iniciativa foi cuidadosamente desenvolvida para otimizar processos, aumentar a eficiência e garantir resultados consistentes em todas as unidades.
+
+📌 *O que você encontrará:*
+- Objetivos claros e mensuráveis
+- Guia de implementação passo a passo
+- Mapa de implantação por sites
+- Materiais de apoio como documentos e vídeos
+
+💬 Sua participação é essencial! Explore os detalhes, compartilhe feedback e contribua para o sucesso coletivo.
+
+👉 https://khribeiro.github.io/best_practice_platform/detail.html
+
+#Excelência #Inovação #BoasPráticas`;
+
+  document.getElementById("textoGerado").value = texto;
+}
+
+function copiarTexto() {
+  const texto = document.getElementById("textoGerado");
+  texto.select();
+  texto.setSelectionRange(0, 99999); // Para dispositivos móveis
+  document.execCommand("copy");
+  alert("Texto copiado para a área de transferência!");
+}
+</script>
+
+
+
 </body>
 </html>
