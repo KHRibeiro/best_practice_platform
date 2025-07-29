@@ -81,6 +81,7 @@
 <section id="data-section">
 <h2>Consulta de Boas Práticas</h2>
 <div>
+<input id="searchInput" onkeyup="filterTable()" placeholder="Search for title..." type="text"/><table border="1" id="results-table">
 <label for="filter-category">Categoria:</label>
 <select id="filter-category">
 <option value="">Todas</option>
@@ -249,6 +250,17 @@
     document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-location').addEventListener('change', applyFilters);
   });
+</script>
+<script>
+function filterTable() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("table tbody tr");
+
+  rows.forEach(row => {
+    const title = row.cells[0].textContent.toLowerCase();
+    row.style.display = title.includes(input) ? "" : "none";
+  });
+}
 </script>
 </section></body>
 </html>
