@@ -76,51 +76,39 @@
 <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
 <main>
 <h2>Best Practices Library</h2>
-
 <div id="map" style="height: 400px; margin-top: 20px;"></div>
 
-<form id="filter-form">
-<label for="title-filter">Title:</label>
-<input id="title-filter" placeholder="Search by title" type="text"/>
-<label for="category-filter">Category:</label>
-<select id="category-filter">
-<option value="">All</option>
-<option value="Safety">Safety</option>
-<option value="Quality">Quality</option>
-<option value="Efficiency">Efficiency</option>
+<section id="data-section">
+<h2>Consulta de Boas Práticas</h2>
+<div>
+<label for="filter-category">Categoria:</label>
+<select id="filter-category">
+<option value="">Todas</option>
 </select>
-</form>
-<table id="practices-table">
+<label for="filter-status">Status:</label>
+<select id="filter-status">
+<option value="">Todos</option>
+</select>
+<label for="filter-location">Localização:</label>
+<select id="filter-location">
+<option value="">Todas</option>
+</select>
+</div>
+<table border="1" id="results-table">
 <thead>
 <tr>
-<th>Title</th>
-<th>Category</th>
+<th>Título</th>
+<th>Categoria</th>
 <th>Status</th>
-<th>Location</th>
+<th>Localização</th>
+<th>Responsável</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td><a href="detail.html">Forklift Safety Protocol</a></td>
-<td>Safety</td>
-<td>Approved</td>
-<td>HOR</td>
-</tr>
-<tr>
-<td><a href="detail.html">Lean Manufacturing Checklist</a></td>
-<td>Efficiency</td>
-<td>Pending</td>
-<td>SIT</td>
-</tr>
-<tr>
-<td><a href="detail.html">5S Implementation Guide</a></td>
-<td>Quality</td>
-<td>Approved</td>
-<td>SAL</td>
-</tr>
-</tbody>
+<tbody></tbody>
 </table>
+
 <p><a href="detail.html"><button>View Best Practice Detail</button></a></p>
+
 </main>
 <script>
     function capitalize(str) {
@@ -153,10 +141,8 @@
       });
     }
   </script>
-
-
-	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -188,6 +174,81 @@
       });
     }
   </script>
-	
-	</body>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function fetchData() {
+    const { data, error } = await supabase.from('submissions').select('*');
+    if (error) {
+      console.error('Erro ao buscar dados:', error.message);
+      return;
+    }
+
+    const tbody = document.querySelector('#results-table tbody');
+    tbody.innerHTML = '';
+
+    const categories = new Set();
+    const statuses = new Set();
+    const locations = new Set();
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.title}</td>
+        <td>${item.category}</td>
+        <td>${item.status}</td>
+        <td>${item.region_plant}</td>
+        <td>${item.responsible}</td>
+      `;
+      tbody.appendChild(row);
+
+      if (item.category) categories.add(item.category);
+      if (item.status) statuses.add(item.status);
+      if (item.region_plant) locations.add(item.region_plant);
+    });
+
+    populateFilter('filter-category', categories);
+    populateFilter('filter-status', statuses);
+    populateFilter('filter-location', locations);
+  }
+
+  function populateFilter(id, values) {
+    const select = document.getElementById(id);
+    values.forEach(value => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    });
+  }
+
+  function applyFilters() {
+    const category = document.getElementById('filter-category').value;
+    const status = document.getElementById('filter-status').value;
+    const location = document.getElementById('filter-location').value;
+
+    const rows = document.querySelectorAll('#results-table tbody tr');
+    rows.forEach(row => {
+      const [title, cat, stat, loc] = row.children;
+      const show = (!category || cat.textContent === category) &&
+                   (!status || stat.textContent === status) &&
+                   (!location || loc.textContent === location);
+      row.style.display = show ? '' : 'none';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+    document.getElementById('filter-category').addEventListener('change', applyFilters);
+    document.getElementById('filter-status').addEventListener('change', applyFilters);
+    document.getElementById('filter-location').addEventListener('change', applyFilters);
+  });
+</script>
+</section></body>
 </html>
