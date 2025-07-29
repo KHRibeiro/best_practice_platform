@@ -190,6 +190,20 @@
       console.error('Erro ao buscar dados:', error.message);
       return;
     }
+		
+async function contarRegistros() {
+      const { count, error } = await supabase
+        .from('sua_tabela')
+        .select('*', { count: 'exact', head: true });
+
+      if (error) {
+        document.getElementById('record-count').textContent = 'Erro ao buscar dados';
+        console.error(error);
+      } else {
+        document.getElementById('record-count').textContent = count;
+      }
+    }
+
 
     const tbody = document.querySelector('#results-table tbody');
     tbody.innerHTML = '';
@@ -250,6 +264,7 @@
     document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-location').addEventListener('change', applyFilters);
   });
+contarRegistros();
 </script>
 <script>
 function filterTable() {
