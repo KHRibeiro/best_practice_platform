@@ -121,37 +121,39 @@ button:hover, input[type="submit"]:hover {
 <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
 <main>
 <form action="https://formsubmit.co/kassio.ribeiro@gknpm.com" enctype="multipart/form-data" method="POST">
-<label for="title">Title *</label>
-<input id="title" name="title" required="" type="text"/>
-<label for="description">Description *</label>
-<textarea id="description" name="description" required="" rows="4"></textarea>
-<label for="category">Category *</label>
-<input id="category" name="category" required="" type="text"/>
+<label>Título *</label><br/>
+    <input type="text" name="title" required /><br/>
 
-<label for="area">Functional Area *</label>
-<input id="area" name="area" required="" type="text"/>
-    
-<label for="region">Region / Plant *</label>
-<input id="region" name="region" required="" type="text"/>   
+    <label>Descrição *</label><br/>
+    <textarea name="description" required></textarea><br/>
 
-<label for="applicability">Applicability *</label>
-<input id="applicability" name="applicability" required="" type="text"/> 
+    <label>Categoria *</label><br/>
+    <input type="text" name="category" required /><br/>
 
-<label for="responsible">Responsible *</label>
-<input id="responsible" name="responsible" required="" type="text"/>
- 
-<label for="status">Status *</label>
-<input id="status" name="status" required="" type="text"/>
+    <label>Área Funcional *</label><br/>
+    <input type="text" name="functional_area" required /><br/>
 
-<label for="documents">Supporting Documents</label>
-<input id="documents" multiple="" name="documents" type="text"/>
+    <label>Região / Planta *</label><br/>
+    <input type="text" name="region_plant" required /><br *</label><br/>
+    <input type="text" name="applicability" required /><br/>
 
-<label for="kpis">Expected KPIs</label>
-<textarea id="kpis" name="kpis" placeholder="E.g., Time reduction (10%), Productivity increase (15%)" rows="2"></textarea>
-<label for="created">Creation Date *</label>
-<input id="created" name="created" type="text"/>
-<label for="history">Version History *</label>
-<input id="history" name="history" type="text"/>
+    <label>Responsável *</label><br/>
+    <input type="text" name="responsible" required /><br/>
+
+    <label>Status *</label><br/>
+    <input type="text" name="status" required /><br/>
+
+    <label>Documentos de apoio</label><br/>
+    <input type="text" name="documents" /><br/>
+
+    <label>KPIs esperados</label><br/>
+    <input type="text" name="kpis" /><br/>
+
+    <label>Data de criação *</label><br/>
+    <input type="date" name="creation_date" value="2025-07-28" required /><br/>
+
+    <label>Histórico de versão *</label><br/>
+    <textarea name="version_history" required>Versão 1.0 - Criação inicial</textarea><br/>
     
 <button type="submit">Submit</button>
 </form>
