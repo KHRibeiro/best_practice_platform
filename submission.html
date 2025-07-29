@@ -147,11 +147,12 @@ button:hover, input[type="submit"]:hover {
 <option value="Plant C">Plant C</option>
 </select>
 <label>Applicability *</label>
-<div class="checkbox-group">
-<label><input name="applicability" type="checkbox" value="Local"/> Local</label>
-<label><input name="applicability" type="checkbox" value="Regional"/> Regional</label>
-<label><input name="applicability" type="checkbox" value="Global"/> Global</label>
-</div>
+<select id="applicability" name="applicability" required="">
+<option value="">Select</option>
+<option value="Local">Local</option>
+<option value="Regional">Regional</option>
+<option value="Global">Global</option>
+</select>
 <label for="responsible">Responsible *</label>
 <input id="responsible" name="responsible" required="" type="text"/>
 <label for="status">Status *</label>
