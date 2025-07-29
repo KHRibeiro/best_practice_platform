@@ -126,45 +126,26 @@ button:hover, input[type="submit"]:hover {
 <label for="description">Description *</label>
 <textarea id="description" name="description" required="" rows="4"></textarea>
 <label for="category">Category *</label>
-<select id="category" name="category" required="">
-<option value="">Select</option>
-<option value="Quality">Quality</option>
-<option value="Safety">Safety</option>
-<option value="Efficiency">Efficiency</option>
-</select>
+<input id="category" name="category" required="" type="text"/>
+
 <label for="area">Functional Area *</label>
-<select id="area" name="area" required="">
-<option value="">Select</option>
-<option value="Production">Production</option>
-<option value="Logistics">Logistics</option>
-<option value="Finance">Finance</option>
-</select>
+<input id="area" name="area" required="" type="text"/>
+    
 <label for="region">Region / Plant *</label>
-<select id="region" name="region" required="">
-<option value="">Select</option>
-<option value="Plant A">Plant A</option>
-<option value="Plant B">Plant B</option>
-<option value="Plant C">Plant C</option>
-</select>
-<label for="Applicability">Applicability *</label>
-<select id="applicability" name="applicability" required="">
-<option value="">Select</option>
-<option value="Local">Local</option>
-<option value="Regional">Regional</option>
-<option value="Global">Global</option>
-</select>
+<input id="region" name="region" required="" type="text"/>   
+
+<label for="applicability">Applicability *</label>
+<input id="applicability" name="applicability" required="" type="text"/> 
+
 <label for="responsible">Responsible *</label>
 <input id="responsible" name="responsible" required="" type="text"/>
+ 
 <label for="status">Status *</label>
-<select id="status" name="status" required="">
-<option value="">Select</option>
-<option value="Draft">Draft</option>
-<option value="Under Review">Under Review</option>
-<option value="Approved">Approved</option>
-<option value="Implemented">Implemented</option>
-</select>
+<input id="status" name="status" required="" type="text"/>
+
 <label for="documents">Supporting Documents</label>
 <input id="documents" multiple="" name="documents" type="text"/>
+
 <label for="kpis">Expected KPIs</label>
 <textarea id="kpis" name="kpis" placeholder="E.g., Time reduction (10%), Productivity increase (15%)" rows="2"></textarea>
 <label for="created">Creation Date *</label>
