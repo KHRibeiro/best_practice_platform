@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css">
-  <title>Submit Practice - Best Practices Platform</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="style.css" rel="stylesheet"/>
+<title>Submit Practice - Best Practices Platform</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -65,7 +66,6 @@
       background-color: #006655;
     }
   </style>
-
 <style>
 form {
   max-width: 600px;
@@ -103,94 +103,77 @@ button:hover, input[type="submit"]:hover {
   background-color: #0056b3;
 }
 </style>
-	
 </head>
 <body>
-  
-  <header>
-  <img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
-  <h1>Submit a Best Practice</h1>
-  </header>
-  <nav>
-    <a href="index.html">Dashboard</a>
-    <a href="library.html">Library</a>
-    <a href="submission.html">Submit</a>
-    <a href="tracker.html">Tracker</a>
-    <a href="audit.html">Audit</a>
-    <a href="admin.html">Admin</a>
-    <a href="login.html" style="float:right;">Login</a>
-  </nav>
-  <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
-  <main>
-    <form action="https://formsubmit.co/kassio.ribeiro@gknpm.com" enctype="multipart/form-data" method="POST">
-		
-      <label for="title">Title *</label>
-      <input type="text" id="title" name="title" required>
-
-      <label for="description">Description *</label>
-      <textarea id="description" name="description" rows="4" required></textarea>
-
-      <label for="category">Category *</label>
-      <select id="category" name="category" required>
-        <option value="">Select</option>
-        <option value="Quality">Quality</option>
-        <option value="Safety">Safety</option>
-        <option value="Efficiency">Efficiency</option>
-      </select>
-
-      <label for="area">Functional Area *</label>
-      <select id="area" name="area" required>
-        <option value="">Select</option>
-        <option value="Production">Production</option>
-        <option value="Logistics">Logistics</option>
-        <option value="Finance">Finance</option>
-      </select>
-
-      <label for="region">Region / Plant *</label>
-      <select id="region" name="region" required>
-        <option value="">Select</option>
-        <option value="Plant A">Plant A</option>
-        <option value="Plant B">Plant B</option>
-        <option value="Plant C">Plant C</option>
-      </select>
-
-      <label>Applicability *</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="applicability" value="Local"> Local</label>
-        <label><input type="checkbox" name="applicability" value="Regional"> Regional</label>
-        <label><input type="checkbox" name="applicability" value="Global"> Global</label>
-      </div>
-
-      <label for="responsible">Responsible *</label>
-      <input type="text" id="responsible" name="responsible" required>
-
-      <label for="status">Status *</label>
-      <select id="status" name="status" required>
-        <option value="">Select</option>
-        <option value="Draft">Draft</option>
-        <option value="Under Review">Under Review</option>
-        <option value="Approved">Approved</option>
-        <option value="Implemented">Implemented</option>
-      </select>
-
-      <label for="documents">Supporting Documents</label>
-      <input type="file" id="documents" name="documents" multiple>
-
-      <label for="kpis">Expected KPIs</label>
-      <textarea id="kpis" name="kpis" rows="2" placeholder="E.g., Time reduction (10%), Productivity increase (15%)"></textarea>
-
-      <label for="created">Creation Date *</label>
-      <input type="text" id="created" name="created" class="readonly" readonly>
-
-      <label for="history">Version History *</label>
-      <textarea id="history" name="history" class="readonly" readonly>Version 1.0 - Initial creation</textarea>	
-	
-      <button type="submit">Submit</button>
-	 
-    </form>
-  </main>
-
-  <script>
+<header>
+<img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
+<h1>Submit a Best Practice</h1>
+</header>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="library.html">Library</a>
+<a href="submission.html">Submit</a>
+<a href="tracker.html">Tracker</a>
+<a href="audit.html">Audit</a>
+<a href="admin.html">Admin</a>
+<a href="login.html" style="float:right;">Login</a>
+</nav>
+<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+<main>
+<form action="https://formsubmit.co/kassio.ribeiro@gknpm.com" enctype="multipart/form-data" method="POST">
+<label for="title">Title *</label>
+<input id="title" name="title" required="" type="text"/>
+<label for="description">Description *</label>
+<textarea id="description" name="description" required="" rows="4"></textarea>
+<label for="category">Category *</label>
+<select id="category" name="category" required="">
+<option value="">Select</option>
+<option value="Quality">Quality</option>
+<option value="Safety">Safety</option>
+<option value="Efficiency">Efficiency</option>
+</select>
+<label for="area">Functional Area *</label>
+<select id="area" name="area" required="">
+<option value="">Select</option>
+<option value="Production">Production</option>
+<option value="Logistics">Logistics</option>
+<option value="Finance">Finance</option>
+</select>
+<label for="region">Region / Plant *</label>
+<select id="region" name="region" required="">
+<option value="">Select</option>
+<option value="Plant A">Plant A</option>
+<option value="Plant B">Plant B</option>
+<option value="Plant C">Plant C</option>
+</select>
+<label>Applicability *</label>
+<div class="checkbox-group">
+<label><input name="applicability" type="checkbox" value="Local"/> Local</label>
+<label><input name="applicability" type="checkbox" value="Regional"/> Regional</label>
+<label><input name="applicability" type="checkbox" value="Global"/> Global</label>
+</div>
+<label for="responsible">Responsible *</label>
+<input id="responsible" name="responsible" required="" type="text"/>
+<label for="status">Status *</label>
+<select id="status" name="status" required="">
+<option value="">Select</option>
+<option value="Draft">Draft</option>
+<option value="Under Review">Under Review</option>
+<option value="Approved">Approved</option>
+<option value="Implemented">Implemented</option>
+</select>
+<label for="documents">Supporting Documents</label>
+<input id="documents" multiple="" name="documents" type="file"/>
+<label for="kpis">Expected KPIs</label>
+<textarea id="kpis" name="kpis" placeholder="E.g., Time reduction (10%), Productivity increase (15%)" rows="2"></textarea>
+<label for="created">Creation Date *</label>
+<input class="readonly" id="created" name="created" readonly="" type="text"/>
+<label for="history">Version History *</label>
+<textarea class="readonly" id="history" name="history" readonly="">Version 1.0 - Initial creation</textarea>
+<button type="submit">Submit</button>
+</form>
+</main>
+<script>
     function capitalize(str) {
       if (!str) return "";
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -207,49 +190,5 @@ button:hover, input[type="submit"]:hover {
     // Preencher data de criação automaticamente
     document.getElementById("created").value = new Date().toLocaleDateString();
   </script>
-
-<script type="module">
-  // Substitua pelos dados do seu projeto Supabase
-  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form'); // Certifique-se de que seu formulário tenha a tag <form>
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const data = {
-        title: form.querySelector('[name="title"]').value,
-        description: form.querySelector('[name="description"]').value,
-        category: form.querySelector('[name="category"]').value,
-        functional_area: form.querySelector('[name="functional_area"]').value,
-        region_plant: form.querySelector('[name="region_plant"]').value,
-        applicability: form.querySelector('[name="applicability"]').value,
-        responsible: form.querySelector('[name="responsible"]').value,
-        status: form.querySelector('[name="status"]').value,
-        documents: form.querySelector('[name="documents"]').value,
-        kpis: form.querySelector('[name="kpis"]').value,
-        creation_date: form.querySelector('[name="creation_date"]').value,
-        version_history: form.querySelector('[name="version_history"]').value,
-      };
-
-      const { error } = await supabase.from('submissions').insert([data]);
-
-      if (error) {
-        alert('Erro ao enviar: ' + error.message);
-      } else {
-        alert('Submissão enviada com sucesso!');
-        form.reset();
-      }
-    });
-  });
-</script>
-
-	
 </body>
 </html>
