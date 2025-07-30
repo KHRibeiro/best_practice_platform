@@ -172,7 +172,7 @@ button:hover, input[type="submit"]:hover {
     <input type="text" name="responsible" required /><br/>
 
     <label for="documents">Files *</label>
-<input type="file" id="documents" name="documents" required>
+<input type="text" id="documents" name="documents" required /><br/>
 
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
@@ -213,25 +213,6 @@ button:hover, input[type="submit"]:hover {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let filePath = ''; // Declare fora do bloco if
-
-    const fileInput = form.querySelector('[name="documents"]');
-    const file = fileInput.files[0];
-    
-    if (file) {
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('practicesfiles') // substitua pelo nome real do bucket
-        .upload(`uploads/${file.name}`, file);
-    
-      if (uploadError) {
-        alert('Erro ao fazer upload do arquivo: ' + uploadError.message);
-        return;
-      }
-    
-      filePath = uploadData.path;
-    }
-
-
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.querySelector('form');
 
@@ -247,7 +228,7 @@ button:hover, input[type="submit"]:hover {
           applicability: form.querySelector('[name="applicability"]').value,
           responsible: form.querySelector('[name="responsible"]').value,
           status: form.querySelector('[name="status"]').value,
-          documents: filePath,
+          documents: form.querySelector('[name="documents"]').value,
           kpis: form.querySelector('[name="kpis"]').value,
           creation_date: form.querySelector('[name="creation_date"]').value,
           version_history: form.querySelector('[name="version_history"]').value,
