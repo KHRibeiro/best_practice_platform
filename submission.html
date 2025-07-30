@@ -171,9 +171,6 @@ button:hover, input[type="submit"]:hover {
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
 
-    <input type="file" id="fileInput" />
-    <button id="uploadBtn">Enviar Arquivo</button>
-
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
 
@@ -182,6 +179,9 @@ button:hover, input[type="submit"]:hover {
 
     <label>Version *</label><br/>
     <textarea name="version_history" required>Versão 1.0 - Criação inicial</textarea><br/>
+
+    <label>Files *</label><br/>
+    <input type="file" id="fileInput" />
     
 <button type="submit">Submit</button>
 </form>
@@ -198,7 +198,7 @@ button:hover, input[type="submit"]:hover {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   document.addEventListener('DOMContentLoaded', () => {
-    const uploadButton = document.getElementById('uploadBtn');
+    const uploadButton = document.getElementById('submit');
     const fileInput = document.getElementById('fileInput');
 
     uploadButton.addEventListener('click', async () => {
