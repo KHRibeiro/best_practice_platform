@@ -118,7 +118,7 @@ button:hover, input[type="submit"]:hover {
 <a href="admin.html">Admin</a>
 <a href="login.html" style="float:right;">Login</a>
 </nav>
-<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+<div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
 <main>
 <form>
     
@@ -273,5 +273,20 @@ button:hover, input[type="submit"]:hover {
       });
     });
   </script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    document.getElementById("usuario").innerText = `Bem-vindo, ${user.email}`;
+  } else {
+    window.location.href = "login.html"; // redireciona se não estiver logado
+  }
+</script>
+    
 </body>
 </html>
