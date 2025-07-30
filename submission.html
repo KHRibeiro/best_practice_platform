@@ -160,13 +160,6 @@ button:hover, input[type="submit"]:hover {
   <option value="Global">Global</option>
 </select>
 
-<label for="status">Status *</label>
-<select id="status" name="status" required>
-  <option value="">Select status</option>
-  <option value="Draft">Draft</option>
-  <option value="Submitted">Submitted</option>
-  <option value="Approved">Approved</option>
-</select>
 
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
@@ -263,7 +256,7 @@ button:hover, input[type="submit"]:hover {
           region_plant: form.querySelector('[name="region_plant"]').value,
           applicability: form.querySelector('[name="applicability"]').value,
           responsible: form.querySelector('[name="responsible"]').value,
-          status: form.querySelector('[name="status"]').value,
+          status: "Submitted",
           kpis: form.querySelector('[name="kpis"]').value,
           creation_date: form.querySelector('[name="creation_date"]').value,
           version_history: form.querySelector('[name="version_history"]').value,
