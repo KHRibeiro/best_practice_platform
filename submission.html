@@ -185,7 +185,7 @@ button:hover, input[type="submit"]:hover {
 
 <label>Files *</label><br/>
 <input type="file" id="fileInput" />
-<button type="attach">Attach</button>
+<button id="uploadBtn">Enviar Arquivo</button>
 
     
 </main>
@@ -200,7 +200,7 @@ button:hover, input[type="submit"]:hover {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   document.addEventListener('DOMContentLoaded', () => {
-    const uploadButton = document.getElementById('attach');
+    const uploadButton = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
 
     uploadButton.addEventListener('click', async () => {
