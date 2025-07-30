@@ -74,7 +74,7 @@ https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 <a href="admin.html">Admin</a>
 <a href="login.html" style="float:right;">Login</a>
 </nav>
-<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
+<div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
 <main>
 <h2>Best Practices Library</h2>
 <div id="map" style="height: 400px; margin-top: 20px;"></div>
@@ -284,5 +284,20 @@ function filterTable() {
   });
 }
 </script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient('https://<SEU-PROJETO>.supabase.co', '<SUA-CHAVE-PUBLICA>');
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    document.getElementById("usuario").innerText = `Bem-vindo, ${user.email}`;
+  } else {
+    window.location.href = "login.html"; // redireciona se não estiver logado
+  }
+</script>
+	
 </section></body>
 </html>
