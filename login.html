@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css">
   <title>Login - Best Practices Platform</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
     <style>
 
 	body {
@@ -77,35 +78,59 @@
   <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:blue"></div>
   
   <main>
-    <form id="loginForm">
-      <label for="username">Usuário:</label>
-      <input type="text" id="username" name="username" required><br><br>
+    <form id="login-form">
+    <label for="email">Email:</label>
+    <input type="email" id="email" required />
 
-      <label for="role">Tipo de Usuário:</label>
-      <select id="role" name="role" required>
-        <option value="">Selecione...</option>
-        <option value="regular">Regular User</option>
-        <option value="reviewer">Reviewer</option>
-        <option value="implementer">Implementer</option>
-      </select><br><br>
+    <label for="password">Senha:</label>
+    <input type="password" id="password" required />
 
-      <button type="submit">Entrar</button>
-    </form>
+    <button type="submit">Entrar</button>
+  </form>
+	
+	<p id="login-message"></p>
+	
   </main>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const role = document.getElementById('role').value;
-      if (username && role) {
-        localStorage.setItem('username', username);
-        localStorage.setItem('userRole', role);
-        window.location.href = 'index.html';
+
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+	const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          const message = document.getElementById('login-message');
+
+          if (error) {
+            message.textContent = 'Erro no login: ' + error.message;
+            message.style.color = 'red';
+          } else {
+            message.textContent = 'Login bem-sucedido!';
+            message.style.color = 'green';
+            // Redirecionar para a dashboard
+            // window.location.href = 'dashboard.html';
+          }
+        });
       } else {
-        alert('Por favor, preencha todos os campos.');
+        const message = document.getElementById('login-message');
+        message.textContent = 'Erro: biblioteca Supabase não carregada corretamente.';
+        message.style.color = 'red';
       }
     });
   </script>
+
 </body>
 </html>
