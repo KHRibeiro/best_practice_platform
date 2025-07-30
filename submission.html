@@ -185,7 +185,46 @@ button:hover, input[type="submit"]:hover {
     
 <button type="submit">Submit</button>
 </form>
+
+<input type="file" id="fileInput" />
+<button id="uploadBtn">Enviar Arquivo</button>
+
 </main>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+   const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const uploadButton = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+
+    uploadButton.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Selecione um arquivo primeiro.');
+        return;
+      }
+
+      const { data, error } = await supabase.storage
+        .from('practicesfiles') // substitua pelo nome real do bucket
+        .upload(`uploads/${file.name}`, file);
+
+      if (error) {
+        alert('Erro ao enviar o arquivo: ' + error.message);
+      } else {
+        alert('Arquivo enviado com sucesso! Caminho: ' + data.path);
+      }
+    });
+  });
+</script>
+
     
 <script>
     function capitalize(str) {
