@@ -171,8 +171,9 @@ button:hover, input[type="submit"]:hover {
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
 
-    <label>Files *</label><br/>
-    <input type="text" name="documents" /><br/>
+    <label for="documents">Files *</label>
+<input type="file" id="documents" name="documents" required>
+
 
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
@@ -228,11 +229,29 @@ button:hover, input[type="submit"]:hover {
           applicability: form.querySelector('[name="applicability"]').value,
           responsible: form.querySelector('[name="responsible"]').value,
           status: form.querySelector('[name="status"]').value,
-          documents: form.querySelector('[name="documents"]').value,
+          documents: filePath,
           kpis: form.querySelector('[name="kpis"]').value,
           creation_date: form.querySelector('[name="creation_date"]').value,
           version_history: form.querySelector('[name="version_history"]').value,
         };
+
+        const fileInput = form.querySelector('[name="documents"]');
+        const file = fileInput.files[0];
+
+        let filePath = '';
+        if (file) {
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('practicesfiles') // substitua pelo nome real do seu bucket
+            .upload(`uploads/${file.name}`, file);
+
+          if (uploadError) {
+            alert('Erro ao fazer upload do arquivo: ' + uploadError.message);
+        return;
+          }
+
+  filePath = uploadData.path;
+}
+
 
         const { error } = await supabase.from('submissions').insert([data]);
 
