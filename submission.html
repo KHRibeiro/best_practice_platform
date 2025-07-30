@@ -239,10 +239,10 @@ button:hover, input[type="submit"]:hover {
 
         const fileInput = form.querySelector('[name="documents"]');
         const file = fileInput.files[0];
-
+        
         if (file) {
           const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('practicesfiles')
+            .from('practicesfiles') // substitua pelo nome real do bucket
             .upload(`uploads/${file.name}`, file);
         
           if (uploadError) {
@@ -252,6 +252,7 @@ button:hover, input[type="submit"]:hover {
         
           filePath = uploadData.path;
         }
+
 
 
 
