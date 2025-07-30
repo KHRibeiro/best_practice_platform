@@ -171,8 +171,8 @@ button:hover, input[type="submit"]:hover {
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
 
-    <label for="documents">Files *</label>
-<input type="text" id="documents" name="documents" required /><br/>
+    <input type="file" id="fileInput" />
+    <button id="uploadBtn">Enviar Arquivo</button>
 
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
@@ -185,9 +185,6 @@ button:hover, input[type="submit"]:hover {
     
 <button type="submit">Submit</button>
 </form>
-
-<input type="file" id="fileInput" />
-<button id="uploadBtn">Enviar Arquivo</button>
 
 </main>
 
