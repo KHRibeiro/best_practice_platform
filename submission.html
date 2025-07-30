@@ -121,29 +121,55 @@ button:hover, input[type="submit"]:hover {
 <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
 <main>
 <form action="https://formsubmit.co/kassio.ribeiro@gknpm.com" enctype="multipart/form-data" method="POST">
+    
     <label>Title *</label><br/>
     <input type="text" name="title" required /><br/>
 
     <label>Description *</label><br/>
     <textarea name="description" required></textarea><br/>
 
-    <label>Category *</label><br/>
-    <input type="text" name="category" required /><br/>
 
-    <label>Functional Area *</label><br/>
-    <input type="text" name="functional_area" required /><br/>
+    <label for="category">Category *</label>
+<select id="category" name="category" required>
+  <option value="">Select a category</option>
+  <option value="Safety">Safety</option>
+  <option value="Quality">Quality</option>
+  <option value="Efficiency">Efficiency</option>
+</select>
 
-    <label>Region / Site *</label><br/>
-    <input type="text" name="region_plant" required /><br *</label><br/>
+<label for="functional_area">Functional Area *</label>
+<select id="functional_area" name="functional_area" required>
+  <option value="">Select an area</option>
+  <option value="Production">Production</option>
+  <option value="Logistics">Logistics</option>
+  <option value="Maintenance">Maintenance</option>
+</select>
 
-    <label>Applicability *</label><br/>
-    <input type="text" name="applicability" required /><br/>
+<label for="region_plant">Region / Site *</label>
+<select id="region_plant" name="region_plant" required>
+  <option value="">Select a region/site</option>
+  <option value="Hortolandia">Hortolândia</option>
+  <option value="Manaus">Manaus</option>
+  <option value="Recife">Recife</option>
+</select>
+
+<label for="applicability">Applicability *</label>
+<select id="applicability" name="applicability" required>
+  <option value="">Select applicability</option>
+  <option value="Local">Local</option>
+  <option value="Global">Global</option>
+</select>
+
+<label for="status">Status *</label>
+<select id="status" name="status" required>
+  <option value="">Select status</option>
+  <option value="Draft">Draft</option>
+  <option value="Submitted">Submitted</option>
+  <option value="Approved">Approved</option>
+</select>
 
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
-
-    <label>Status *</label><br/>
-    <input type="text" name="status" required /><br/>
 
     <label>Files *</label><br/>
     <input type="text" name="documents" /><br/>
