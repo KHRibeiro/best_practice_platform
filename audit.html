@@ -81,20 +81,35 @@
 	  
     <section>
       <h2>Submitted Implementations</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Practice Title</th>
-            <th>Site</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Dynamic rows of submitted implementations -->
-        </tbody>
-      </table>
-    </section>
+<div>
+<input id="searchInput" onkeyup="filterTable()" placeholder="Keywords..." type="text"/><table border="1" id="results-table">
+<label for="filter-category">Categoria:</label>
+<select id="filter-category">
+<option value="">Todas</option>
+</select>
+<label for="filter-status">Status:</label>
+<select id="filter-status">
+<option value="">Todos</option>
+</select>
+<label for="filter-location">Localização:</label>
+<select id="filter-location">
+<option value="">Todas</option>
+</select>
+</div>
+<table border="1" id="results-table">
+<thead>
+<tr>
+<th>Título</th>
+<th>Categoria</th>
+<th>Localização</th>
+<th>Responsável</th>
+<th>Status</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</section>
 
     <section>
       <h2>Audit Checklist</h2>
@@ -115,6 +130,38 @@
     </section>
   </main>
 
+<script>
+    function capitalize(str) {
+      if (!str) return "";
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    const user = localStorage.getItem("username");
+    const role = localStorage.getItem("userRole");
+    if (user && role) {
+      const formattedUser = capitalize(user);
+      const formattedRole = capitalize(role);
+      document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
+    }
+
+    document.getElementById('title-filter').addEventListener('input', filterTable);
+    document.getElementById('category-filter').addEventListener('change', filterTable);
+
+    function filterTable() {
+      const title = document.getElementById('title-filter').value.toLowerCase();
+      const category = document.getElementById('category-filter').value;
+      const rows = document.querySelectorAll('#practices-table tbody tr');
+
+      rows.forEach(row => {
+        const titleText = row.cells[0].textContent.toLowerCase();
+        const categoryText = row.cells[1].textContent;
+        const matchTitle = titleText.includes(title);
+        const matchCategory = category === "" || categoryText === category;
+        row.style.display = matchTitle && matchCategory ? "" : "none";
+      });
+    }
+  </script>
+	
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
