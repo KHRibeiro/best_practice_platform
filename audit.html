@@ -238,7 +238,7 @@ async function contarRegistros() {
 
     const rows = document.querySelectorAll('#results-table tbody tr');
     rows.forEach(row => {
-      const [title, cat, stat, loc] = row.children;
+      const [title, cat, loc, resp, stat] = row.children;
       const show = (!category || cat.textContent === category) &&
                    (!status || stat.textContent === status) &&
                    (!location || loc.textContent === location);
