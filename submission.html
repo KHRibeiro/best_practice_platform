@@ -163,6 +163,7 @@ button:hover, input[type="submit"]:hover {
 
     <label>Responsable *</label><br/>
     <input type="text" name="responsible" required /><br/>
+    <div id="usuario" name="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
 
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
@@ -282,7 +283,7 @@ button:hover, input[type="submit"]:hover {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (user) {
-    document.getElementById("usuario").innerText = `Bem-vindo, ${user.email}`;
+    document.getElementById("usuario").innerText = ${user.email};
   } else {
     window.location.href = "login.html"; // redireciona se não estiver logado
   }
