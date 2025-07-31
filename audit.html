@@ -73,28 +73,45 @@
     <a href="admin.html">Admin</a>
 	<a href="login.html" style="float:right;">Login</a>
   </nav>
-  <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+  <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
   <main>
-    <p>Checklist interface for auditors.</p>
+    <section>
+      <h2>Submitted Implementations</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Practice Title</th>
+            <th>Site</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic rows of submitted implementations -->
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Audit Checklist</h2>
+      <form>
+        <label><input type="checkbox"> Evidence Uploaded</label><br>
+        <label><input type="checkbox"> KPIs Met</label><br>
+        <label><input type="checkbox"> Documentation Verified</label><br>
+        <textarea placeholder="Audit Notes"></textarea><br>
+        <button type="submit">Submit Audit</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Linked KPIs & Dashboards</h2>
+      <div id="kpi-dashboard">
+        <!-- KPI visualizations or links -->
+      </div>
+    </section>
   </main>
   
 <script src="script.js"></script>
-
-<script>
-  function capitalize(str) {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  const user = localStorage.getItem("username");
-  const role = localStorage.getItem("userRole"); // corrigido aqui
-
-  if (user && role) {
-    const formattedUser = capitalize(user);
-    const formattedRole = capitalize(role);
-    document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
-  }
-</script>
 
 </body>
 </html>
