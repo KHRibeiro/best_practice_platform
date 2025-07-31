@@ -107,6 +107,7 @@ https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 <th>Localização</th>
 <th>Responsável</th>
 <th>Status</th>
+<th>Files</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -224,6 +225,7 @@ async function contarRegistros() {
         <td>${item.region_plant}</td>
         <td>${item.responsible}</td>
 	<td>${item.status}</td>
+ 	<td>${item.file_url}</td>
       `;
       tbody.appendChild(row);
 
