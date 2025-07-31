@@ -280,7 +280,7 @@ button:hover, input[type="submit"]:hover {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (user) {
-    document.getElementById("usuarioDisplay").innerText = `User:, ${user.email}`;
+    document.getElementById("usuarioDisplay").innerText = `User: ${user.email}`;
     document.getElementById("usuario").value = user.email;
   } else {
     window.location.href = "login.html"; // redireciona se não estiver logado
