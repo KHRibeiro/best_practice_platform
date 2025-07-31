@@ -225,7 +225,7 @@ async function contarRegistros() {
         <td>${item.region_plant}</td>
         <td>${item.responsible}</td>
 	<td>${item.status}</td>
- 	<td>${item.file_url}</td>
+ 	<td><a href="${item.file_url}" target="_blank">Download</a></td>
       `;
       tbody.appendChild(row);
 
