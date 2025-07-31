@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="style.css" rel="stylesheet"/>
+<title>Submit Practice - Best Practices Platform</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #34495e;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 2em;
+    }
+    form label {
+      display: block;
+      margin: 1em 0 0.5em;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+    input[type="file"] {
+      margin-bottom: 1em;
+    }
+    .checkbox-group {
+      margin-bottom: 1em;
+    }
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 1em;
+    }
+    .readonly {
+      background-color: #e9ecef;
+    }
+    button {
+      padding: 0.75em 1.5em;
+      background-color: #008866;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #006655;
+    }
+  </style>
+<style>
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+button, input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+<header>
+<img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
+<h1>Submit a Best Practice</h1>
+</header>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="library.html">Library</a>
+<a href="submission.html">Submit</a>
+<a href="tracker.html">Tracker</a>
+<a href="audit.html">Audit</a>
+<a href="admin.html">Admin</a>
+<a href="login.html" style="float:right;">Login</a>
+</nav>
+<div id="usuarioDisplay" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+<main>
+<form>
+    
+    <label>Title *</label><br/>
+    <input type="text" name="title" required /><br/>
+
+    <label>Description *</label><br/>
+    <textarea name="description" required></textarea><br/>
+
+
+    <label for="category">Category *</label>
+<select id="category" name="category" required>
+  <option value="">Select a category</option>
+  <option value="Safety">Safety</option>
+  <option value="Quality">Quality</option>
+  <option value="Efficiency">Efficiency</option>
+</select>
+
+<label for="functional_area">Functional Area *</label>
+<select id="functional_area" name="functional_area" required>
+  <option value="">Select an area</option>
+  <option value="Production">Production</option>
+  <option value="Logistics">Logistics</option>
+  <option value="Maintenance">Maintenance</option>
+</select>
+
+<label for="region_plant">Region / Site *</label>
+<select id="region_plant" name="region_plant" required>
+  <option value="">Select a region/site</option>
+  <option value="Hortolandia">Hortolândia</option>
+  <option value="Manaus">Manaus</option>
+  <option value="Recife">Recife</option>
+</select>
+
+<label for="applicability">Applicability *</label>
+<select id="applicability" name="applicability" required>
+  <option value="">Select applicability</option>
+  <option value="Local">Local</option>
+  <option value="Global">Global</option>
+</select>
+
+    <input type="hidden" name="usuario" id="usuario">
+
+    <label>KPIs *</label><br/>
+    <input type="text" name="kpis" /><br/>
+
+    <label>Date *</label><br/>
+    <input type="date" name="creation_date" value="2025-07-28" required /><br/>
+
+    <label>Version *</label><br/>
+    <textarea name="version_history" required>Versão 1.0 - Criação inicial</textarea><br/>
+
+    <label>Files *</label><br/>
+    <input type="file" id="fileInput" />
+    
+<button type="submit" id="uploadBtn" >Submit</button>
+</form>
+    
+</main>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+   const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const uploadButton = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+
+    uploadButton.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Selecione um arquivo primeiro.');
+        return;
+      }
+
+      const { data, error } = await supabase.storage
+        .from('practicesfiles') // substitua pelo nome real do bucket
+        .upload(`uploads/${file.name}`, file);
+
+      if (error) {
+        alert('Erro ao enviar o arquivo: ' + error.message);
+      } else {
+        alert('Arquivo enviado com sucesso! Caminho: ' + data.path);
+      }
+    });
+  });
+</script>
+
+    
+<script>
+    function capitalize(str) {
+      if (!str) return "";
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    const user = localStorage.getItem("username");
+    const role = localStorage.getItem("userRole");
+    if (user && role) {
+      const formattedUser = capitalize(user);
+      const formattedRole = capitalize(role);
+      document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
+    }
+
+    // Preencher data de criação automaticamente
+    document.getElementById("created").value = new Date().toLocaleDateString();
+  </script>
+
+<script type="module">
+    const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+          title: form.querySelector('[name="title"]').value,
+          description: form.querySelector('[name="description"]').value,
+          category: form.querySelector('[name="category"]').value,
+          functional_area: form.querySelector('[name="functional_area"]').value,
+          region_plant: form.querySelector('[name="region_plant"]').value,
+          applicability: form.querySelector('[name="applicability"]').value,
+          responsible: form.querySelector('[name="usuario"]').value,
+          status: "Submitted",
+          kpis: form.querySelector('[name="kpis"]').value,
+          creation_date: form.querySelector('[name="creation_date"]').value,
+          version_history: form.querySelector('[name="version_history"]').value,
+        };
+
+        const { error } = await supabase.from('submissions').insert([data]);
+
+        if (error) {
+          alert('Erro ao enviar: ' + error.message);
+        } else {
+          alert('Submissão enviada com sucesso!');
+          form.reset();
+        }
+      });
+    });
+  </script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    document.getElementById("usuarioDisplay").innerText = `User: ${user.email}`;
+    document.getElementById("usuario").value = user.email;
+  } else {
+    window.location.href = "login.html"; // redireciona se não estiver logado
+  }
+</script>
+    
+</body>
+</html>
