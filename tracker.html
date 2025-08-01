@@ -79,7 +79,17 @@
     <section>
       <h2>My Local Deployments</h2>
       <ul id="deployment-list">
-        <!-- List of user's deployments -->
+        <table class="table table-bordered" id="tabela-atividades">
+	<thead>
+	<tr>
+	<th>Título</th>
+	<th>Categoria</th>
+	<th>Localização</th>
+	<th>Responsável</th>
+	<th>Status</th></tr>
+	</thead>
+	<tbody></tbody>
+	</table><!-- List of user's deployments -->
       </ul>
     </section>
 
@@ -105,7 +115,8 @@
       </div>
     </section>
   </main>
-
+	
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -119,7 +130,32 @@
   } else {
     window.location.href = "login.html"; // redireciona se não estiver logado
   }
+
+async function carregarAtividadesSelecionadas() {
+  const { data, error } = await supabase
+    .from('atividades_selecionadas')
+    .select('*');
+
+  if (error) {
+    console.error('Erro ao carregar atividades:', error);
+    return;
+  }
+
+  const tabela = document.querySelector('#tabela-atividades tbody');
+  data.forEach(item => {
+    const linha = tabela.insertRow();
+    linha.insertCell(0).innerText = item.titulo;
+    linha.insertCell(1).innerText = item.categoria;
+    linha.insertCell(2).innerText = item.localizacao;
+    linha.insertCell(3).innerText = item.responsavel;
+    linha.insertCell(4).innerText = item.status;
+  });
+}
+
+window.onload = carregarAtividadesSelecionadas;
+	
 </script>
   
 </body>
 </html>
+
