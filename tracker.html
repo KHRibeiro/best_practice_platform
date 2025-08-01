@@ -167,16 +167,46 @@ window.onload = carregarAtividadesSelecionadas;
 </script>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  async function carregarAtividadesSelecionadas() {
+    const { data, error } = await supabase
+      .from('atividades_selecionadas')
+      .select('*');
+
+    if (error) {
+      console.error('Erro ao carregar atividades:', error);
+      return;
+    }
+
+    const tabela = document.querySelector('#tabela-atividades tbody');
+    tabela.innerHTML = ''; // limpa antes de preencher
+
+    data.forEach(item => {
+      const linha = tabela.insertRow();
+      linha.setAttribute('data-id', item.id); // armazena o ID no HTML
+
+      linha.innerHTML = `
+        <td>${item.titulo}</td>
+        <td>${item.categoria}</td>
+        <td>${item.localizacao}</td>
+        <td>${item.responsavel}</td>
+        <td>${item.status}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="removerAtividade(this)">Remover</button>
+        </td>
+      `;
+    });
+  }
+	
   window.removerAtividade = async function(botao) {
-    const linha = botao.closest("tr");
-    const id = linha.dataset.id;
+    const linha = botao.closest('tr');
+    const id = linha.getAttribute('data-id');
 
     const { error } = await supabase
       .from('atividades_selecionadas')
@@ -184,18 +214,20 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       .eq('id', id);
 
     if (error) {
-      console.error("Erro ao remover:", error);
-      alert("Erro ao remover do banco.");
+      console.error('Erro ao remover:', error);
+      alert('Erro ao remover atividade.');
     } else {
       linha.remove();
-      alert("Atividade removida com sucesso!");
+      alert('Atividade removida com sucesso!');
     }
   };
-</script>
 
+  window.onload = carregarAtividadesSelecionadas;
+</script>
 	
 </body>
 </html>
+
 
 
 
