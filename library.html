@@ -76,6 +76,7 @@
 <a href="login.html" style="float:right;">Login</a>
 </nav>
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
+
 <main>
 <h2>Best Practices Library</h2>
 <div id="map" style="height: 400px; margin-top: 20px;"></div>
@@ -87,22 +88,23 @@
 
 <div class="col-md-3">
 <input id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="Keywords..." type="text"/><table border="1" id="results-table">
+</div>
 
-<div>
+<div class="col-md-3">
 <label for="filter-category" class="form-label">Categoria:</label>
 <select id="filter-category" class="form-select">
 <option value="">Todas</option>
 </select>
 </div>
 
-<div>
+<div class="col-md-3">
 <label for="filter-status">Status:</label>
 <select id="filter-status" class="form-select">
 <option value="">Todos</option>
 </select>
 </div>
 
-<div>
+<div class="col-md-3">
 <label for="filter-location">Localização:</label>
 <select id="filter-location" class="form-select">
 <option value="">Todas</option>
