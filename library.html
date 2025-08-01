@@ -132,6 +132,41 @@
 <p><a href="detail.html"><button class="btn btn-primary">View Best Practice Detail</button></a></p>
 
 </main>
+
+<script type="module">
+  
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  
+	window.selecionarAtividade = async function(botao) {
+    const linha = botao.closest("tr");
+    const titulo = linha.cells[0].innerText;
+    const categoria = linha.cells[1].innerText;
+    const localizacao = linha.cells[2].innerText;
+    const responsavel = linha.cells[3].innerText;
+    const status = linha.cells[4].innerText;
+
+    const { data, error } = await supabase
+      .from('atividades_selecionadas')
+      .insert([{ titulo, categoria, localizacao, responsavel, status }]);
+
+    if (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Erro ao enviar atividade.");
+    } else {
+      alert("Atividade enviada com sucesso!");
+      botao.disabled = true;
+      botao.classList.remove("btn-primary");
+      botao.classList.add("btn-secondary");
+    }
+  };
+</script>
+	
 <script>
     function capitalize(str) {
       if (!str) return "";
@@ -243,6 +278,7 @@ async function contarRegistros() {
 	<td>${item.status}</td>
  	<td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}
   	</td>
+   	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Select</button></td>
       `;
       tbody.appendChild(row);
 
