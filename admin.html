@@ -80,17 +80,23 @@
 
 <body>
   <h2>User Registration</h2>
-  <form id="signup-form">
-    <input type="email" id="email" placeholder="Email" required /><br />
-    <input type="password" id="password" placeholder="Senha" required /><br />
+	
+<form id="signup-form">
+<div div class="col-md-3">
+    <input type="email" id="email" class="form-label placeholder="Email" required /><br />
+    <input type="password" id="password" class="form-label placeholder="Senha" required /><br />
     <label for="role">Função:</label>
     <select id="role" required>
       <option value="viewer">Viewer</option>
       <option value="editor">Editor</option>
       <option value="admin">Admin</option>
     </select><br /><br />
-    <button type="submit">Cadastrar</button>
-  </form>
+</div>
+<div class="col-12">
+   <button class="btn btn-primary" type="submit">Register</button>
+</div>	  
+    
+</form>
 
   <p id="message"></p>
 </body>
