@@ -87,6 +87,7 @@
 	<th>Localização</th>
 	<th>Responsável</th>
 	<th>Status</th></tr>
+	<th>Action</th></tr>	
 	</thead>
 	<tbody></tbody>
 	</table><!-- List of user's deployments -->
@@ -145,6 +146,7 @@ async function carregarAtividadesSelecionadas() {
     linha.insertCell(2).innerText = item.localizacao;
     linha.insertCell(3).innerText = item.responsavel;
     linha.insertCell(4).innerText = item.status;
+    linha.insertCell(4).innerText = '<button onclick="removerAtividade(this)">Remover</button>';  
   });
 }
 window.onload = carregarAtividadesSelecionadas;
@@ -196,6 +198,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 	
 </body>
 </html>
+
 
 
 
