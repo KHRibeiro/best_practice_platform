@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <title>Audit & Verification</title>
+<title>Audit & Verification</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     
 	body {
@@ -82,21 +83,36 @@
 	  
     <section>
       <h2>Submitted Implementations</h2>
-<div>
-<input id="searchInput" onkeyup="filterTable()" placeholder="Keywords..." type="text"/><table border="1" id="results-table">
-<label for="filter-category">Categoria:</label>
-<select id="filter-category">
-<option value="">Todas</option>
-</select>
-<label for="filter-status">Status:</label>
-<select id="filter-status">
-<option value="">Todos</option>
-</select>
-<label for="filter-location">Localização:</label>
-<select id="filter-location">
+	    
+<form class="row g-3 needs-validation" novalidate>
+
+<div class="col-md-3">
+<label class="form-label">Keywords: </label>
+<input id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="Keywords..." type="text"/>
+</div>
+
+<div class="col-md-3">
+<label for="filter-category" class="form-label">Categoria:</label>
+<select id="filter-category" class="form-select">
 <option value="">Todas</option>
 </select>
 </div>
+
+<div class="col-md-3">
+<label for="filter-status">Status:</label>
+<select id="filter-status" class="form-select">
+<option value="">Todos</option>
+</select>
+</div>
+
+<div class="col-md-3">
+<label for="filter-location">Localização:</label>
+<select id="filter-location" class="form-select">
+<option value="">Todas</option>
+</select>
+</div>
+</form>
+	    
 <table class="table table-bordered table-striped"" id="results-table">
 <thead>
 <tr>
@@ -288,3 +304,4 @@ function filterTable() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
