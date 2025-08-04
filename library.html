@@ -84,8 +84,6 @@
 <section id="data-section">
 <h2>Consulta de Boas Práticas</h2>
 
-<p id="record-count">Carregando...</p>
-
 <form class="row g-3 needs-validation" novalidate>
 
 <div class="col-md-3">
@@ -200,6 +198,7 @@
     }
   </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	
 <script>
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -246,19 +245,6 @@
     if (error) {
       console.error('Erro ao buscar dados:', error.message);
       return;
-    }
-		
-async function contarRegistros() {
-      const { count, error } = await supabase
-        .from('sua_tabela')
-        .select('*', { count: 'exact', head: true });
-
-      if (error) {
-        document.getElementById('record-count').textContent = 'Erro ao buscar dados';
-        console.error(error);
-      } else {
-        document.getElementById('record-count').textContent = count;
-      }
     }
 
 
@@ -326,8 +312,8 @@ async function contarRegistros() {
     document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-location').addEventListener('change', applyFilters);
   });
-contarRegistros();
 </script>
+	
 <script>
 function filterTable() {
   const input = document.getElementById("searchInput").value.toLowerCase();
