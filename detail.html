@@ -82,10 +82,11 @@
   <p id="description"><strong>Description:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
 </section>
 
-<section>
+
+section>
   <h3>Attachments</h3>
   <ul id="file_url">
-    <div id="download-file"></div>
+    <li id="download-file"></li>
     <li><a href="#">Video Link</a></li>
   </ul>
 </section>
@@ -203,12 +204,12 @@ document.getElementById('description').textContent = `Description: ${data.descri
 document.getElementById('steps').textContent = data.steps
 document.getElementById('region_plant').textContent = data.region_plant
 
-	  
-	
+
 if (data.file_url) {
-  const downloadDiv = document.getElementById('file_url')
-  downloadDiv.innerHTML = `<a href="${data.file_url}" download target="_blank">download-file</a>`
+  const downloadLi = document.getElementById('download-file')
+  downloadLi.innerHTML = `<a href="${data.file_url}" download target="_blank">DOWNLOAD.pdf</a>`
 }
+
 
   }
 
