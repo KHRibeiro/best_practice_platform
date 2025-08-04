@@ -72,7 +72,7 @@
 </nav>
     
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
-<button type="button" onclick="logout()" class="btn-close" aria-label="Close"></button>
+<button type="button" id="logoutBtn" class="btn-close" aria-label="Close"></button>
     
 <div class="container">
 <div class="card">
@@ -129,19 +129,23 @@
     
 </script>
 
+
 <script>
-const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
-async function logout() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Erro ao fazer logout:', error.message);
-    } else {
-      alert('Logout realizado com sucesso!');
-      // Redirecionar para a página de login ou inicial
-      window.location.href = 'login.html';
-    }
-  }
-    
-</script>
+    // Certifique-se de que tudo está dentro do escopo correto
+    window.addEventListener('DOMContentLoaded', () => {
+    const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
+    const logoutBtn = document.getElementById('logoutBtn');
+      logoutBtn.addEventListener('click', async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.error('Erro ao fazer logout:', error.message);
+        } else {
+          alert('Logout realizado com sucesso!');
+          window.location.href = 'login.html'; // ou outra página desejada
+        }
+      });
+    });
+  </script>
+
 
 </html>
