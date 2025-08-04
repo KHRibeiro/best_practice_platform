@@ -140,35 +140,25 @@
 </script>
 
 <script>
+function gerarTexto() {
+const texto = `🚀 *New Best Practice Available!*
 
+We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
 
-if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
-	
-	function gerarTexto() {
-	const texto = `🚀 *New Best Practice Available!*
-	
-	We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
-	
-	📌 *What you'll find:*
-	- Clear and measurable objectives
-	- Step-by-step implementation guide
-	- Deployment map by site
-	- Supporting materials such as documents and videos
-	
-	💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
-	
-	👉 https://khribeiro.github.io/best_practice_platform/detail.html
-	
-	#Excellence #Innovation #BestPractices`;
-	
-	document.getElementById("textoGerado").value = texto;
+📌 *What you'll find:*
+- Clear and measurable objectives
+- Step-by-step implementation guide
+- Deployment map by site
+- Supporting materials such as documents and videos
 
-	}
+💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
 
-} else {
-  alert('Você só pode gerar posts de Best Practices aprovadas.');
+👉 https://khribeiro.github.io/best_practice_platform/detail.html
+
+#Excellence #Innovation #BestPractices`;
+
+  document.getElementById("textoGerado").value = texto;
 }
-
 
 function copiarTexto() {
   const texto = document.getElementById("textoGerado");
@@ -177,7 +167,15 @@ function copiarTexto() {
   document.execCommand("copy");
   alert("Texto copiado para a área de transferência!");
 }
+
+// Verifica se pode gerar o post
+if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
+  gerarTexto();
+} else {
+  alert('Você só pode gerar posts de Best Practices aprovadas.');
+}
 </script>
+
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
