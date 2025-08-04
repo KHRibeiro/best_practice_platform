@@ -197,30 +197,13 @@ function copiarTexto() {
     }
 
     // Atualiza os elementos da página com os dados
-    document.querySelector('h3').textContent = data.title
-    document.querySelector('p').textContent = `Description: ${data.description}`
+document.getElementById('title').textContent = data.title
+document.getElementById('description').textContent = `Description: ${data.description}`
+document.getElementById('steps').textContent = data.steps
+document.getElementById('region_plant').textContent = data.region_plant
+document.getElementById('file_url').textContent = data.file_url
 
-    // Exemplo de anexos
-    const anexos = document.querySelector('ul')
-    anexos.innerHTML = ''
-    if (data.file_url) {
-      const doc = document.createElement('li')
-      doc.innerHTML = `<a href="${data.file_url}" target="_blank">Document.pdf</a>`
-      anexos.appendChild(doc)
-    }
-    if (data.video_url) {
-      const video = document.createElement('li')
-      video.innerHTML = `<a href="${data.video_url}" target="_blank">Video Link</a>`
-      anexos.appendChild(video)
-    }
 
-    // Guia de implementação
-    const guia = document.querySelectorAll('section')[0]
-    guia.innerHTML = `<p>${data.steps}</p>`
-
-    // Mapa de implantação
-    const mapa = document.querySelectorAll('section')[1]
-    mapa.innerHTML = `<p>${data.region_plant}</p>`
   }
 
   carregarDetalhes()
