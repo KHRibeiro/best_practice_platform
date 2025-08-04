@@ -124,6 +124,7 @@
 <th>Responsável</th>
 <th>Status</th>
 <th>Files</th>
+<th>Details</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -277,7 +278,9 @@ async function contarRegistros() {
         <td>${item.responsible}</td>
 	<td>${item.status}</td>
  	<td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}
+  	<td><a href="detail.html?id=${item.id}">Detail</a></td>
   	</td>
+   	
    	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Select</button></td>
       `;
       tbody.appendChild(row);
