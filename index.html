@@ -72,6 +72,8 @@
 </nav>
     
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
+<button type="button" onclick="logout()" class="btn-close" aria-label="Close"></button>
+    
 <div class="container">
 <div class="card">
 <h2>Recent Best Practices</h2>
@@ -124,6 +126,21 @@
   } else {
     window.location.href = "login.html"; // redireciona se não estiver logado
   }
+
+
+
+async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Erro ao fazer logout:', error.message);
+    } else {
+      alert('Logout realizado com sucesso!');
+      // Redirecionar para a página de login ou inicial
+      window.location.href = 'login.html';
+    }
+  }
+
+    
 </script>
 
 
