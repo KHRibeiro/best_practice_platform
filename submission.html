@@ -128,8 +128,7 @@ button:hover, input[type="submit"]:hover {
     <label>Description *</label><br/>
     <textarea name="description" required></textarea><br/>
 
-
-    <label for="category">Category *</label>
+<label for="category">Category *</label>
 <select id="category" name="category" required>
   <option value="">Select a category</option>
   <option value="Safety">Safety</option>
@@ -162,6 +161,9 @@ button:hover, input[type="submit"]:hover {
 
     <input type="hidden" name="usuario" id="usuario">
 
+    <label>Implementation Guide*</label><br/>
+    <textarea name="steps" placeholder="Step-by-step instructions or checklist for implementing the best practice."></textarea><br/>
+    
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
 
@@ -224,6 +226,7 @@ button:hover, input[type="submit"]:hover {
         region_plant: form.querySelector('[name="region_plant"]').value,
         applicability: form.querySelector('[name="applicability"]').value,
         responsible: form.querySelector('[name="usuario"]').value,
+        steps: form.querySelector('[name="steps"]').value,
         status: "Submitted",
         kpis: form.querySelector('[name="kpis"]').value,
         creation_date: form.querySelector('[name="creation_date"]').value,
@@ -282,4 +285,5 @@ button:hover, input[type="submit"]:hover {
     
 </body>
 </html>
+
 
