@@ -198,8 +198,7 @@ document.getElementById('title').textContent = data.title
 document.getElementById('description').textContent = `Description: ${data.description}`
 document.getElementById('steps').textContent = data.steps
 document.getElementById('region_plant').textContent = data.region_plant
-document.getElementById('file_url').textContent = data.file_url
-
+document.getElementById('file_url').innerHTML = `<a href="${data.file_url}" target="_blank">${data.file_url}</a>`;
 
   }
 
