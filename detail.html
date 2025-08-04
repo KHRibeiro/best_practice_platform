@@ -208,7 +208,12 @@ document.getElementById('region_plant').textContent = data.region_plant
 if (data.file_url) {
   const fileList = document.getElementById('file_url')
   const downloadItem = document.createElement('li')
-  downloadItem.innerHTML = `<a href="${data.file_url}" download target="_blank">DOWNLOAD.pdf</a>`
+  const link = document.createElement('a')
+  link.href = data.file_url
+  link.textContent = 'DOWNLOAD.pdf'
+  link.setAttribute('download', '')
+  link.setAttribute('target', '_blank')
+  downloadItem.appendChild(link)
   fileList.appendChild(downloadItem)
 }
 
