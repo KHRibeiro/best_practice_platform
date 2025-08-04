@@ -151,7 +151,8 @@
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // 🧠 Função para buscar a Best Practice pelo ID
-  async function fetchBestPractice(id) {
+  
+async function fetchBestPractice(id) {
     const { data, error } = await supabase
       .from('submissions')
       .select('*')
@@ -166,7 +167,6 @@
     return data;
   }
 
-  // 👤 Função para obter o usuário atual
   async function getCurrentUser() {
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) {
@@ -176,7 +176,6 @@
     return user;
   }
 
-  // 📝 Função para gerar o texto do post
   function gerarTexto() {
     const texto = `🚀 *New Best Practice Available!*
 
@@ -197,19 +196,17 @@ We are excited to announce a new Best Practice that aims to raise our standards 
     document.getElementById("textoGerado").value = texto;
   }
 
-  // 📋 Função para copiar o texto
   function copiarTexto() {
     const texto = document.getElementById("textoGerado");
     texto.select();
-    texto.setSelectionRange(0, 99999); // Compatível com mobile
+    texto.setSelectionRange(0, 99999);
     document.execCommand("copy");
     alert("Texto copiado para a área de transferência!");
   }
 
-  // 🚦 Verificação e execução
   async function verificarEgerarPost() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id'); // Ex: detail.html?id=123
+    const id = urlParams.get('id');
 
     if (!id) {
       alert('ID da Best Practice não encontrado na URL.');
@@ -231,8 +228,6 @@ We are excited to announce a new Best Practice that aims to raise our standards 
     }
   }
 
-  // 🚀 Executa ao carregar a página
-  verificarEgerarPost();
 </script>
 
 
