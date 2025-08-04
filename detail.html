@@ -85,10 +85,11 @@
 <section>
   <h3>Attachments</h3>
   <ul id="file_url">
-    <li><a href="#">Document.pdf</a></li>
+    <div id="Download file"></div>
     <li><a href="#">Video Link</a></li>
   </ul>
 </section>
+
 
 <section id="steps">
   <h3>Implementation Guide</h3>
@@ -201,8 +202,13 @@ document.getElementById('title').textContent = data.title
 document.getElementById('description').textContent = `Description: ${data.description}`
 document.getElementById('steps').textContent = data.steps
 document.getElementById('region_plant').textContent = data.region_plant
-document.getElementById('file_url').textContent = data.file_url
 
+	  
+	
+if (data.file_url) {
+  const downloadDiv = document.getElementById('file_url')
+  downloadDiv.innerHTML = `<a href="${data.file_url}" download target="_blank">Download file</a>`
+}
 
   }
 
