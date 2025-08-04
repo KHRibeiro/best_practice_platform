@@ -139,9 +139,44 @@
   }
 </script>
 
+
 <script>
-function gerarTexto() {
-const texto = `🚀 *New Best Practice Available!*
+ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 🧠 Função para buscar a Best Practice pelo ID
+  async function fetchBestPractice(id) {
+    const { data, error } = await supabase
+      .from('submissions')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Erro ao buscar Best Practice:', error);
+      return null;
+    }
+
+    return data;
+  }
+
+  // 👤 Função para obter o usuário atual
+  async function getCurrentUser() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Erro ao obter usuário:', error);
+      return null;
+    }
+    return user;
+  }
+
+  // 📝 Função para gerar o texto do post
+  function gerarTexto() {
+    const texto = `🚀 *New Best Practice Available!*
 
 We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
 
@@ -157,23 +192,45 @@ We are excited to announce a new Best Practice that aims to raise our standards 
 
 #Excellence #Innovation #BestPractices`;
 
-  document.getElementById("textoGerado").value = texto;
-}
+    document.getElementById("textoGerado").value = texto;
+  }
 
-function copiarTexto() {
-  const texto = document.getElementById("textoGerado");
-  texto.select();
-  texto.setSelectionRange(0, 99999); // Para dispositivos móveis
-  document.execCommand("copy");
-  alert("Texto copiado para a área de transferência!");
-}
+  // 📋 Função para copiar o texto
+  function copiarTexto() {
+    const texto = document.getElementById("textoGerado");
+    texto.select();
+    texto.setSelectionRange(0, 99999); // Compatível com mobile
+    document.execCommand("copy");
+    alert("Texto copiado para a área de transferência!");
+  }
 
-// Verifica se pode gerar o post
-if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
-  gerarTexto();
-} else {
-  alert('Você só pode gerar posts de Best Practices aprovadas.');
-}
+  // 🚦 Verificação e execução
+  async function verificarEgerarPost() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id'); // Ex: detail.html?id=123
+
+    if (!id) {
+      alert('ID da Best Practice não encontrado na URL.');
+      return;
+    }
+
+    const bestPractice = await fetchBestPractice(id);
+    const currentUser = await getCurrentUser();
+
+    if (!bestPractice || !currentUser) {
+      alert('Erro ao carregar dados.');
+      return;
+    }
+
+    if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
+      gerarTexto();
+    } else {
+      alert('Você só pode gerar posts de Best Practices aprovadas que você criou.');
+    }
+  }
+
+  // 🚀 Executa ao carregar a página
+  verificarEgerarPost();
 </script>
 
 
