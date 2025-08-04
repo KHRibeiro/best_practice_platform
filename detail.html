@@ -85,7 +85,7 @@
 <section>
   <h3>Attachments</h3>
   <ul id="file_url">
-    <div id="Download file"></div>
+    <div id="download-file"></div>
     <li><a href="#">Video Link</a></li>
   </ul>
 </section>
@@ -207,7 +207,7 @@ document.getElementById('region_plant').textContent = data.region_plant
 	
 if (data.file_url) {
   const downloadDiv = document.getElementById('file_url')
-  downloadDiv.innerHTML = `<a href="${data.file_url}" download target="_blank">Download file</a>`
+  downloadDiv.innerHTML = `<a href="${data.file_url}" download target="_blank">download-file</a>`
 }
 
   }
