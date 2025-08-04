@@ -140,26 +140,35 @@
 </script>
 
 <script>
-function gerarTexto() {
-  const texto = `🚀 *New Best Practice Available!*
 
-We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
 
-📌 *What you'll find:*
-- Clear and measurable objectives
-- Step-by-step implementation guide
-- Deployment map by site
-- Supporting materials such as documents and videos
+if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
+	
+	function gerarTexto() {
+	const texto = `🚀 *New Best Practice Available!*
+	
+	We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
+	
+	📌 *What you'll find:*
+	- Clear and measurable objectives
+	- Step-by-step implementation guide
+	- Deployment map by site
+	- Supporting materials such as documents and videos
+	
+	💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
+	
+	👉 https://khribeiro.github.io/best_practice_platform/detail.html
+	
+	#Excellence #Innovation #BestPractices`;
+	
+	document.getElementById("textoGerado").value = texto;
 
-💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
+	}
 
-👉 https://khribeiro.github.io/best_practice_platform/detail.html
-
-#Excellence #Innovation #BestPractices`;
-
-document.getElementById("textoGerado").value = texto;
-
+} else {
+  alert('Você só pode gerar posts de Best Practices aprovadas.');
 }
+
 
 function copiarTexto() {
   const texto = document.getElementById("textoGerado");
