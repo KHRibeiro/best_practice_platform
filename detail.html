@@ -108,6 +108,14 @@
 <button type="button">Submit Comment</button>
 </section>
 
+
+<h4>Comments and Feedback</h4>
+<div id="commentsContainer"></div>
+
+<textarea id="commentInput" rows="4" cols="80" placeholder="Write your comment..."></textarea><br>
+<button onclick="submitComment()">Submit Comment</button>
+
+
 <p><a href="library.html"><button>Back to Library</button></a></p>
 	
 	
@@ -235,6 +243,99 @@ We are excited to announce a new Best Practice that aims to raise our standards 
   window.copiarTexto = copiarTexto;
 
 
+</script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 👤 Obter usuário atual
+  async function getCurrentUser() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Erro ao obter usuário:', error);
+      return null;
+    }
+    return user;
+  }
+
+  // 🗨️ Carregar comentários da prática
+  async function loadComments(submissionId) {
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('submission_id', submissionId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Erro ao carregar comentários:', error);
+      return;
+    }
+
+    const container = document.getElementById('commentsContainer');
+    container.innerHTML = '';
+
+    data.forEach(comment => {
+      const date = new Date(comment.created_at);
+      const formattedDate = date.toLocaleString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      const div = document.createElement('div');
+      div.innerHTML = `<p><strong>${comment.user_email}</strong> <em>(${formattedDate})</em><br>${comment.comment}</p><hr>`;
+      container.appendChild(div);
+    });
+  }
+
+  // 📝 Enviar novo comentário
+  async function submitComment() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const submissionId = urlParams.get('id');
+    const commentText = document.getElementById('commentInput').value;
+
+    if (!commentText.trim()) {
+      alert('Digite um comentário antes de enviar.');
+      return;
+    }
+
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      alert('Você precisa estar logado para comentar.');
+      return;
+    }
+
+    const { error } = await supabase
+      .from('comments')
+      .insert([{
+        submission_id: parseInt(submissionId),
+        user_email: currentUser.email,
+        comment: commentText
+      }]);
+
+    if (error) {
+      console.error('Erro ao enviar comentário:', error);
+      alert('Erro ao enviar comentário.');
+      return;
+    }
+
+    document.getElementById('commentInput').value = '';
+    loadComments(submissionId);
+  }
+
+  // 🚀 Executar ao carregar a página
+  const urlParams = new URLSearchParams(window.location.search);
+  const submissionId = urlParams.get('id');
+  if (submissionId) {
+    loadComments(submissionId);
+  }
+
+  // 🔓 Expor função para botão
+  window.submitComment = submitComment;
 </script>
 
 
