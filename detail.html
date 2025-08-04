@@ -83,11 +83,11 @@
 </section>
 
 
+
 <section>
   <h3>Attachments</h3>
   <ul id="file_url">
-    <li id="download-file">File Link</li>
-    <li><a href="#">Video Link</a></li>
+    <!-- Os links serão inseridos aqui via JavaScript -->
   </ul>
 </section>
 
@@ -206,8 +206,10 @@ document.getElementById('region_plant').textContent = data.region_plant
 
 
 if (data.file_url) {
-  const downloadLi = document.getElementById('download-file')
-  downloadLi.innerHTML = `<a href="${data.file_url}" download target="_blank">DOWNLOAD.pdf</a>`
+  const fileList = document.getElementById('file_url')
+  const downloadItem = document.createElement('li')
+  downloadItem.innerHTML = `<a href="${data.file_url}" download target="_blank">DOWNLOAD.pdf</a>`
+  fileList.appendChild(downloadItem)
 }
 
 
