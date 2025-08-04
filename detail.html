@@ -167,7 +167,8 @@ async function fetchBestPractice(id) {
     return data;
   }
 
-  async function getCurrentUser() {
+  
+async function getCurrentUser() {
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) {
       console.error('Erro ao obter usuário:', error);
@@ -221,15 +222,18 @@ We are excited to announce a new Best Practice that aims to raise our standards 
       return;
     }
 
-    if (bestPractice.status === 'aprovada' && bestPractice.user_id === currentUser.id) {
+    // ✅ Comparação por e-mail
+    if (bestPractice.status === 'aprovada' && bestPractice.user_email === currentUser.email) {
       gerarTexto();
     } else {
       alert('Você só pode gerar posts de Best Practices aprovadas que você criou.');
     }
   }
-	
-window.verificarEgerarPost = verificarEgerarPost;
-window.copiarTexto = copiarTexto;
+
+  // Expor funções para os botões
+  window.verificarEgerarPost = verificarEgerarPost;
+  window.copiarTexto = copiarTexto;
+
 
 </script>
 
