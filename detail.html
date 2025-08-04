@@ -78,8 +78,9 @@
     
 <section>
 	
-  <h2 id="title">Title of Best Practice</h2>
-  <p id="description"><strong>Description:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
+<h2 id="title">Title of Best Practice</h2>
+<p id="description"><strong>Description:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
+<p id="region_plant"><strong>Region/Site:</strong> Region/site.</p>
 </section>
 
 <section>
@@ -197,7 +198,7 @@ function copiarTexto() {
 document.getElementById('title').textContent = data.title
 document.getElementById('description').textContent = `description: ${data.description}`
 document.getElementById('steps').textContent = data.steps
-document.getElementById('region_plant').textContent = data.region_plant
+document.getElementById('region_plant').textContent =  'Planta: ${data.region_plant}'
 document.getElementById('file_url').innerHTML = `<a href="${data.file_url}" target="_blank">${data.file_url}</a>`;
 
   }
