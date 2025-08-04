@@ -78,17 +78,18 @@
     <section>
       <h2>Title of Best Practice</h2>
       <p><strong>Description:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
+	<p id="description">Description: Full description of the best practice, including objectives, scope, and expected outcomes.</p>
     </section>
 
     <section>
       <h3>Attachments</h3>
-      <ul>
+      <ul id="file_url">
         <li><a href="#">Document.pdf</a></li>
         <li><a href="#">Video Link</a></li>
       </ul>
     </section>
 
-    <section>
+    <section id="steps">
       <h3>Implementation Guide</h3>
       <p>Step-by-step instructions or checklist for implementing the best practice.</p>
     </section>
@@ -166,7 +167,63 @@ function copiarTexto() {
 }
 </script>
 
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  function getIdFromUrl() {
+    const params = new URLSearchParams(window.location.search)
+    return params.get('id')
+  }
+
+  async function carregarDetalhes() {
+    const id = getIdFromUrl()
+    if (!id) return
+
+    const { data, error } = await supabase
+      .from('melhores_praticas')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (error || !data) {
+      document.body.innerHTML = `<p>Erro ao carregar os dados: ${error?.message || 'Prática não encontrada'}</p>`
+      return
+    }
+
+    // Atualiza os elementos da página com os dados
+    document.querySelector('h3').textContent = data.title
+    document.querySelector('p').textContent = `Description: ${data.description}`
+
+    // Exemplo de anexos
+    const anexos = document.querySelector('ul')
+    anexos.innerHTML = ''
+    if (data.file_url) {
+      const doc = document.createElement('li')
+      doc.innerHTML = `<a href="${data.file_url}" target="_blank">Document.pdf</a>`
+      anexos.appendChild(doc)
+    }
+    if (data.video_url) {
+      const video = document.createElement('li')
+      video.innerHTML = `<a href="${data.video_url}" target="_blank">Video Link</a>`
+      anexos.appendChild(video)
+    }
+
+    // Guia de implementação
+    const guia = document.querySelectorAll('section')[0]
+    guia.innerHTML = `<p>${data.steps}</p>`
+
+    // Mapa de implantação
+    const mapa = document.querySelectorAll('section')[1]
+    mapa.innerHTML = `<p>${data.region_plant}</p>`
+  }
+
+  carregarDetalhes()
+</script>
 
 </body>
 </html>
