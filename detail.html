@@ -82,15 +82,10 @@
   <p id="description"><strong>Description:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
 </section>
 
-
-
 <section>
-  <h3>Attachments</h3>
-  <ul id="file_url">
-    <!-- Os links serão inseridos aqui via JavaScript -->
-  </ul>
+	<h3>Attachments</h3>
+	<p id="file_url"><strong>Link:</strong> Full description of the best practice, including objectives, scope, and expected outcomes.</p>
 </section>
-
 
 <section id="steps">
   <h3>Implementation Guide</h3>
@@ -203,19 +198,9 @@ document.getElementById('title').textContent = data.title
 document.getElementById('description').textContent = `Description: ${data.description}`
 document.getElementById('steps').textContent = data.steps
 document.getElementById('region_plant').textContent = data.region_plant
+document.getElementById('file_url').textContent = data.file_url
 
 
-if (data.file_url) {
-  const fileList = document.getElementById('file_url')
-  const downloadItem = document.createElement('li')
-  const link = document.createElement('a')
-  link.href = data.file_url
-  link.textContent = 'DOWNLOAD.pdf'
-  link.setAttribute('download', '')
-  link.setAttribute('target', '_blank')
-  downloadItem.appendChild(link)
-  fileList.appendChild(downloadItem)
-}
 
 
   }
