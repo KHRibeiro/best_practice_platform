@@ -130,11 +130,14 @@
 </script>
 
 
-<script>
-    // Certifique-se de que tudo está dentro do escopo correto
-    window.addEventListener('DOMContentLoaded', () => {
+
+<script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+
     const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
-    const logoutBtn = document.getElementById('logoutBtn');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logoutBtn');
       logoutBtn.addEventListener('click', async () => {
         const { error } = await supabase.auth.signOut();
         if (error) {
@@ -146,6 +149,7 @@
       });
     });
   </script>
+
 
 
 </html>
