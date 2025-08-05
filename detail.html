@@ -80,10 +80,15 @@
     
 <section>
 <h2 id="title">Title of Best Practice</h2>
+</section>
+
+<br><br>
+<section>
 <strong>Description:</strong>
 <p id="description"></p>
 </section>
-
+	
+<br>
 <section>
 <strong>Site:</strong>
 <a id="region_plant"></a>
@@ -367,7 +372,7 @@ We are excited to announce a new Best Practice that aims to raise our standards 
 
     // Atualiza os elementos da página com os dados
 document.getElementById('title').textContent = data.title
-document.getElementById('description').textContent = `Description: ${data.description}`
+document.getElementById('description').textContent = data.description
 document.getElementById('steps').textContent = data.steps
 document.getElementById('region_plant').textContent = data.region_plant
 document.getElementById('file_url').innerHTML = `<a href="${data.file_url}" target="_blank">Download</a>`;
