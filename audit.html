@@ -8,18 +8,40 @@
 <title>Audit & Verification</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    
+
+	.checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-grid label {
+      display: block;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 8px 16px;
+	    
 	body {
       font-family: Arial, sans-serif;
       margin: 0;
       background: #f4f6f8;
     }
+	    
     header {
       background: #2c3e50;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+	    
     nav {
       background: #34495e;
       padding: 0.5rem;
@@ -130,18 +152,34 @@
 	    
 </section>
 
-    <section>
-      <h2>Audit Checklist</h2>
-      <form>
-        <label><input type="checkbox"> Evidence Uploaded</label><br>
-        <label><input type="checkbox"> KPIs Met</label><br>
-        <label><input type="checkbox"> Documentation Verified</label><br>
-        <textarea placeholder="Audit Notes"></textarea><br>
-	<div class="col-12">
-    	<button class="btn btn-primary" type="submit">Submit Audit</button>
-  	</div>
-      </form>
-    </section>
+<section>
+<h2>Share with other sites:</h2>
+<div class="controls">
+    <button onclick="selectAllCheckboxes(true)">Selecionar todos</button>
+    <button onclick="selectAllCheckboxes(false)">Desmarcar todos</button>
+    <button>Send e-mail</button>
+  </div>
+
+  <div class="checkbox-grid">
+    <label><input type="checkbox" value="AUB" class="checkbox"> AUB</label>
+    <label><input type="checkbox" value="BON" class="checkbox"> BON</label>
+    <label><input type="checkbox" value="BRU" class="checkbox"> BRU</label>
+    <label><input type="checkbox" value="CIN" class="checkbox"> CIN</label>
+    <label><input type="checkbox" value="DAN" class="checkbox"> DAN</label>
+    <label><input type="checkbox" value="FIL" class="checkbox"> FIL</label>
+    <label><input type="checkbox" value="GLA" class="checkbox"> GLA</label>
+    <label><input type="checkbox" value="HOR" class="checkbox"> HOR</label>
+    <label><input type="checkbox" value="INC" class="checkbox"> INC</label>
+    <label><input type="checkbox" value="MIL" class="checkbox"> MIL</label>
+    <label><input type="checkbox" value="NAG" class="checkbox"> NAG</label>
+    <label><input type="checkbox" value="PAS" class="checkbox"> PAS</label>
+    <label><input type="checkbox" value="PIM" class="checkbox"> PIM</label>
+    <label><input type="checkbox" value="SAL" class="checkbox"> SAL</label>
+    <label><input type="checkbox" value="SIT" class="checkbox"> SIT</label>
+    <label><input type="checkbox" value="WIS" class="checkbox"> WIS</label>
+    <label><input type="checkbox" value="YIZ" class="checkbox"> YIZ</label>
+  </div>
+</section>
 
 <div id="detalhes-linha" style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;"></div>
 
@@ -351,9 +389,18 @@ function filterTable() {
   });
 }
 </script>
+
+<script>
+    function selectAllCheckboxes(select) {
+      const checkboxes = document.querySelectorAll('.checkbox');
+      checkboxes.forEach(cb => cb.checked = select);
+    }
+</script>
+	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
