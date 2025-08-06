@@ -162,7 +162,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window.atualizarLinha = async function (id) {
   const { data, error } = await supabase
     .from('submissions')
-    .update({ coluna_alvo: 'Approved' })
+    .update({status: 'Approved' })
     .eq('id', id)
 
   if (error) {
@@ -335,6 +335,7 @@ function filterTable() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
