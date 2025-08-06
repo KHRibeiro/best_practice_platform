@@ -161,7 +161,18 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 window.atualizarLinha = async function (botao) {
   const id = parseInt(botao.getAttribute('data-id')) // extrai o ID como número
+  const textoBotao = botao.textContent.trim().toLowerCase();
 
+  let novoStatus = '';
+    if (textoBotao === 'approve') {
+      novoStatus = 'Approved';
+    } else if (textoBotao === 'reprove') {
+      novoStatus = 'Reproved';
+    } else {
+      console.warn('Texto do botão não reconhecido:', textoBotao);
+      return;
+    }
+	
   const { data, error } = await supabase
     .from('submissions')
     .update({ status: 'Approved' })
@@ -255,6 +266,7 @@ async function contarRegistros() {
  	<td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}
 	<td>
  	<button onclick="atualizarLinha(this)" class="btn btn-primary btn-sm" data-id="${item.id}">Approve</button>
+  	<button onclick="atualizarLinha(this)" class="btn btn-primary btn-sm" data-id="${item.id}">Reprove</button>
   	</td>
    	</td>
    	
@@ -337,6 +349,7 @@ function filterTable() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
