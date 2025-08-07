@@ -10,26 +10,27 @@
 <style>
 
 
-/* Sidebar base */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 200px;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: width 0.3s ease;
-  padding-top: 60px;
-  z-index: 1000;
+/* Layout principal em duas colunas */
+.layout {
+  display: flex;
+  height: 100vh;
 }
 
-/* Estado recolhido */
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #111;
+  padding-top: 60px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .sidebar.collapsed {
   width: 60px;
 }
 
-/* Estilo dos links */
 .sidebar a {
   display: flex;
   align-items: center;
@@ -45,19 +46,16 @@
   background-color: #575757;
 }
 
-/* Ícones */
 .sidebar a span:first-child {
   width: 30px;
   text-align: center;
 }
 
-/* Texto do link */
 .sidebar .link-text {
   opacity: 1;
   transition: opacity 0.2s ease;
 }
 
-/* Ocultar texto no modo recolhido */
 .sidebar.collapsed .link-text {
   opacity: 0;
   pointer-events: none;
@@ -65,7 +63,15 @@
   overflow: hidden;
 }
 
-/* Botão de abrir */
+/* Conteúdo principal */
+main {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+}
+
+/* Botão para abrir sidebar */
 .openbtn {
   position: fixed;
   top: 10px;
@@ -78,6 +84,7 @@
   padding: 10px 15px;
   border: none;
 }
+
 
     
     body {
@@ -144,19 +151,30 @@
 </nav>
 -->
 
-<!-- Botão fixo para toggle -->
+<!-- Botão de toggle -->
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
 
-<!-- Sidebar com ícones e texto -->
-<div id="mySidebar" class="sidebar collapsed">
-  <a href="index.html" title="Dashboard"><span>📊</span><span class="link-text">Dashboard</span></a>
-  <a href="library.html" title="Library"><span>📚</span><span class="link-text">Library</span></a>
-  <a href="submission.html" title="Submit"><span>📤</span><span class="link-text">Submit</span></a>
-  <a href="tracker.html" title="Tracker"><span>📈</span><span class="link-text">Tracker</span></a>
-  <a href="audit.html" title="Audit"><span>🕵️</span><span class="link-text">Audit</span></a>
-  <a href="admin.html" title="Admin"><span>👤</span><span class="link-text">Admin</span></a>
-  <a href="login.html" title="Login"><span>🔒</span><span class="link-text">Login</span></a>
+<!-- Container do layout -->
+<div class="layout">
+  <!-- Sidebar -->
+  <div id="mySidebar" class="sidebar collapsed">
+    <a href="index.html" title="Dashboard"><span>📊</span><span class="link-text">Dashboard</span></a>
+    <a href="library.html" title="Library"><span>📚</span><span class="link-text">Library</span></a>
+    <a href="submission.html" title="Submit"><span>📤</span><span class="link-text">Submit</span></a>
+    <a href="tracker.html" title="Tracker"><span>📈</span><span class="link-text">Tracker</span></a>
+    <a href="audit.html" title="Audit"><span>🕵️</span><span class="link-text">Audit</span></a>
+    <a href="admin.html" title="Admin"><span>👤</span><span class="link-text">Admin</span></a>
+    <a href="login.html" title="Login"><span>🔒</span><span class="link-text">Login</span></a>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <main id="mainContent">
+    <!-- Seu conteúdo principal aqui -->
+    <h1>Bem-vindo!</h1>
+    <p>Aqui vai o conteúdo da sua página. A sidebar não cobrirá mais este conteúdo.</p>
+  </main>
 </div>
+
 
 
     
