@@ -118,22 +118,25 @@ body {
 	  
   <h1>Best Practice Detail</h1>
   </header>
-  <!-- Botão fixo para toggle -->
+	
+ <!-- Botão de toggle -->
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
 
-<!-- Sidebar com ícones e texto -->
-<div id="mySidebar" class="sidebar collapsed">
-  <a href="index.html" title="Dashboard"><span>📊</span><span class="link-text">Dashboard</span></a>
-  <a href="library.html" title="Library"><span>📚</span><span class="link-text">Library</span></a>
-  <a href="submission.html" title="Submit"><span>📤</span><span class="link-text">Submit</span></a>
-  <a href="tracker.html" title="Tracker"><span>📈</span><span class="link-text">Tracker</span></a>
-  <a href="audit.html" title="Audit"><span>🕵️</span><span class="link-text">Audit</span></a>
-  <a href="admin.html" title="Admin"><span>👤</span><span class="link-text">Admin</span></a>
-  <a href="login.html" title="Login"><span>🔒</span><span class="link-text">Login</span></a>
-</div>
+<!-- Container do layout -->
+<div class="layout">
+  <!-- Sidebar -->
+  <div id="mySidebar" class="sidebar collapsed">
+    <a href="index.html" title="Dashboard"><span>📊</span><span class="link-text">Dashboard</span></a>
+    <a href="library.html" title="Library"><span>📚</span><span class="link-text">Library</span></a>
+    <a href="submission.html" title="Submit"><span>📤</span><span class="link-text">Submit</span></a>
+    <a href="tracker.html" title="Tracker"><span>📈</span><span class="link-text">Tracker</span></a>
+    <a href="audit.html" title="Audit"><span>🕵️</span><span class="link-text">Audit</span></a>
+    <a href="admin.html" title="Admin"><span>👤</span><span class="link-text">Admin</span></a>
+    <a href="login.html" title="Login"><span>🔒</span><span class="link-text">Login</span></a>
+  </div>
 
   <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
-  <main>
+  <main id="mainContent">
     
 <section>
 <h2 id="title">Title of Best Practice</h2>
@@ -192,7 +195,8 @@ body {
 <p><a href="library.html"><button class="btn btn-primary btn-sm">Back to Library</button></a></p>
 	  
   </main>
-
+</div>
+	  
 <script>
 function toggleSidebar() {
   const sidebar = document.getElementById("mySidebar");
