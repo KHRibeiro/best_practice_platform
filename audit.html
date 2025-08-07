@@ -360,19 +360,30 @@ async function contarRegistros() {
   }
 
   function applyFilters() {
-    const category = document.getElementById('filter-category').value;
-    const status = document.getElementById('filter-status').value;
-    const location = document.getElementById('filter-location').value;
+  const category = document.getElementById('filter-category').value;
+  const status = document.getElementById('filter-status').value;
+  const location = document.getElementById('filter-location').value;
 
-    const rows = document.querySelectorAll('#results-table tbody tr');
-    rows.forEach(row => {
-      const [title, cat, loc, resp, stat] = row.children;
-      const show = (!category || cat.textContent === category) &&
-                   (!status || stat.textContent === status) &&
-                   (!location || loc.textContent === location);
-      row.style.display = show ? '' : 'none';
-    });
+  const rows = document.querySelectorAll('#results-table tbody tr');
+
+  for (let i = 0; i < rows.length; i += 2) {
+    const mainRow = rows[i];
+    const detailRow = rows[i + 1];
+
+    const cells = mainRow.children;
+    const cat = cells[1].textContent;
+    const loc = cells[2].textContent;
+    const stat = cells[4].textContent;
+
+    const show = (!category || cat === category) &&
+                 (!status || stat === status) &&
+                 (!location || loc === location);
+
+    mainRow.style.display = show ? '' : 'none';
+    if (detailRow) detailRow.style.display = show ? 'none' : 'none'; // sempre escondida até clique
   }
+}
+
 
   document.addEventListener('DOMContentLoaded', () => {
     fetchData();
@@ -404,14 +415,20 @@ function filterTable() {
   const input = document.getElementById("searchInput").value.toLowerCase();
   const rows = document.querySelectorAll("table tbody tr");
 
-  rows.forEach(row => {
-    const cells = row.querySelectorAll("td");
+  for (let i = 0; i < rows.length; i += 2) {
+    const mainRow = rows[i];
+    const detailRow = rows[i + 1];
+
+    const cells = mainRow.querySelectorAll("td");
     const match = Array.from(cells).some(cell =>
       cell.textContent.toLowerCase().includes(input)
     );
-    row.style.display = match ? "" : "none";
-  });
+
+    mainRow.style.display = match ? "" : "none";
+    if (detailRow) detailRow.style.display = "none"; // esconder detalhes até clicar
+  }
 }
+
 </script>
 
 <script>
@@ -490,6 +507,7 @@ A melhoria acima foi aprovada e está disponível para implementação nas plant
 
 </body>
 </html>
+
 
 
 
