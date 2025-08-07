@@ -169,16 +169,6 @@
   </div>
 </section>
 
-<h2>Comments</h2>
-<div class="comment-section">
-	<div class="form-floating">
-  	<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-  	<label for="floatingTextarea">Comments</label>
-	</div>
-<br>
-<button class="btn btn-primary btn-sm">Send</button>
-</div>
-
 <br>
 <section>
 <h2>Linked KPIs & Dashboards</h2>
@@ -308,8 +298,8 @@ async function contarRegistros() {
 	  <td>${item.status}</td>
 	  <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
 	  <td>
-	  <button onclick="atualizarLinha(this)" class="btn btn-primary btn-sm" data-id="${item.id}">Approve</button>
-	  <button onclick="atualizarLinha(this)" class="btn btn-primary btn-sm" data-id="${item.id}">Reprove</button>
+	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
+	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
 	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Compartilhar</button>
 	  </td>
 
@@ -479,7 +469,40 @@ function filterTable() {
   }
 </script>
 
+<script>
+  let idMelhoriaAtual = null;
+  let statusDestino = null;
 
+  function abrirModalAprovacao(id, titulo, status) {
+    idMelhoriaAtual = id;
+    statusDestino = status;
+    document.getElementById('tituloModalAprovacao').textContent = status === 'Approved' ? 'Aprovar melhoria' : 'Reprovar melhoria';
+    document.getElementById('tituloMelhoriaModal').textContent = titulo;
+    document.getElementById('comentarioAuditor').value = '';
+
+    const modal = new bootstrap.Modal(document.getElementById('modalAprovacao'));
+    modal.show();
+  }
+
+  async function confirmarAcaoAprovacao() {
+    const comentario = document.getElementById('comentarioAuditor').value;
+
+    const { data, error } = await supabase
+      .from('submissions')
+      .update({ status: statusDestino, auditor_comment: comentario })
+      .eq('id', idMelhoriaAtual);
+
+    if (error) {
+      alert('Erro ao atualizar melhoria.');
+      console.error(error);
+    } else {
+      alert('Melhoria atualizada com sucesso.');
+      location.reload();
+    }
+  }
+</script>
+
+	
 <!-- Modal para compartilhar melhoria aprovada -->
 <div class="modal fade" id="modalCompartilhar" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -503,10 +526,32 @@ A melhoria acima foi aprovada e está disponível para implementação nas plant
   </div>
 </div>
 
+<div class="modal fade" id="modalAprovacao" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloModalAprovacao">Aprovar melhoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaModal"></span></p>
+        <div class="form-floating">
+          <textarea class="form-control" id="comentarioAuditor" placeholder="Comentário (opcional)" style="height: 100px"></textarea>
+          <label for="comentarioAuditor">Comentário para o autor (opcional)</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="confirmarAcaoAprovacao()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </body>
 </html>
+
 
 
 
