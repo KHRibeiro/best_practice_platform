@@ -177,19 +177,6 @@
 </div>
 </section>
 </main>
-
-
-<!-- Supabase SDK (modo tradicional, acessível globalmente) -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
- const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
- const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-</script>
-
-
 	
 <script type="module">
 
@@ -482,24 +469,29 @@ function filterTable() {
   }
 </script>
 
-<script>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+	
   let idMelhoriaAtual = null;
   let statusDestino = null;
 
-  function abrirModalAprovacao(id, titulo, status) {
+  window.abrirModalAprovacao = function(id, titulo, status) {
     idMelhoriaAtual = id;
     statusDestino = status;
     document.getElementById('tituloModalAprovacao').textContent = status === 'Approved' ? 'Aprovar melhoria' : 'Reprovar melhoria';
     document.getElementById('tituloMelhoriaModal').textContent = titulo;
     document.getElementById('comentarioAuditor').value = '';
-
     const modal = new bootstrap.Modal(document.getElementById('modalAprovacao'));
     modal.show();
-  }
+  };
 
-  async function confirmarAcaoAprovacao() {
+  document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
     const comentario = document.getElementById('comentarioAuditor').value;
-
     const { data, error } = await supabase
       .from('submissions')
       .update({ status: statusDestino, auditor_comment: comentario })
@@ -512,8 +504,9 @@ function filterTable() {
       alert('Melhoria atualizada com sucesso.');
       location.reload();
     }
-  }
+  });
 </script>
+
 
 	
 <!-- Modal para compartilhar melhoria aprovada -->
@@ -555,7 +548,7 @@ A melhoria acima foi aprovada e está disponível para implementação nas plant
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="confirmarAcaoAprovacao()">Confirmar</button>
+        <button class="btn btn-primary" id="confirmarAcaoBtn" onclick="confirmarAcaoAprovacao()">Confirmar</button>
       </div>
     </div>
   </div>
@@ -564,6 +557,7 @@ A melhoria acima foi aprovada e está disponível para implementação nas plant
 
 </body>
 </html>
+
 
 
 
