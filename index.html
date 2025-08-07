@@ -8,6 +8,55 @@
 <title>Dashboard - Best Practices Platform</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 <style>
+
+
+    /* Sidebar */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #fff;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #575757;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1100;
+}
+
+.closebtn {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  font-size: 36px;
+}
+    
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -61,7 +110,7 @@
 <header><img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:250px; background-color:transparent;"/>
 <h1>Dashboard</h1>
 </header>
-<nav>
+<!--<nav>
 <a href="index.html">Dashboard</a>
 <a href="library.html">Library</a>
 <a href="submission.html">Submit</a>
@@ -70,6 +119,23 @@
 <a href="admin.html">Admin</a>
 <a href="login.html" style="float:right;">Login</a>
 </nav>
+-->
+
+<!-- Botão para abrir a sidebar -->
+<button onclick="openSidebar()" class="openbtn">☰ Menu</button>
+
+<!-- Sidebar -->
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">×</a>
+  <a href="index.html">📊 Dashboard</a>
+  <a href="library.html">📚 Library</a>
+  <a href="submission.html">📤 Submit</a>
+  <a href="tracker.html">📈 Tracker</a>
+  <a href="audit.html">🕵️ Audit</a>
+  <a href="admin.html">👤 Admin</a>
+  <a href="login.html">🔒 Login</a>
+</div>
+
     
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:black"></div>
 <button type="button" id="logoutBtn" class="btn-close" aria-label="Close"></button>
@@ -150,6 +216,15 @@
     });
   </script>
 
+<script>
+function openSidebar() {
+  document.getElementById("mySidebar").style.width = "250px";
+}
+
+function closeSidebar() {
+  document.getElementById("mySidebar").style.width = "0";
+}
+</script>
 
 
 </html>
