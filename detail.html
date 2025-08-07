@@ -8,26 +8,27 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <style>
 
-/* Sidebar base */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 200px;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: width 0.3s ease;
-  padding-top: 60px;
-  z-index: 1000;
+/* Layout principal em duas colunas */
+.layout {
+  display: flex;
+  height: 100vh;
 }
 
-/* Estado recolhido */
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #111;
+  padding-top: 60px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .sidebar.collapsed {
   width: 60px;
 }
 
-/* Estilo dos links */
 .sidebar a {
   display: flex;
   align-items: center;
@@ -43,19 +44,16 @@
   background-color: #575757;
 }
 
-/* Ícones */
 .sidebar a span:first-child {
   width: 30px;
   text-align: center;
 }
 
-/* Texto do link */
 .sidebar .link-text {
   opacity: 1;
   transition: opacity 0.2s ease;
 }
 
-/* Ocultar texto no modo recolhido */
 .sidebar.collapsed .link-text {
   opacity: 0;
   pointer-events: none;
@@ -63,7 +61,15 @@
   overflow: hidden;
 }
 
-/* Botão de abrir */
+/* Conteúdo principal */
+main {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+}
+
+/* Botão para abrir sidebar */
 .openbtn {
   position: fixed;
   top: 10px;
@@ -76,6 +82,7 @@
   padding: 10px 15px;
   border: none;
 }
+
 
 		
 body {
@@ -119,7 +126,7 @@ body {
   <h1>Best Practice Detail</h1>
   </header>
 	
- <!-- Botão de toggle -->
+<!-- Botão de toggle -->
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
 
 <!-- Container do layout -->
@@ -135,8 +142,9 @@ body {
     <a href="login.html" title="Login"><span>🔒</span><span class="link-text">Login</span></a>
   </div>
 
-  <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
-  <main id="mainContent">
+<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
+
+<main id="mainContent">
     
 <section>
 <h2 id="title">Title of Best Practice</h2>
@@ -194,7 +202,7 @@ body {
 
 <p><a href="library.html"><button class="btn btn-primary btn-sm">Back to Library</button></a></p>
 	  
-  </main>
+</main>
 </div>
 	  
 <script>
