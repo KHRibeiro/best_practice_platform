@@ -166,6 +166,8 @@ main {
   <h3>Detalhes da Best Practice</h3>
   <p><strong>Título:</strong> <span id="detalhe-titulo"></span></p>
   <p><strong>Categoria:</strong> <span id="detalhe-categoria"></span></p>
+  <p><strong>Description:</strong> <span id="detalhe-desc"></span></p>
+  <p><strong>Steps:</strong> <span id="detalhe-steps"></span></p>
   <p><strong>Localização:</strong> <span id="detalhe-localizacao"></span></p>
   <p><strong>Responsável:</strong> <span id="detalhe-responsavel"></span></p>
   <p><strong>Status:</strong> <span id="detalhe-status"></span></p>
@@ -268,6 +270,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 	window.mostrarDetalhes = function(item) {
   document.getElementById('detalhe-titulo').innerText = item.titulo;
   document.getElementById('detalhe-categoria').innerText = item.categoria;
+  document.getElementById('detalhe-desc').innerText = item.description;
+  document.getElementById('detalhe-steps').innerText = item.steps;		
   document.getElementById('detalhe-localizacao').innerText = item.localizacao;
   document.getElementById('detalhe-responsavel').innerText = item.responsavel;
   document.getElementById('detalhe-status').innerText = item.status;
@@ -316,6 +320,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>	
 </body>
 </html>
+
 
 
 
