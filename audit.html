@@ -430,7 +430,7 @@ async function contarRegistros() {
 	  <td>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
-	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Compartilhar</button>
+	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Share</button>
 	  </td>
 
 	`;
@@ -571,7 +571,7 @@ function filterTable() {
                               .join('; ');
 
     if (!selecionadas) {
-      alert('Selecione pelo menos uma planta para compartilhar.');
+      alert('Select at least one plant to share.');
       return;
     }
 
@@ -662,7 +662,7 @@ function filterTable() {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Compartilhar melhoria aprovada</h5>
+        <h5 class="modal-title">Share Approved Best Practice</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       <div class="modal-body">
@@ -705,6 +705,7 @@ A melhoria acima foi aprovada e está disponível para implementação nas plant
 
 </body>
 </html>
+
 
 
 
