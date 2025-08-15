@@ -416,7 +416,7 @@ function toggleSidebar() {
 
 window.removerLinha = async function(id) {
   const { error } = await supabase
-	.from('sua_tabela')
+	.from('submissions')
 	.delete()
 	.eq('id', id);
 
