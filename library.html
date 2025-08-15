@@ -336,21 +336,6 @@ function toggleSidebar() {
     }
   };
 
-
-	async function removerLinha(id) {
-      const { error } = await supabase
-        .from('sua_tabela')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        alert('Erro ao remover: ' + error.message);
-      } else {
-        alert('Linha removida com sucesso!');
-      }
-    }
-
-
 	
 </script>
 
@@ -443,6 +428,19 @@ function toggleSidebar() {
     const categories = new Set();
     const statuses = new Set();
     const locations = new Set();
+
+	async function removerLinha(id) {
+      const { error } = await supabase
+        .from('sua_tabela')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        alert('Erro ao remover: ' + error.message);
+      } else {
+        alert('Linha removida com sucesso!');
+      }
+    }
 
     data.forEach(item => {
       const row = document.createElement('tr');
