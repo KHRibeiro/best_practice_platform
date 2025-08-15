@@ -456,7 +456,7 @@ window.removerLinha = async function(id) {
    	<td>${item.item_type}</td>
    	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Send</button></td>
     <td><button class="btn btn-primary btn-sm" ">Edit</button></td>
-	<td><button class="btn btn-primary btn-sm" onclick="removerLinha(this)" ">Delete</button></td>
+	<td><button class="btn btn-primary btn-sm" onclick="removerLinha(${item.id})" ">Delete</button></td>
       `;
       tbody.appendChild(row);
 
