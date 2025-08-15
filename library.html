@@ -335,6 +335,23 @@ function toggleSidebar() {
       botao.classList.add("btn-secondary");
     }
   };
+
+
+	async function removerLinha(id) {
+      const { error } = await supabase
+        .from('sua_tabela')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        alert('Erro ao remover: ' + error.message);
+      } else {
+        alert('Linha removida com sucesso!');
+      }
+    }
+
+
+	
 </script>
 
 	
@@ -440,7 +457,8 @@ function toggleSidebar() {
   	</td>
    	<td>${item.item_type}</td>
    	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Send</button></td>
-    	<td><button class="btn btn-primary btn-sm" ">Edit</button></td>
+    <td><button class="btn btn-primary btn-sm" ">Edit</button></td>
+	<td><button class="btn btn-primary btn-sm" onclick="removerLinha(this)" ">Delete</button></td>
       `;
       tbody.appendChild(row);
 
