@@ -428,6 +428,10 @@ window.removerLinha = async function(id) {
   }
 };
 
+window.editarLinha = function(id) {
+  window.location.href = `edit.html?id=${id}`;
+}
+
   async function fetchData() {
     const { data, error } = await supabase.from('submissions').select('*');
     if (error) {
@@ -456,7 +460,7 @@ window.removerLinha = async function(id) {
   	</td>
    	<td>${item.item_type}</td>
    	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Send</button></td>
-    <td><button class="btn btn-primary btn-sm" ">Edit</button>
+    <td><button class="btn btn-primary btn-sm" onclick="editarLinha(${item.id}) ">Edit</button>
 	<button class="btn btn-primary btn-sm" onclick="removerLinha(${item.id})" ">Delete</button></td>
       `;
       tbody.appendChild(row);
