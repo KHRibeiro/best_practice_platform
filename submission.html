@@ -375,7 +375,7 @@ function toggleSidebar() {
           .upload(filePath, file);
 
         if (uploadError) {
-          alert('Erro ao enviar o arquivo: ' + uploadError.message);
+          alert('Error sending: ' + uploadError.message);
           return;
         }
 
@@ -408,9 +408,9 @@ function toggleSidebar() {
       const { error } = await supabase.from('submissions').insert([data]);
 
       if (error) {
-        alert('Erro ao enviar: ' + error.message);
+        alert('Error sending: ' + error.message);
       } else {
-        alert('Submissão enviada com sucesso!');
+        alert('Submitted successfully!');
         form.reset();
       }
     });
@@ -476,6 +476,7 @@ function toggleSidebar() {
 
 </body>
 </html>
+
 
 
 
