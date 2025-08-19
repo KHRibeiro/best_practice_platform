@@ -440,14 +440,14 @@ async function contarRegistros() {
 	detailRow.classList.add('detail-row');
 	detailRow.style.display = 'none';
 	detailRow.innerHTML = `
-	  <td colspan="7" style="background:#f9f9f9;">
-		<strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}
-		<strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}
-		<strong>Description:</strong> ${item.description || 'Sem detalhes'}<br>
-		<strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}
-  		<strong>Auditor Comments:</strong> ${item.auditor_comment || ''}
-	
-	  </td>
+	<td colspan="7" style="background:#f9f9f9; text-align:justify; padding:10px;">
+    <p><strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}</p>
+    <p><strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}</p>
+    <p><strong>Description:</strong> ${item.description || 'Sem detalhes'}</p>
+    <p><strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}</p>
+    <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
+	</td>
+
 	`;
 
 	mainRow.addEventListener('click', function (e) {
@@ -706,6 +706,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
