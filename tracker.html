@@ -188,10 +188,10 @@ main {
         <table class="table table-hover" id="tabela-atividades">
 	<thead>
 	<tr>
-	<th>Título</th>
-	<th>Categoria</th>
-	<th>Localização</th>
-	<th>Responsável</th>
+	<th>Title</th>
+	<th>Category</th>
+	<th>Region/Site</th>
+	<th>Responsible</th>
 	<th>Status</th></tr>	
 	</thead>
 	<tbody></tbody>
@@ -200,13 +200,13 @@ main {
     </section>
 
 <div id="detalhes-pratica" class="mt-4" style="display:none;">
-  <h3>Detalhes da Best Practice</h3>
-  <p><strong>Título:</strong> <span id="detalhe-titulo"></span></p>
-  <p><strong>Categoria:</strong> <span id="detalhe-categoria"></span></p>
+  <h3>Best Practice Details</h3>
+  <p><strong>Title:</strong> <span id="detalhe-titulo"></span></p>
+  <p><strong>Category:</strong> <span id="detalhe-categoria"></span></p>
   <p><strong>Description:</strong> <span id="detalhe-desc"></span></p>
   <p><strong>Steps:</strong> <span id="detalhe-steps"></span></p>
-  <p><strong>Localização:</strong> <span id="detalhe-localizacao"></span></p>
-  <p><strong>Responsável:</strong> <span id="detalhe-responsavel"></span></p>
+  <p><strong>Region/Site:</strong> <span id="detalhe-localizacao"></span></p>
+  <p><strong>Responsible:</strong> <span id="detalhe-responsavel"></span></p>
   <p><strong>Status:</strong> <span id="detalhe-status"></span></p>
 
   <div id="acoes">
@@ -258,7 +258,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       .select('*');
 
     if (error) {
-      console.error('Erro ao carregar atividades:', error);
+      console.error('Error loading best practices:', error);
       return;
     }
 
@@ -297,10 +297,10 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     if (error) {
       console.error('Erro ao remover:', error);
-      alert('Erro ao remover atividade.');
+      alert('Error removing best practices');
     } else {
       linha.remove();
-      alert('Atividade removida com sucesso!');
+      alert('Best Practice removed!');
     }
   };
 
@@ -377,6 +377,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>	
 </body>
 </html>
+
 
 
 
