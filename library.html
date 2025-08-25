@@ -419,7 +419,7 @@ map.fitWorld();
     markersData.forEach(loc => {
     const marker = L.marker([loc.lat, loc.lng], { title: loc.name })
       .bindPopup(`<b>${loc.name}</b><br>Practices: ${loc.practices}
-        <br><button onclick="filterByLocation('${loc.name}')">Ver práticas</button>`)
+        <br><button class="btn btn-primary onclick="filterByLocation('${loc.name}')">Apply Filter</button>`)
       .addTo(map);
 
     marker.siteName = loc.name;
