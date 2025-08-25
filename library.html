@@ -379,24 +379,24 @@ function toggleSidebar() {
     }).addTo(map);
 
     const markersData = [
-  { name: "HOR", region: "Americas", lat: -22.51, lng: -47.13, practices: 50 },
-  { name: "SIT", region: "Europe", lat: 46.922, lng: 11.951, practices: 9 }, // Sand in Taufers, Italy
-  { name: "AUB", region: "Americas", lat: 42.64, lng: -83.25, practices: 0 }, // Auburn Hills, MI, USA
-  { name: "BON", region: "Europe", lat: 50.69, lng: 7.15, practices: 0 },     // Bonn, Germany
-  { name: "BRU", region: "Europe", lat: 46.79, lng: 11.94, practices: 0 },    // Brunico, Italy
-  { name: "CIN", region: "Americas", lat: 39.99, lng: -75.01, practices: 0 }, // Cinnaminson, NJ, USA
-  { name: "CON", region: "Americas", lat: 35.71, lng: -81.22, practices: 0 }, // Conover, NC, USA
-  { name: "DAN", region: "Asia", lat: 31.99, lng: 119.57, practices: 0 },     // Danyang, China
-  { name: "FIL", region: "Europe", lat: 51.20, lng: 7.35, practices: 0 },     // Radevormwald, Germany
-  { name: "GLA", region: "Americas", lat: 36.38, lng: -86.47, practices: 0 }, // Gallatin, TN, USA
-  { name: "INC", region: "Americas", lat: 38.60, lng: -86.10, practices: 0 }, // Dubois, IN, USA
-  { name: "IST", region: "Europe", lat: 40.98, lng: 28.82, practices: 0 },    // Istanbul, Turkey
-  { name: "MIL", region: "Europe", lat: 45.52, lng: 9.33, practices: 0 },     // Milan, Italy
-  { name: "NAG", region: "Asia", lat: 19.10, lng: 74.73, practices: 0 },      // Ahmednagar, India
-  { name: "PAS", region: "Americas", lat: 41.95, lng: -78.63, practices: 0 }, // Saint Marys
-  { name: "PIM", region: "Asia", lat: 18.62, lng: 73.80, practices: 0 },      // Pimpri, India
-  { name: "WIS", region: "Americas", lat: 43.41, lng: -88.12, practices: 0 }, // Germantown, WI, USA
-  { name: "YIZ", region: "Asia", lat: 32.27, lng: 119.18, practices: 0 }      // Yizheng, China
+  { name: "HOR", region: "Americas", lat: -22.51, lng: -47.13},
+  { name: "SIT", region: "Europe", lat: 46.922, lng: 11.951}, // Sand in Taufers, Italy
+  { name: "AUB", region: "Americas", lat: 42.64, lng: -83.25}, // Auburn Hills, MI, USA
+  { name: "BON", region: "Europe", lat: 50.69, lng: 7.15},     // Bonn, Germany
+  { name: "BRU", region: "Europe", lat: 46.79, lng: 11.94},    // Brunico, Italy
+  { name: "CIN", region: "Americas", lat: 39.99, lng: -75.01}, // Cinnaminson, NJ, USA
+  { name: "CON", region: "Americas", lat: 35.71, lng: -81.22}, // Conover, NC, USA
+  { name: "DAN", region: "Asia", lat: 31.99, lng: 119.57},     // Danyang, China
+  { name: "FIL", region: "Europe", lat: 51.20, lng: 7.35},     // Radevormwald, Germany
+  { name: "GLA", region: "Americas", lat: 36.38, lng: -86.47}, // Gallatin, TN, USA
+  { name: "INC", region: "Americas", lat: 38.60, lng: -86.10}, // Dubois, IN, USA
+  { name: "IST", region: "Europe", lat: 40.98, lng: 28.82},    // Istanbul, Turkey
+  { name: "MIL", region: "Europe", lat: 45.52, lng: 9.33},     // Milan, Italy
+  { name: "NAG", region: "Asia", lat: 19.10, lng: 74.73},      // Ahmednagar, India
+  { name: "PAS", region: "Americas", lat: 41.95, lng: -78.63}, // Saint Marys
+  { name: "PIM", region: "Asia", lat: 18.62, lng: 73.80},      // Pimpri, India
+  { name: "WIS", region: "Americas", lat: 43.41, lng: -88.12}, // Germantown, WI, USA
+  { name: "YIZ", region: "Asia", lat: 32.27, lng: 119.18}      // Yizheng, China
 ]
 ;
 
@@ -447,47 +447,63 @@ window.editarLinha = function(id) {
 }
 
   async function fetchData() {
-    const { data, error } = await supabase.from('submissions').select('*');
-    if (error) {
-      console.error('Erro ao buscar dados:', error.message);
-      return;
-    }
-
-
-    const tbody = document.querySelector('#results-table tbody');
-    tbody.innerHTML = '';
-
-    const categories = new Set();
-    const statuses = new Set();
-    const locations = new Set();
-
-    data.forEach(item => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.title}</td>
-        <td>${item.category}</td>
-        <td>${item.region_plant}</td>
-        <td>${item.responsible}</td>
-	<td>${item.status}</td>
- 	<td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}
-  	<td><a href="detail.html?id=${item.id}">Detail</a></td>
-  	</td>
-   	<td>${item.item_type}</td>
-   	<td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Send</button></td>
-    <td><button class="btn btn-primary btn-sm" onclick="editarLinha(${item.id}) ">Edit</button>
-	<button class="btn btn-primary btn-sm" onclick="removerLinha(${item.id})" ">Delete</button></td>
-      `;
-      tbody.appendChild(row);
-
-      if (item.category) categories.add(item.category);
-      if (item.status) statuses.add(item.status);
-      if (item.region_plant) locations.add(item.region_plant);
-    });
-
-    populateFilter('filter-category', categories);
-    populateFilter('filter-status', statuses);
-    populateFilter('filter-location', locations);
+  const { data, error } = await supabase.from('submissions').select('*');
+  if (error) {
+    console.error('Erro ao buscar dados:', error.message);
+    return;
   }
+
+  const tbody = document.querySelector('#results-table tbody');
+  tbody.innerHTML = '';
+
+  const categories = new Set();
+  const statuses = new Set();
+  const locations = new Set();
+  const countsByLocation = {};
+
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.title}</td>
+      <td>${item.category}</td>
+      <td>${item.region_plant}</td>
+      <td>${item.responsible}</td>
+      <td>${item.status}</td>
+      <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
+      <td><a href="detail.html?id=${item.id}">Detail</a></td>
+      <td>${item.item_type}</td>
+      <td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)">Send</button></td>
+      <td>
+        <button class="btn btn-primary btn-sm" onclick="editarLinha(${item.id})">Edit</button>
+        <button class="btn btn-primary btn-sm" onclick="removerLinha(${item.id})">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+
+    if (item.category) categories.add(item.category);
+    if (item.status) statuses.add(item.status);
+    if (item.region_plant) {
+      locations.add(item.region_plant);
+      countsByLocation[item.region_plant] = (countsByLocation[item.region_plant] || 0) + 1;
+    }
+  });
+
+  populateFilter('filter-category', categories);
+  populateFilter('filter-status', statuses);
+  populateFilter('filter-location', locations);
+
+  // Atualiza popups no mapa com dados reais
+  markers.forEach(marker => {
+    const site = marker.siteName;
+    const total = countsByLocation[site] || 0;
+    marker.bindPopup(`
+      <b>${site}</b><br>
+      Practices: ${total}<br>
+      <button onclick="filterByLocation('${site}')">Ver práticas</button>
+    `);
+  });
+}
+
 
   function populateFilter(id, values) {
     const select = document.getElementById(id);
