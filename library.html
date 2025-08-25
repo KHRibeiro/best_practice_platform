@@ -499,30 +499,28 @@ window.editarLinha = function(id) {
     });
   }
 
-  function applyFilters() {
+ window.applyFilters = function() {
     const category = document.getElementById('filter-category').value;
     const status = document.getElementById('filter-status').value;
     const location = document.getElementById('filter-location').value;
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
 
     const rows = document.querySelectorAll('#results-table tbody tr');
-
     const visibleLocations = new Set();
 
     rows.forEach(row => {
       const [title, cat, loc, resp, stat] = row.children;
+      const matchKeyword = keyword === "" || row.textContent.toLowerCase().includes(keyword);
       const show =
+        matchKeyword &&
         (!category || cat.textContent === category) &&
         (!status || stat.textContent === status) &&
         (!location || loc.textContent === location);
 
       row.style.display = show ? '' : 'none';
-
-      if (show) {
-        visibleLocations.add(loc.textContent);
-      }
+      if (show) visibleLocations.add(loc.textContent);
     });
 
-    // Atualiza marcadores no mapa com base nas linhas visíveis
     markers.forEach(marker => {
       if (visibleLocations.has(marker.siteName)) {
         marker.addTo(map);
@@ -530,15 +528,12 @@ window.editarLinha = function(id) {
         map.removeLayer(marker);
       }
     });
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     fetchData();
-    document.getElementById('filter-category').addEventListener('change', applyFilters);
-    document.getElementById('filter-status').addEventListener('change', applyFilters);
-    document.getElementById('filter-location').addEventListener('change', applyFilters);
   });
-</script>
+</script> 
 	
 <script>
 function filterTable() {
