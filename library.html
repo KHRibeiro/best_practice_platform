@@ -195,26 +195,26 @@ main {
 
 <div class="col-md-3">
 <label class="form-label">Keywords: </label>
-<input id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="Keywords..." type="text"/>
+<input id="searchInput" class="form-control" onkeyup="applyFilters()" placeholder="Keywords..." type="text"/>
 </div>
 
 <div class="col-md-3">
 <label for="filter-category" class="form-label">Category:</label>
-<select id="filter-category" class="form-select">
+<select id="filter-category" class="form-select" onchange="applyFilters()">	
 <option value="">All</option>
 </select>
 </div>
 
 <div class="col-md-3">
 <label for="filter-status">Status:</label>
-<select id="filter-status" class="form-select">
+<select id="filter-status" class="form-select" onchange="applyFilters()">
 <option value="">All</option>
 </select>
 </div>
 
 <div class="col-md-3">
 <label for="filter-location">Region/Site:</label>
-<select id="filter-location" class="form-select">
+<select id="filter-location" class="form-select" onchange="applyFilters()">
 <option value="">All</option>
 </select>
 </div>
@@ -403,23 +403,22 @@ function toggleSidebar() {
     const markers = [];
 
     markersData.forEach(loc => {
-      const marker = L.marker([loc.lat, loc.lng])
-        .bindPopup(`<b>${loc.name}</b><br>Practices: ${loc.practices}`)
-        .addTo(map);
-      marker.region = loc.region;
-      markers.push(marker);
-    });
+    const marker = L.marker([loc.lat, loc.lng], { title: loc.name })
+      .bindPopup(`<b>${loc.name}</b><br>Practices: ${loc.practices}
+        <br><button onclick="filterByLocation('${loc.name}')">Ver práticas</button>`)
+      .addTo(map);
 
-    function filterRegion(region) {
-      markers.forEach(marker => {
-        if (region === 'All' || marker.region === region) {
-          marker.addTo(map);
-        } else {
-          map.removeLayer(marker);
-        }
-      });
-    }
-  </script>
+    marker.siteName = loc.name;
+    marker.region = loc.region;
+    markers.push(marker);
+  });
+
+  // Função chamada pelo botão do popup
+  window.filterByLocation = function(location) {
+    document.getElementById('filter-location').value = location;
+    applyFilters();
+  };
+</script>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -506,12 +505,30 @@ window.editarLinha = function(id) {
     const location = document.getElementById('filter-location').value;
 
     const rows = document.querySelectorAll('#results-table tbody tr');
+
+    const visibleLocations = new Set();
+
     rows.forEach(row => {
       const [title, cat, loc, resp, stat] = row.children;
-      const show = (!category || cat.textContent === category) &&
-                   (!status || stat.textContent === status) &&
-                   (!location || loc.textContent === location);
+      const show =
+        (!category || cat.textContent === category) &&
+        (!status || stat.textContent === status) &&
+        (!location || loc.textContent === location);
+
       row.style.display = show ? '' : 'none';
+
+      if (show) {
+        visibleLocations.add(loc.textContent);
+      }
+    });
+
+    // Atualiza marcadores no mapa com base nas linhas visíveis
+    markers.forEach(marker => {
+      if (visibleLocations.has(marker.siteName)) {
+        marker.addTo(map);
+      } else {
+        map.removeLayer(marker);
+      }
     });
   }
 
