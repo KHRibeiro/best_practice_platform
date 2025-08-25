@@ -375,8 +375,14 @@ function toggleSidebar() {
 <script>
     const map = L.map('map').setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+  attribution: '© OpenStreetMap contributors',
+  noWrap: true,            // Evita repetição
+  bounds: [[-90, -180], [90, 180]] // Define limites globais
+}).addTo(map);
+
+// Impede que o usuário arraste para fora do mundo
+map.setMaxBounds([[-90, -180], [90, 180]]);
+
 
     const markersData = [
   { name: "HOR", region: "Americas", lat: -22.51, lng: -47.13},
