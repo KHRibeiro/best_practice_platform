@@ -34,7 +34,7 @@
   </div>
 
   <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
   const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
@@ -43,7 +43,6 @@
 
     let currentUser = null;
 
-    // 🔹 Carregar usuário logado
     async function loadUser() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -54,20 +53,19 @@
       currentUser = user;
       document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
       loadMessages();
+      setupRealtime();
     }
 
-    // 🔹 Função auxiliar: pegar email pelo ID via RPC
     async function getUserEmail(uid) {
       if (!uid) return "desconhecido";
       let { data, error } = await supabase.rpc("get_user_email", { uid: uid });
       if (error) {
         console.error("Erro RPC get_user_email:", error);
-        return uid; // fallback mostra UUID se erro
+        return uid;
       }
       return data;
     }
 
-    // 🔹 Carregar mensagens
     async function loadMessages() {
       // Recebidas
       let { data: inbox, error: errInbox } = await supabase
@@ -86,6 +84,11 @@
             <strong>De:</strong> ${senderEmail}<br>
             <strong>Assunto:</strong> ${m.subject}<br>
             <span class="text-sm text-gray-600">${m.body}</span>
+            <div class="mt-1 space-x-2">
+              <button onclick="replyMessage('${senderEmail}', '${m.subject}')" class="text-blue-500">Responder</button>
+              <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="text-green-500">Encaminhar</button>
+              <button onclick="deleteMessage('${m.id}')" class="text-red-500">Deletar</button>
+            </div>
           </li>`;
       }
       document.getElementById("inbox").innerHTML = inboxHTML;
@@ -107,19 +110,21 @@
             <strong>Para:</strong> ${receiverEmail}<br>
             <strong>Assunto:</strong> ${m.subject}<br>
             <span class="text-sm text-gray-600">${m.body}</span>
+            <div class="mt-1 space-x-2">
+              <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="text-green-500">Encaminhar</button>
+              <button onclick="deleteMessage('${m.id}')" class="text-red-500">Deletar</button>
+            </div>
           </li>`;
       }
       document.getElementById("sent").innerHTML = sentHTML;
     }
 
-    // 🔹 Enviar mensagem
     document.getElementById("send-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const toEmail = document.getElementById("to").value;
       const subject = document.getElementById("subject").value;
       const body = document.getElementById("body").value;
 
-      // Buscar usuário destino via RPC
       let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
       if (error || !users || users.length === 0) {
         alert("Usuário não encontrado.");
@@ -138,6 +143,41 @@
       e.target.reset();
       loadMessages();
     });
+
+    // Responder, encaminhar, deletar
+    window.replyMessage = (toEmail, subject) => {
+      document.getElementById("to").value = toEmail;
+      document.getElementById("subject").value = "Re: " + subject;
+      document.getElementById("body").focus();
+    }
+
+    window.forwardMessage = (subject, body) => {
+      document.getElementById("to").value = "";
+      document.getElementById("subject").value = "Fwd: " + subject;
+      document.getElementById("body").value = body;
+      document.getElementById("body").focus();
+    }
+
+    window.deleteMessage = async (messageId) => {
+      if (!confirm("Deseja realmente deletar esta mensagem?")) return;
+      await supabase.from("messages").delete().eq("id", messageId);
+      loadMessages();
+    }
+
+    // 🔹 Configurar Realtime para inbox
+    function setupRealtime() {
+      supabase
+        .channel('public:messages')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'messages', filter: `receiver=eq.${currentUser.id}` },
+          payload => {
+            console.log("Nova mensagem recebida:", payload);
+            loadMessages(); // Atualiza lista automaticamente
+          }
+        )
+        .subscribe();
+    }
 
     loadUser();
   </script>
