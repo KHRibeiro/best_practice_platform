@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caixa de Mensagens</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">📩 Caixa de Mensagens</h1>
+    <div id="user-info" class="mb-4 text-gray-700"></div>
+
+    <!-- Formulário para enviar mensagem -->
+    <form id="send-form" class="space-y-2 mb-6">
+      <input type="email" id="to" placeholder="Email do destinatário" class="border p-2 w-full rounded" required>
+      <input type="text" id="subject" placeholder="Assunto" class="border p-2 w-full rounded" required>
+      <textarea id="body" placeholder="Mensagem" class="border p-2 w-full rounded" rows="3" required></textarea>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar</button>
+    </form>
+
+    <div class="grid grid-cols-2 gap-6">
+      <!-- Caixa de entrada -->
+      <div>
+        <h2 class="font-semibold text-lg mb-2">📥 Recebidas</h2>
+        <ul id="inbox" class="space-y-2"></ul>
+      </div>
+
+      <!-- Enviadas -->
+      <div>
+        <h2 class="font-semibold text-lg mb-2">📤 Enviadas</h2>
+        <ul id="sent" class="space-y-2"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentUser = null;
+
+    async function loadUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        document.getElementById("user-info").innerHTML =
+          `<a href="login.html" class="text-blue-500">Fazer login</a>`;
+        return;
+      }
+      currentUser = user;
+      document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
+      loadMessages();
+    }
+
+    // 🔹 Carregar mensagens
+    async function loadMessages() {
+      // Recebidas
+      let { data: inbox } = await supabase
+        .from("messages")
+        .select("id, subject, body, is_read, sender, created_at, sender:sender(email)")
+        .eq("receiver", currentUser.id)
+        .order("created_at", { ascending: false });
+
+      document.getElementById("inbox").innerHTML = (inbox || []).map(m =>
+        `<li class="p-2 border rounded ${m.is_read ? 'bg-gray-100' : 'bg-yellow-100'}">
+          <strong>De:</strong> ${m.sender?.email || "desconhecido"}<br>
+          <strong>Assunto:</strong> ${m.subject}<br>
+          <span class="text-sm text-gray-600">${m.body}</span>
+        </li>`
+      ).join("");
+
+      // Enviadas
+      let { data: sent } = await supabase
+        .from("messages")
+        .select("id, subject, body, receiver, created_at, receiver:receiver(email)")
+        .eq("sender", currentUser.id)
+        .order("created_at", { ascending: false });
+
+      document.getElementById("sent").innerHTML = (sent || []).map(m =>
+        `<li class="p-2 border rounded bg-gray-50">
+          <strong>Para:</strong> ${m.receiver?.email || "desconhecido"}<br>
+          <strong>Assunto:</strong> ${m.subject}<br>
+          <span class="text-sm text-gray-600">${m.body}</span>
+        </li>`
+      ).join("");
+    }
+
+    // 🔹 Enviar mensagem
+    document.getElementById("send-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const toEmail = document.getElementById("to").value;
+      const subject = document.getElementById("subject").value;
+      const body = document.getElementById("body").value;
+
+      // Buscar usuário destino (via função RPC no Supabase)
+      let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
+      if (error || !users || users.length === 0) {
+        alert("Usuário não encontrado.");
+        return;
+      }
+
+      const receiverId = users[0].id;
+
+      await supabase.from("messages").insert([{
+        sender: currentUser.id,
+        receiver: receiverId,
+        subject,
+        body
+      }]);
+
+      e.target.reset();
+      loadMessages();
+    });
+
+    loadUser();
+  </script>
+</body>
+</html>
