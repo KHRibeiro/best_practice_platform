@@ -34,7 +34,7 @@
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
   const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
@@ -43,6 +43,7 @@
 
     let currentUser = null;
 
+    // 🔹 Carregar usuário logado
     async function loadUser() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -55,6 +56,17 @@
       loadMessages();
     }
 
+    // 🔹 Função auxiliar: pegar email pelo ID via RPC
+    async function getUserEmail(uid) {
+      if (!uid) return "desconhecido";
+      let { data, error } = await supabase.rpc("get_user_email", { uid: uid });
+      if (error) {
+        console.error("Erro RPC get_user_email:", error);
+        return uid; // fallback mostra UUID se erro
+      }
+      return data;
+    }
+
     // 🔹 Carregar mensagens
     async function loadMessages() {
       // Recebidas
@@ -64,17 +76,19 @@
         .eq("receiver", currentUser.id)
         .order("created_at", { ascending: false });
 
-      if (errInbox) {
-        console.error("Erro ao carregar inbox:", errInbox);
-      }
+      if (errInbox) console.error("Erro ao carregar inbox:", errInbox);
 
-      document.getElementById("inbox").innerHTML = (inbox || []).map(m =>
-        `<li class="p-2 border rounded ${m.is_read ? 'bg-gray-100' : 'bg-yellow-100'}">
-          <strong>De (ID):</strong> ${m.sender}<br>
-          <strong>Assunto:</strong> ${m.subject}<br>
-          <span class="text-sm text-gray-600">${m.body}</span>
-        </li>`
-      ).join("");
+      let inboxHTML = "";
+      for (let m of inbox || []) {
+        const senderEmail = await getUserEmail(m.sender);
+        inboxHTML += `
+          <li class="p-2 border rounded ${m.is_read ? 'bg-gray-100' : 'bg-yellow-100'}">
+            <strong>De:</strong> ${senderEmail}<br>
+            <strong>Assunto:</strong> ${m.subject}<br>
+            <span class="text-sm text-gray-600">${m.body}</span>
+          </li>`;
+      }
+      document.getElementById("inbox").innerHTML = inboxHTML;
 
       // Enviadas
       let { data: sent, error: errSent } = await supabase
@@ -83,17 +97,19 @@
         .eq("sender", currentUser.id)
         .order("created_at", { ascending: false });
 
-      if (errSent) {
-        console.error("Erro ao carregar sent:", errSent);
-      }
+      if (errSent) console.error("Erro ao carregar sent:", errSent);
 
-      document.getElementById("sent").innerHTML = (sent || []).map(m =>
-        `<li class="p-2 border rounded bg-gray-50">
-          <strong>Para (ID):</strong> ${m.receiver}<br>
-          <strong>Assunto:</strong> ${m.subject}<br>
-          <span class="text-sm text-gray-600">${m.body}</span>
-        </li>`
-      ).join("");
+      let sentHTML = "";
+      for (let m of sent || []) {
+        const receiverEmail = await getUserEmail(m.receiver);
+        sentHTML += `
+          <li class="p-2 border rounded bg-gray-50">
+            <strong>Para:</strong> ${receiverEmail}<br>
+            <strong>Assunto:</strong> ${m.subject}<br>
+            <span class="text-sm text-gray-600">${m.body}</span>
+          </li>`;
+      }
+      document.getElementById("sent").innerHTML = sentHTML;
     }
 
     // 🔹 Enviar mensagem
@@ -103,7 +119,7 @@
       const subject = document.getElementById("subject").value;
       const body = document.getElementById("body").value;
 
-      // Buscar usuário destino (via função RPC no Supabase)
+      // Buscar usuário destino via RPC
       let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
       if (error || !users || users.length === 0) {
         alert("Usuário não encontrado.");
@@ -127,4 +143,3 @@
   </script>
 </body>
 </html>
-  
