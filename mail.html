@@ -58,30 +58,38 @@
     // 🔹 Carregar mensagens
     async function loadMessages() {
       // Recebidas
-      let { data: inbox } = await supabase
+      let { data: inbox, error: errInbox } = await supabase
         .from("messages")
-        .select("id, subject, body, is_read, sender, created_at, sender:sender(email)")
+        .select("id, subject, body, is_read, sender, created_at")
         .eq("receiver", currentUser.id)
         .order("created_at", { ascending: false });
 
+      if (errInbox) {
+        console.error("Erro ao carregar inbox:", errInbox);
+      }
+
       document.getElementById("inbox").innerHTML = (inbox || []).map(m =>
         `<li class="p-2 border rounded ${m.is_read ? 'bg-gray-100' : 'bg-yellow-100'}">
-          <strong>De:</strong> ${m.sender?.email || "desconhecido"}<br>
+          <strong>De (ID):</strong> ${m.sender}<br>
           <strong>Assunto:</strong> ${m.subject}<br>
           <span class="text-sm text-gray-600">${m.body}</span>
         </li>`
       ).join("");
 
       // Enviadas
-      let { data: sent } = await supabase
+      let { data: sent, error: errSent } = await supabase
         .from("messages")
-        .select("id, subject, body, receiver, created_at, receiver:receiver(email)")
+        .select("id, subject, body, receiver, created_at")
         .eq("sender", currentUser.id)
         .order("created_at", { ascending: false });
 
+      if (errSent) {
+        console.error("Erro ao carregar sent:", errSent);
+      }
+
       document.getElementById("sent").innerHTML = (sent || []).map(m =>
         `<li class="p-2 border rounded bg-gray-50">
-          <strong>Para:</strong> ${m.receiver?.email || "desconhecido"}<br>
+          <strong>Para (ID):</strong> ${m.receiver}<br>
           <strong>Assunto:</strong> ${m.subject}<br>
           <span class="text-sm text-gray-600">${m.body}</span>
         </li>`
@@ -119,3 +127,4 @@
   </script>
 </body>
 </html>
+  
