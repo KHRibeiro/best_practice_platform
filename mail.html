@@ -181,5 +181,12 @@
 
     loadUser();
   </script>
+
+<script type="module">
+  import { clearBadge, initNotification } from './js/notification.js';
+  initNotification();
+  clearBadge(); // Zera o badge ao abrir a caixa
+</script>
+  
 </body>
 </html>
