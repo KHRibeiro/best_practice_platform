@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="pt-BR">
+	
 <head>
 <link rel="icon" href="simb.ico" type="image/x-icon">
 <meta charset="utf-8"/>
@@ -10,7 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet"/>
-<title>Library - Best Practices Platform</title>
+<title>Mail - Best Practices Platform</title>
 
 <style>
 
@@ -133,12 +134,16 @@ main {
       width: 200px;
     }
   </style>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script></head>
+	
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
   
 <body>
 	
 <header>
 <img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
+
 <h1>📩 Caixa de Mensagens</h1>
 
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
@@ -194,11 +199,7 @@ main {
     <span class="link-text">Logout</span>
     </a>
 </div>
-  </div>
-
-
-
-
+</div>
   
   <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
    
@@ -227,7 +228,7 @@ main {
     </div>
   </div>
 
-</body>
+
 
   <script type="module">
    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -377,5 +378,5 @@ main {
 
     loadUser();
   </script>
-  
+</body>  
 </html>
