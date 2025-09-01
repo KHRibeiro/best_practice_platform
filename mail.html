@@ -195,12 +195,35 @@ main {
   <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
 
     <!-- Formulário para enviar mensagem -->
-    <form id="send-form">
-      <input type="email" id="to" placeholder="Email do destinatário" class="form-control" required>
-      <input type="text" id="subject" placeholder="Assunto" class="form-control" required>
-      <textarea id="body" placeholder="Mensagem" class="form-control" rows="3" required></textarea>
-      <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
+    <!-- Formulário para enviar mensagem -->
+<form id="send-form" class="card shadow-sm p-4 mb-4 border-0">
+  <h5 class="mb-3"><i class="bi bi-envelope-fill me-2 text-primary"></i>Nova Mensagem</h5>
+  
+  <div class="mb-3">
+    <label for="to" class="form-label">Destinatário</label>
+    <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="subject" class="form-label">Assunto</label>
+    <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="body" class="form-label">Mensagem</label>
+    <textarea id="body" class="form-control" rows="4" placeholder="Digite sua mensagem..." required></textarea>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="reset" class="btn btn-outline-secondary me-2">
+      <i class="bi bi-x-circle me-1"></i> Limpar
+    </button>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-send-fill me-1"></i> Enviar
+    </button>
+  </div>
+</form>
+
 
     <div class="grid grid-cols-2 gap-6">
       <!-- Caixa de entrada -->
