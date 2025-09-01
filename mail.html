@@ -197,11 +197,11 @@ main {
     <div id="user-info" class="mb-4 text-gray-700"></div>
 
     <!-- Formulário para enviar mensagem -->
-    <form id="send-form" class="space-y-2 mb-6">
-      <input type="email" id="to" placeholder="Email do destinatário" class="border p-2 w-full rounded" required>
-      <input type="text" id="subject" placeholder="Assunto" class="border p-2 w-full rounded" required>
-      <textarea id="body" placeholder="Mensagem" class="border p-2 w-full rounded" rows="3" required></textarea>
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar</button>
+    <form id="send-form">
+      <input type="email" id="to" placeholder="Email do destinatário" class="form-control" required>
+      <input type="text" id="subject" placeholder="Assunto" class="form-control" required>
+      <textarea id="body" placeholder="Mensagem" class="form-control" rows="3" required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
     <div class="grid grid-cols-2 gap-6">
