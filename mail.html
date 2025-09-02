@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-	
 <head>
 <link rel="icon" href="simb.ico" type="image/x-icon">
 <meta charset="utf-8"/>
@@ -10,399 +8,217 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>Mail - Best Practices Platform</title>
-
 <style>
-
-	/* Layout principal em duas colunas */
-.layout {
-  display: flex;
-  height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 200px;
-  background-color: #2c3e50;
-  padding-top: 60px;
-  transition: width 0.3s ease;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar.collapsed {
-  width: 60px;
-}
-
-.sidebar a {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #fff;
-  white-space: nowrap;
-  transition: background-color 0.2s;
-}
-
-.sidebar a:hover {
-  background-color: #575757;
-}
-
-.sidebar a span:first-child {
-  width: 30px;
-  text-align: center;
-}
-
-.sidebar .link-text {
-  opacity: 1;
-  transition: opacity 0.2s ease;
-}
-
-.sidebar.collapsed .link-text {
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  overflow: hidden;
-}
-
-/* Conteúdo principal */
-main {
-  flex: 1;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-  overflow-y: auto;
-}
-
-/* Botão para abrir sidebar */
-.openbtn {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1100;
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #2c3e50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-	
-	body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f6f8;
-    }
-    header {
-      background: #2c3e50;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav {
-      background: #34495e;
-      padding: 0.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    nav a {
-      margin: 0 1em;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-   
-    input[type="text"], select {
-      padding: 0.5em;
-      margin: 0.5em 0;
-      width: 200px;
-    }
-  </style>
-
+  .layout { display: flex; height: 100vh; }
+  .sidebar { width: 200px; background-color: #2c3e50; padding-top: 60px; transition: width 0.3s ease; overflow-x: hidden; display: flex; flex-direction: column; }
+  .sidebar.collapsed { width: 60px; }
+  .sidebar a { display: flex; align-items: center; padding: 12px 16px; text-decoration: none; font-size: 18px; color: #fff; white-space: nowrap; transition: background-color 0.2s; }
+  .sidebar a:hover { background-color: #575757; }
+  .sidebar a span:first-child { width: 30px; text-align: center; }
+  .sidebar .link-text { opacity: 1; transition: opacity 0.2s ease; }
+  .sidebar.collapsed .link-text { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
+  main { flex: 1; padding: 20px; transition: margin-left 0.3s ease; overflow-y: auto; }
+  .openbtn { position: fixed; top: 10px; left: 10px; z-index: 1100; font-size: 20px; cursor: pointer; background-color: #2c3e50; color: white; padding: 10px 15px; border: none; }
+  body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
+  header { background: #2c3e50; color: white; padding: 1rem; text-align: center; }
+  .badge-msg { font-size: 0.75rem; margin-left: 6px; }
+</style>
 </head>
-  
 <body>
-<div class="container-fluid">	
+<div class="container-fluid">
 <header>
-<img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
-
-<h1>📩 Caixa de Mensagens</h1>
-
-<div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
-
+  <img alt="Best Practice Platform Logo" src="jpeg (2).jpg" style="height:150px; background-color:transparent;"/>
+  <h1>📩 Caixa de Mensagens</h1>
+  <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
 </header>
 
-<!-- Botão de toggle -->
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
-
-<!-- Container do layout -->
 <div class="layout">
-  
-  <!-- Sidebar -->
   <div id="mySidebar" class="sidebar collapsed">
-    <a href="index.html" title="Dashboard">
-  <span><i class="bi bi-speedometer2 text-white"></i></span>
-  <span class="link-text">Dashboard</span>
-</a>
-
-<a href="library.html" title="Library">
-  <span><i class="bi bi-journals text-white"></i></span>
-  <span class="link-text">Library</span>
-</a>
-
-<a href="submission.html" title="Submit">
-  <span><i class="bi bi-upload text-white"></i></span>
-  <span class="link-text">Submit</span>
-</a>
-
-<a href="tracker.html" title="Tracker">
-  <span><i class="bi bi-graph-up-arrow text-white"></i></span>
-  <span class="link-text">Tracker</span>
-</a>
-
-<a href="audit.html" title="Audit">
-  <span><i class="bi bi-search text-white"></i></span>
-  <span class="link-text">Audit</span>
-</a>
-
-<a href="admin.html" title="Admin">
-  <span><i class="bi bi-person-gear text-white"></i></span>
-  <span class="link-text">Admin</span>
-</a>
-
-<a href="login.html" title="Login">
-  <span><i class="bi bi-box-arrow-in-right text-white"></i></span>
-  <span class="link-text">Login</span>
-</a>
-
-   <!-- Novo botão de mensagens -->
-  <a href="mail.html" title="Mensagens">
-    <span><i class="bi bi-envelope-fill text-white"></i></span>
-    <span class="link-text">Mensagens</span>
-  </a>
-	  
-    <!-- Botão logout fixado no rodapé -->
-<div class="logout-container">
-    <a href="#" id="logoutBtn" title="Logout">
-    <span><i class="bi bi-box-arrow-right text-white"></i></span>
-    <span class="link-text">Logout</span>
+    <a href="index.html" title="Dashboard"><span><i class="bi bi-speedometer2 text-white"></i></span><span class="link-text">Dashboard</span></a>
+    <a href="library.html" title="Library"><span><i class="bi bi-journals text-white"></i></span><span class="link-text">Library</span></a>
+    <a href="submission.html" title="Submit"><span><i class="bi bi-upload text-white"></i></span><span class="link-text">Submit</span></a>
+    <a href="tracker.html" title="Tracker"><span><i class="bi bi-graph-up-arrow text-white"></i></span><span class="link-text">Tracker</span></a>
+    <a href="audit.html" title="Audit"><span><i class="bi bi-search text-white"></i></span><span class="link-text">Audit</span></a>
+    <a href="admin.html" title="Admin"><span><i class="bi bi-person-gear text-white"></i></span><span class="link-text">Admin</span></a>
+    <a href="login.html" title="Login"><span><i class="bi bi-box-arrow-in-right text-white"></i></span><span class="link-text">Login</span></a>
+    <a href="mail.html" title="Mensagens">
+      <span><i class="bi bi-envelope-fill text-white"></i></span>
+      <span class="link-text">Mensagens <span id="msgBadge" class="badge rounded-pill bg-danger badge-msg" style="display:none;">0</span></span>
     </a>
-</div>
-
-  </div>
-
-<main id="mainContent">
-	
-<div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
-<div id="user-info" class="mb-4 text-gray-700"></div>
-    <!-- Formulário para enviar mensagem -->
-    <!-- Formulário para enviar mensagem -->
-<form id="send-form" class="card shadow-sm p-4 mb-4 border-0">
-  <h5 class="mb-3"><i class="bi bi-envelope-fill me-2 text-primary"></i>Nova Mensagem</h5>
-  
-  <div class="mb-3">
-    <label for="to" class="form-label">Destinatário</label>
-    <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" required>
-  </div>
-
-  <div class="mb-3">
-    <label for="subject" class="form-label">Assunto</label>
-    <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
-  </div>
-
-  <div class="mb-3">
-    <label for="body" class="form-label">Mensagem</label>
-    <textarea id="body" class="form-control" rows="4" placeholder="Digite sua mensagem..." required></textarea>
-  </div>
-
-  <div class="d-flex justify-content-end">
-    <button type="reset" class="btn btn-outline-secondary me-2">
-      <i class="bi bi-x-circle me-1"></i> Limpar
-    </button>
-    <button type="submit" class="btn btn-primary">
-      <i class="bi bi-send-fill me-1"></i> Enviar
-    </button>
-  </div>
-</form>
-
-
-    <div class="grid grid-cols-2 gap-6">
-      <!-- Caixa de entrada -->
-      <div>
-        <h2 class="font-semibold text-lg mb-2">📥 Recebidas</h2>
-        <ul id="inbox" class="space-y-2"></ul>
-      </div>
-
-      <!-- Enviadas -->
-      <div>
-        <h2 class="font-semibold text-lg mb-2">📤 Enviadas</h2>
-        <ul id="sent" class="space-y-2"></ul>
-      </div>
+    <div class="logout-container">
+      <a href="#" id="logoutBtn" title="Logout"><span><i class="bi bi-box-arrow-right text-white"></i></span><span class="link-text">Logout</span></a>
     </div>
   </div>
-	
-</body> 
-</main>
+
+  <main id="mainContent">
+    <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
+      <div id="user-info" class="mb-4 text-gray-700"></div>
+
+      <!-- Botão Nova Mensagem -->
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+          <i class="bi bi-plus-circle me-1"></i> Nova Mensagem
+        </button>
+      </div>
+
+      <!-- Listas de mensagens -->
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="mb-3">📥 Recebidas</h4>
+          <div id="inbox" class="list-group"></div>
+        </div>
+        <div class="col-md-6">
+          <h4 class="mb-3">📤 Enviadas</h4>
+          <div id="sent" class="list-group"></div>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
-  <script type="module">
-   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+<!-- Modal Nova Mensagem -->
+<div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="send-form">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newMessageLabel"><i class="bi bi-envelope-fill me-2 text-primary"></i>Nova Mensagem</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="to" class="form-label">Destinatário</label>
+            <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Assunto</label>
+            <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
+          </div>
+          <div class="mb-3">
+            <label for="body" class="form-label">Mensagem</label>
+            <textarea id="body" class="form-control" rows="4" placeholder="Digite sua mensagem..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-1"></i> Limpar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i> Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOi...';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let currentUser = null;
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let currentUser = null;
-
-    async function loadUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        document.getElementById("user-info").innerHTML =
-          `<a href="login.html" class="text-blue-500">Fazer login</a>`;
-        return;
-      }
-      currentUser = user;
-      document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
-      loadMessages();
-      setupRealtime();
-    }
-
-    async function getUserEmail(uid) {
-      if (!uid) return "desconhecido";
-      let { data, error } = await supabase.rpc("get_user_email", { uid: uid });
-      if (error) {
-        console.error("Erro RPC get_user_email:", error);
-        return uid;
-      }
-      return data;
-    }
-
-    async function loadMessages() {
-      // Recebidas
-      let { data: inbox, error: errInbox } = await supabase
-        .from("messages")
-        .select("id, subject, body, is_read, sender, created_at")
-        .eq("receiver", currentUser.id)
-        .order("created_at", { ascending: false });
-
-      if (errInbox) console.error("Erro ao carregar inbox:", errInbox);
-
-      let inboxHTML = "";
-      for (let m of inbox || []) {
-        const senderEmail = await getUserEmail(m.sender);
-        inboxHTML += `
-          <li class="p-2 border rounded ${m.is_read ? 'bg-gray-100' : 'bg-yellow-100'}">
-            <strong>De:</strong> ${senderEmail}<br>
-            <strong>Assunto:</strong> ${m.subject}<br>
-            <span class="text-sm text-gray-600">${m.body}</span>
-            <div class="mt-1 space-x-2">
-              <button onclick="replyMessage('${senderEmail}', '${m.subject}')" class="text-blue-500">Responder</button>
-              <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="text-green-500">Encaminhar</button>
-              <button onclick="deleteMessage('${m.id}')" class="text-red-500">Deletar</button>
-            </div>
-          </li>`;
-      }
-      document.getElementById("inbox").innerHTML = inboxHTML;
-
-      // Enviadas
-      let { data: sent, error: errSent } = await supabase
-        .from("messages")
-        .select("id, subject, body, receiver, created_at")
-        .eq("sender", currentUser.id)
-        .order("created_at", { ascending: false });
-
-      if (errSent) console.error("Erro ao carregar sent:", errSent);
-
-      let sentHTML = "";
-      for (let m of sent || []) {
-        const receiverEmail = await getUserEmail(m.receiver);
-        sentHTML += `
-          <li class="p-2 border rounded bg-gray-50">
-            <strong>Para:</strong> ${receiverEmail}<br>
-            <strong>Assunto:</strong> ${m.subject}<br>
-            <span class="text-sm text-gray-600">${m.body}</span>
-            <div class="mt-1 space-x-2">
-              <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="text-green-500">Encaminhar</button>
-              <button onclick="deleteMessage('${m.id}')" class="text-red-500">Deletar</button>
-            </div>
-          </li>`;
-      }
-      document.getElementById("sent").innerHTML = sentHTML;
-    }
-
-    document.getElementById("send-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const toEmail = document.getElementById("to").value;
-      const subject = document.getElementById("subject").value;
-      const body = document.getElementById("body").value;
-
-      let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
-      if (error || !users || users.length === 0) {
-        alert("Usuário não encontrado.");
-        return;
-      }
-
-      const receiverId = users[0].id;
-
-      await supabase.from("messages").insert([{
-        sender: currentUser.id,
-        receiver: receiverId,
-        subject,
-        body
-      }]);
-
-      e.target.reset();
-      loadMessages();
-    });
-
-    // Responder, encaminhar, deletar
-    window.replyMessage = (toEmail, subject) => {
-      document.getElementById("to").value = toEmail;
-      document.getElementById("subject").value = "Re: " + subject;
-      document.getElementById("body").focus();
-    }
-
-    window.forwardMessage = (subject, body) => {
-      document.getElementById("to").value = "";
-      document.getElementById("subject").value = "Fwd: " + subject;
-      document.getElementById("body").value = body;
-      document.getElementById("body").focus();
-    }
-
-    window.deleteMessage = async (messageId) => {
-      if (!confirm("Deseja realmente deletar esta mensagem?")) return;
-      await supabase.from("messages").delete().eq("id", messageId);
-      loadMessages();
-    }
-
-    // 🔹 Configurar Realtime para inbox
-    function setupRealtime() {
-      supabase
-        .channel('public:messages')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'messages', filter: `receiver=eq.${currentUser.id}` },
-          payload => {
-            console.log("Nova mensagem recebida:", payload);
-            loadMessages(); // Atualiza lista automaticamente
-          }
-        )
-        .subscribe();
-    }
-
-    loadUser();
-  </script>
-<script>
-function toggleSidebar() {
-  const sidebar = document.getElementById("mySidebar");
-  sidebar.classList.toggle("collapsed");
+async function loadUser() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) { document.getElementById("user-info").innerHTML = `<a href="login.html" class="text-blue-500">Fazer login</a>`; return; }
+  currentUser = user;
+  document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
+  loadMessages();
+  setupRealtime();
 }
+
+async function getUserEmail(uid) {
+  if (!uid) return "desconhecido";
+  let { data, error } = await supabase.rpc("get_user_email", { uid: uid });
+  return error ? uid : data;
+}
+
+async function loadMessages() {
+  let { data: inbox } = await supabase.from("messages").select("id, subject, body, is_read, sender, created_at").eq("receiver", currentUser.id).order("created_at", { ascending: false });
+  let unreadCount = 0;
+  let inboxHTML = "";
+  for (let m of inbox || []) {
+    if (!m.is_read) unreadCount++;
+    const senderEmail = await getUserEmail(m.sender);
+    inboxHTML += `<div class="list-group-item ${m.is_read ? '' : 'list-group-item-warning'}">
+      <div><strong>De:</strong> ${senderEmail}</div>
+      <div><strong>Assunto:</strong> ${m.subject}</div>
+      <p class="mb-1 text-muted">${m.body}</p>
+      <div class="mt-2">
+        <button onclick="replyMessage('${senderEmail}', '${m.subject}')" class="btn btn-sm btn-outline-primary me-1">Responder</button>
+        <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
+        <button onclick="deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
+      </div>
+    </div>`;
+  }
+  document.getElementById("inbox").innerHTML = inboxHTML;
+
+  // Atualizar badge de não lidas
+  const badge = document.getElementById("msgBadge");
+  if (unreadCount > 0) {
+    badge.innerText = unreadCount;
+    badge.style.display = "inline-block";
+  } else {
+    badge.style.display = "none";
+  }
+
+  let { data: sent } = await supabase.from("messages").select("id, subject, body, receiver, created_at").eq("sender", currentUser.id).order("created_at", { ascending: false });
+  let sentHTML = "";
+  for (let m of sent || []) {
+    const receiverEmail = await getUserEmail(m.receiver);
+    sentHTML += `<div class="list-group-item">
+      <div><strong>Para:</strong> ${receiverEmail}</div>
+      <div><strong>Assunto:</strong> ${m.subject}</div>
+      <p class="mb-1 text-muted">${m.body}</p>
+      <div class="mt-2">
+        <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
+        <button onclick="deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
+      </div>
+    </div>`;
+  }
+  document.getElementById("sent").innerHTML = sentHTML;
+}
+
+document.getElementById("send-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const toEmail = document.getElementById("to").value;
+  const subject = document.getElementById("subject").value;
+  const body = document.getElementById("body").value;
+  let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
+  if (error || !users || users.length === 0) { alert("Usuário não encontrado."); return; }
+  const receiverId = users[0].id;
+  await supabase.from("messages").insert([{ sender: currentUser.id, receiver: receiverId, subject, body }]);
+  e.target.reset();
+  loadMessages();
+});
+
+window.replyMessage = (toEmail, subject) => {
+  document.getElementById("to").value = toEmail;
+  document.getElementById("subject").value = "Re: " + subject;
+  document.getElementById("body").focus();
+  new bootstrap.Modal(document.getElementById('newMessageModal')).show();
+};
+
+window.forwardMessage = (subject, body) => {
+  document.getElementById("to").value = "";
+  document.getElementById("subject").value = "Fwd: " + subject;
+  document.getElementById("body").value = body;
+  document.getElementById("body").focus();
+  new bootstrap.Modal(document.getElementById('newMessageModal')).show();
+};
+
+window.deleteMessage = async (messageId) => {
+  if (!confirm("Deseja realmente deletar esta mensagem?")) return;
+  await supabase.from("messages").delete().eq("id", messageId);
+  loadMessages();
+};
+
+function setupRealtime() {
+  supabase.channel('public:messages').on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `receiver=eq.${currentUser.id}` }, payload => { loadMessages(); }).subscribe();
+}
+
+loadUser();
 </script>
- 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>function toggleSidebar(){document.getElementById("mySidebar").classList.toggle("collapsed");}</script>
+</div>
+</body>
 </html>
