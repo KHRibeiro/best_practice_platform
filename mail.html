@@ -138,6 +138,13 @@ async function markAsRead(messageId) {
   loadMessages();
 }
 
+window.markAsRead = async (messageId) => {
+  await supabase.from("messages")
+    .update({ is_read: true })
+    .eq("id", messageId);
+  loadMessages();
+};
+
 async function loadMessages() {
   let { data: inbox } = await supabase.from("messages").select("id, subject, body, is_read, sender, created_at").eq("receiver", currentUser.id).order("created_at", { ascending: false });
   let unreadCount = 0;
