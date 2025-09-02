@@ -662,55 +662,57 @@ const supabase = createClient(
 
 let usuariosSelecionados = [];
 
-// Buscar usuários das plantas selecionadas e exibir lista
-window.buscarUsuarios = async function() {
- const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
-                            .map(cb => cb.value);
-
-  if (!selecionadas.length) {
-    document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhuma planta selecionada.</p>";
-    return;
-  }
-
+window.buscarUsuarios = async function () {
   try {
+    // Buscar usuários da tabela "users"
     let { data: usuarios, error } = await supabase
-      .from("users") // ajuste o nome da tabela de usuários se for diferente
-      .select("id, name, email, plant_code");
+      .from("users")
+      .select("id, name, email, plant_code"); // ajuste os campos conforme seu schema
 
-    if (error) throw error;
-
-    if (!usuarios || !usuarios.length) {
-      document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhum usuário encontrado.</p>";
+    if (error) {
+      console.error("Erro ao buscar usuários:", error.message);
       return;
     }
 
-    // 🔹 Se existir a coluna plant_code, aplica filtro
-    let usuariosFiltrados;
-    if (usuarios[0].plant_code !== undefined) {
-      usuariosFiltrados = usuarios.filter(u => selecionadas.includes(u.plant_code));
-    } else {
-      usuariosFiltrados = usuarios; // 🔹 Caso não exista plant_code, pega todos
-    }
-
-    if (!usuariosFiltrados.length) {
-      document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhum usuário encontrado nas plantas selecionadas.</p>";
+    const container = document.getElementById("usuariosEncontrados");
+    if (!container) {
+      console.error("Elemento #usuariosEncontrados não encontrado no DOM");
       return;
     }
 
-    // Monta checkboxes (já marcados por padrão)
-    const html = usuariosFiltrados.map(u => `
-      <label>
-        <input type="checkbox" name="usuarios" value="${u.id}" checked>
-        ${u.name} (${u.email})
-      </label><br>
-    `).join("");
+    // Recupera plantas selecionadas
+    const plantasSelecionadas = Array.from(
+      document.querySelectorAll(".checkbox:checked")
+    ).map((el) => el.value);
 
-    document.getElementById("usuariosEncontrados").innerHTML = html;
+    // Filtra usuários pelas plantas selecionadas
+    const usuariosFiltrados = usuarios.filter((u) =>
+      plantasSelecionadas.includes(u.plant_code)
+    );
+
+    // Atualiza container
+    if (usuariosFiltrados.length === 0) {
+      container.innerHTML = "<p>Nenhum usuário encontrado nas plantas selecionadas.</p>";
+      return;
+    }
+
+    container.innerHTML = usuariosFiltrados
+      .map(
+        (u) => `
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="${u.id}" id="user_${u.id}">
+          <label class="form-check-label" for="user_${u.id}">
+            ${u.name || u.email}
+          </label>
+        </div>
+      `
+      )
+      .join("");
   } catch (err) {
-    console.error("Erro ao buscar usuários:", err);
-    document.getElementById("usuariosEncontrados").innerHTML = "<p>Erro ao buscar usuários.</p>";
+    console.error("Erro inesperado ao buscar usuários:", err);
   }
 };
+
 
 // Enviar mensagens apenas para usuários marcados
 window.enviarMensagem = async function() {
@@ -877,6 +879,7 @@ if (!titulo || !mensagem) {
 
 </body>
 </html>
+
 
 
 
