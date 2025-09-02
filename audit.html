@@ -662,13 +662,14 @@ window.enviarMensagem = async function() {
   const tituloElem = document.getElementById('tituloMelhoriaSelecionada');
   const mensagemElem = document.getElementById('mensagemCompartilhamento');
 
-  const titulo = tituloElem && tituloElem.value ? tituloElem.value.trim() : "";
-  const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
+  const titulo = tituloElem && tituloElem.textContent ? tituloElem.textContent.trim() : "";
+const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
 
-  if (!titulo || !mensagem) {
-     alert("Preencha título e mensagem.");
-    return;
-  }
+if (!titulo || !mensagem) {
+   alert("Preencha título e mensagem.");
+   return;
+}
+
 
   // Seleciona usuários marcados
   const checkboxes = document.querySelectorAll('input[name="usuarios"]:checked');
@@ -818,6 +819,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
