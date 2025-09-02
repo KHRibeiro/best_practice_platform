@@ -141,26 +141,26 @@ async function markAsRead(messageId) {
 }
 
 async function loadUsersForAutocomplete() {
-  let { data: users, error } = await supabase.from("auth.users").select("id, email");
-  if (error) {
-    console.error("Erro ao carregar usuários:", error);
-    return;
-  }
+  let { data: inbox } = await supabase.from("messages").select("sender");
+  let { data: sent } = await supabase.from("messages").select("receiver");
+
+  const ids = new Set([
+    ...(inbox || []).map(m => m.sender),
+    ...(sent || []).map(m => m.receiver)
+  ]);
+
   const datalist = document.getElementById("usersList");
   datalist.innerHTML = "";
-  users.forEach(u => {
-    const option = document.createElement("option");
-    option.value = u.email;
-    datalist.appendChild(option);
-  });
-}
 
-window.markAsRead = async (messageId) => {
-  await supabase.from("messages")
-    .update({ is_read: true })
-    .eq("id", messageId);
-  loadMessages();
-};
+  for (let uid of ids) {
+    const email = await getUserEmail(uid);
+    if (email && email !== "desconhecido") {
+      const option = document.createElement("option");
+      option.value = email;
+      datalist.appendChild(option);
+    }
+  }
+}
 
 async function loadMessages() {
   let { data: inbox } = await supabase.from("messages").select("id, subject, body, is_read, sender, created_at").eq("receiver", currentUser.id).order("created_at", { ascending: false });
