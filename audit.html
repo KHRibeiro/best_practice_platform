@@ -664,50 +664,52 @@ let usuariosSelecionados = [];
 
 // Buscar usuários das plantas selecionadas e exibir lista
 window.buscarUsuarios = async function() {
-  // Seleciona checkboxes marcados
-  const checkboxes = document.querySelectorAll('.checkbox:checked');
-  const plantas = Array.from(checkboxes)
-    .map(cb => cb.value ? cb.value.trim() : "")
-    .filter(p => p);
+ const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
+                            .map(cb => cb.value);
 
-  if (!plantas.length) {
-    alert("Selecione pelo menos uma planta.");
+  if (!selecionadas.length) {
+    document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhuma planta selecionada.</p>";
     return;
   }
 
-  console.log('Plantas selecionadas:', plantas);
+  try {
+    let { data: usuarios, error } = await supabase
+      .from("users") // ajuste o nome da tabela de usuários se for diferente
+      .select("id, name, email, plant_code");
 
-  // Construir query OR para Supabase
-  const orQuery = plantas.map(p => `site_region.ilike.'%${p}%'`).join(",");
-  const { data: usuarios, error } = await supabase
-    .from("users")
-    .select("id, email, site_region")
-    .or(orQuery);
+    if (error) throw error;
 
-  if (error) {
-    console.error("Erro ao buscar usuários:", error);
-    alert("Erro ao buscar usuários.");
-    return;
+    if (!usuarios || !usuarios.length) {
+      document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhum usuário encontrado.</p>";
+      return;
+    }
+
+    // 🔹 Se existir a coluna plant_code, aplica filtro
+    let usuariosFiltrados;
+    if (usuarios[0].plant_code !== undefined) {
+      usuariosFiltrados = usuarios.filter(u => selecionadas.includes(u.plant_code));
+    } else {
+      usuariosFiltrados = usuarios; // 🔹 Caso não exista plant_code, pega todos
+    }
+
+    if (!usuariosFiltrados.length) {
+      document.getElementById("usuariosEncontrados").innerHTML = "<p>Nenhum usuário encontrado nas plantas selecionadas.</p>";
+      return;
+    }
+
+    // Monta checkboxes (já marcados por padrão)
+    const html = usuariosFiltrados.map(u => `
+      <label>
+        <input type="checkbox" name="usuarios" value="${u.id}" checked>
+        ${u.name} (${u.email})
+      </label><br>
+    `).join("");
+
+    document.getElementById("usuariosEncontrados").innerHTML = html;
+  } catch (err) {
+    console.error("Erro ao buscar usuários:", err);
+    document.getElementById("usuariosEncontrados").innerHTML = "<p>Erro ao buscar usuários.</p>";
   }
-
-  if (!usuarios || usuarios.length === 0) {
-    alert("Nenhum usuário encontrado nas plantas selecionadas.");
-    return;
-  }
-
-  usuariosSelecionados = usuarios;
-
-  // Exibir usuários com checkbox para desmarcar
-  const container = document.getElementById('usuariosEncontrados');
-  container.innerHTML = "<strong>Usuários encontrados:</strong><br>";
-
-  usuarios.forEach(u => {
-    const div = document.createElement('div');
-    div.innerHTML = `<label>
-      <input type="checkbox" name="usuarios" value="${u.id}" checked> ${u.email || '(sem email)'} (${u.site_region || '(sem planta)'})
-    </label>`;
-    container.appendChild(div);
-  });
 };
 
 // Enviar mensagens apenas para usuários marcados
@@ -879,6 +881,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
