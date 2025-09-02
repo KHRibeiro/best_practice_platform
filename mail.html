@@ -247,28 +247,8 @@ function setupRealtime() {
   supabase.channel('public:messages').on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `receiver=eq.${currentUser.id}` }, payload => { loadMessages(); }).subscribe();
 }
 
-async function buscarRegiaoDoDestinatario(email) {
-    const { data, error } = await supabase
-      .from('users')
-      .select('site_region')
-      .eq('email', email)
-      .single();
-
-    if (error) {
-      console.error('Erro ao buscar região:', error);
-      return;
-    }
-
-    // Exibir a região no formulário
-    document.getElementById('regiaoDestinatario').textContent = `Região: ${data.site_region}`;
-  }
-
-  // Exemplo: ao sair do campo de destinatário
-  document.getElementById('destinatario').addEventListener('blur', (e) => {
-    buscarRegiaoDoDestinatario(e.target.value);
-  });
-
 loadUser();
+  
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>function toggleSidebar(){document.getElementById("mySidebar").classList.toggle("collapsed");}</script>
