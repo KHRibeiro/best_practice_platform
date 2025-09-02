@@ -608,7 +608,11 @@ window.enviarMensagem = async function () {
   }
 
   const mensagem = document.getElementById('mensagemCompartilhamento').value;
-  const plantas = document.getElementById('destinatariosSelecionados').textContent.split(';').map(p => p.trim());
+  const plantas = document.getElementById('destinatariosSelecionados')
+    .textContent
+    .split(';')
+    .map(p => p.trim().toUpperCase())  // 🔹 normaliza em maiúsculas
+    .filter(p => p);
   const titulo = document.getElementById('tituloMelhoriaSelecionada').textContent;
 
   if (!plantas.length) {
@@ -616,7 +620,7 @@ window.enviarMensagem = async function () {
     return;
   }
 
-  // Buscar usuários das plantas selecionadas
+  // Buscar usuários das plantas selecionadas (também comparando em maiúsculas)
   const { data: usuarios, error: userError } = await supabase
     .from("users")
     .select("id, email, site_region")
@@ -650,10 +654,20 @@ window.enviarMensagem = async function () {
     alert("Erro ao enviar mensagens.");
   } else {
     alert(`Mensagem enviada com sucesso para ${usuarios.length} usuário(s)!`);
+
+    // Registrar no log de auditoria
+    await supabase.from("audit_log").insert([{
+      user_id: user.id,
+      action: "COMPARTILHAMENTO",
+      detail: `Mensagem enviada para ${usuarios.length} usuário(s) das plantas: ${plantas.join(", ")}`,
+      created_at: new Date().toISOString()
+    }]);
+
     const modal = bootstrap.Modal.getInstance(document.getElementById('modalCompartilhar'));
     modal.hide();
   }
 };
+
 </script>
 
 
@@ -762,6 +776,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
