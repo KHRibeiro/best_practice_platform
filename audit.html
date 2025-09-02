@@ -573,23 +573,83 @@ function filterTable() {
 <script>
   let melhoriaSelecionadaId = null;
 
-  function abrirModalCompartilhamento(id, titulo) {
-    melhoriaSelecionadaId = id;
-    const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
-                              .map(cb => cb.value)
-                              .join('; ');
+  // Abre o modal de compartilhamento
+function abrirModalCompartilhamento(id, titulo) {
+  melhoriaSelecionadaId = id;
 
-    if (!selecionadas) {
-      alert('Select at least one plant to share.');
-      return;
-    }
+  // Verifica plantas selecionadas
+  const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
+                            .map(cb => cb.value)
+                            .join('; ');
 
-    document.getElementById('destinatariosSelecionados').textContent = selecionadas;
-    document.getElementById('tituloMelhoriaSelecionada').textContent = titulo;
-
-    const modal = new bootstrap.Modal(document.getElementById('modalCompartilhar'));
-    modal.show();
+  if (!selecionadas) {
+    alert('Select at least one plant to share.');
+    return;
   }
+
+  // Preenche informações no modal
+  document.getElementById('destinatariosSelecionados').textContent = selecionadas;
+  document.getElementById('tituloMelhoriaSelecionada').textContent = titulo;
+
+  // 🔹 Buscar usuários para exibir no modal
+  buscarUsuarios();
+
+  // Exibe modal
+  const modal = new bootstrap.Modal(document.getElementById('modalCompartilhar'));
+  modal.show();
+}
+
+// Envia mensagem para usuários selecionados
+async function enviarMensagem() {
+  const tituloElem = document.getElementById('tituloMelhoriaSelecionada');
+  const mensagemElem = document.getElementById('mensagemCompartilhamento');
+
+  // Corrigido: titulo vem de um <span>, então é textContent
+  const titulo = tituloElem && tituloElem.textContent ? tituloElem.textContent.trim() : "";
+  const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
+
+  if (!titulo || !mensagem) {
+    alert("Preencha título e mensagem.");
+    return;
+  }
+
+  // Seleciona usuários marcados
+  const checkboxes = document.querySelectorAll('input[name="usuarios"]:checked');
+  const idsSelecionados = Array.from(checkboxes).map(cb => cb.value).filter(id => id);
+
+  if (!idsSelecionados.length) {
+    alert("Nenhum usuário selecionado para enviar mensagem.");
+    return;
+  }
+
+  try {
+    // Insere mensagens no Supabase
+    const { error } = await supabase.from("messages").insert(
+      idsSelecionados.map(id => ({
+        sender_id: userId,            // remetente (usuário logado)
+        receiver_id: id,              // destinatário
+        title: titulo,                // título da melhoria
+        content: mensagem,            // conteúdo digitado
+        created_at: new Date()
+      }))
+    );
+
+    if (error) throw error;
+
+    alert("Mensagem enviada com sucesso!");
+
+    // Fecha modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalCompartilhar'));
+    modal.hide();
+
+    // Limpa campo de mensagem
+    mensagemElem.value = "";
+  } catch (err) {
+    console.error("Erro ao enviar mensagem:", err);
+    alert("Erro ao enviar mensagem.");
+  }
+}
+
 </script>
 
 <script type="module">
@@ -819,6 +879,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
