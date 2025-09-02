@@ -359,9 +359,9 @@ async function loadMessageInfo() {
   const count = inbox.length;
   const msgInfo = document.getElementById("msgInfo");
   if (count > 0) {
-    msgInfo.innerHTML = `Você tem <strong>${count}</strong> nova(s) mensagem(ns).`;
+    msgInfo.innerHTML = `You have <strong>${count}</strong> new message(s).`;
   } else {
-    msgInfo.innerText = "Nenhuma nova mensagem.";
+    msgInfo.innerText = "There are no new messages.";
   }
 }
 
