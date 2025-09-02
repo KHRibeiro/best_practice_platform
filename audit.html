@@ -277,23 +277,23 @@ main {
   </div>
 
   <div class="checkbox-grid">
-    <label><input type="checkbox" value="AUB" class="checkbox">AUB</label>
-    <label><input type="checkbox" value="BON" class="checkbox">BON</label>
-    <label><input type="checkbox" value="BRU" class="checkbox">BRU</label>
-    <label><input type="checkbox" value="CIN" class="checkbox">CIN</label>
-    <label><input type="checkbox" value="DAN" class="checkbox">DAN</label>
-    <label><input type="checkbox" value="FIL" class="checkbox">FIL</label>
-    <label><input type="checkbox" value="GLA" class="checkbox">GLA</label>
-    <label><input type="checkbox" value="HOR" class="checkbox">HOR</label>
-    <label><input type="checkbox" value="INC" class="checkbox">INC</label>
-    <label><input type="checkbox" value="MIL" class="checkbox">MIL</label>
-    <label><input type="checkbox" value="NAG" class="checkbox">NAG</label>
-    <label><input type="checkbox" value="PAS" class="checkbox">PAS</label>
-    <label><input type="checkbox" value="PIM" class="checkbox">PIM</label>
-    <label><input type="checkbox" value="SAL" class="checkbox">SAL</label>
-    <label><input type="checkbox" value="SIT" class="checkbox">SIT</label>
-    <label><input type="checkbox" value="WIS" class="checkbox">WIS</label>
-    <label><input type="checkbox" value="YIZ" class="checkbox">YIZ</label>
+    <label><input type="checkbox" value="AUB" class="checkbox"> AUB</label>
+    <label><input type="checkbox" value="BON" class="checkbox"> BON</label>
+    <label><input type="checkbox" value="BRU" class="checkbox"> BRU</label>
+    <label><input type="checkbox" value="CIN" class="checkbox"> CIN</label>
+    <label><input type="checkbox" value="DAN" class="checkbox"> DAN</label>
+    <label><input type="checkbox" value="FIL" class="checkbox"> FIL</label>
+    <label><input type="checkbox" value="GLA" class="checkbox"> GLA</label>
+    <label><input type="checkbox" value="HOR" class="checkbox"> HOR</label>
+    <label><input type="checkbox" value="INC" class="checkbox"> INC</label>
+    <label><input type="checkbox" value="MIL" class="checkbox"> MIL</label>
+    <label><input type="checkbox" value="NAG" class="checkbox"> NAG</label>
+    <label><input type="checkbox" value="PAS" class="checkbox"> PAS</label>
+    <label><input type="checkbox" value="PIM" class="checkbox"> PIM</label>
+    <label><input type="checkbox" value="SAL" class="checkbox"> SAL</label>
+    <label><input type="checkbox" value="SIT" class="checkbox"> SIT</label>
+    <label><input type="checkbox" value="WIS" class="checkbox"> WIS</label>
+    <label><input type="checkbox" value="YIZ" class="checkbox"> YIZ</label>
   </div>
 </section>
 
@@ -573,209 +573,40 @@ function filterTable() {
 <script>
   let melhoriaSelecionadaId = null;
 
-  // Abre o modal de compartilhamento
-function abrirModalCompartilhamento(id, titulo) {
-  melhoriaSelecionadaId = id;
+  function abrirModalCompartilhamento(id, titulo) {
+    melhoriaSelecionadaId = id;
+    const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
+                              .map(cb => cb.value)
+                              .join('; ');
 
-  // Verifica plantas selecionadas
-  const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
-                            .map(cb => cb.value)
-                            .join('; ');
+    if (!selecionadas) {
+      alert('Select at least one plant to share.');
+      return;
+    }
 
-  if (!selecionadas) {
-    alert('Select at least one plant to share.');
-    return;
+    document.getElementById('destinatariosSelecionados').textContent = selecionadas;
+    document.getElementById('tituloMelhoriaSelecionada').textContent = titulo;
+
+    const modal = new bootstrap.Modal(document.getElementById('modalCompartilhar'));
+    modal.show();
   }
 
-  // Preenche informações no modal
-  document.getElementById('destinatariosSelecionados').textContent = selecionadas;
-  document.getElementById('tituloMelhoriaSelecionada').textContent = titulo;
+  function enviarMensagem() {
+    const mensagem = document.getElementById('mensagemCompartilhamento').value;
+    const plantas = document.getElementById('destinatariosSelecionados').textContent;
+    const titulo = document.getElementById('tituloMelhoriaSelecionada').textContent;
 
-  // 🔹 Buscar usuários para exibir no modal
-  buscarUsuarios();
+    // Aqui você poderia integrar com Supabase, e-mail ou outra lógica de backend
+    console.log('Enviando melhoria:', titulo);
+    console.log('ID:', melhoriaSelecionadaId);
+    console.log('Para plantas:', plantas);
+    console.log('Mensagem:', mensagem);
 
-  // Exibe modal
-  const modal = new bootstrap.Modal(document.getElementById('modalCompartilhar'));
-  modal.show();
-}
+    alert(`Mensagem enviada com sucesso para: ${plantas}`);
 
-// Envia mensagem para usuários selecionados
-async function enviarMensagem() {
-  const tituloElem = document.getElementById('tituloMelhoriaSelecionada');
-  const mensagemElem = document.getElementById('mensagemCompartilhamento');
-
-  // Corrigido: titulo vem de um <span>, então é textContent
-  const titulo = tituloElem && tituloElem.textContent ? tituloElem.textContent.trim() : "";
-  const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
-
-  if (!titulo || !mensagem) {
-    alert("Preencha título e mensagem.");
-    return;
-  }
-
-  // Seleciona usuários marcados
-  const checkboxes = document.querySelectorAll('input[name="usuarios"]:checked');
-  const idsSelecionados = Array.from(checkboxes).map(cb => cb.value).filter(id => id);
-
-  if (!idsSelecionados.length) {
-    alert("Nenhum usuário selecionado para enviar mensagem.");
-    return;
-  }
-
-  try {
-    // Insere mensagens no Supabase
-    const { error } = await supabase.from("messages").insert(
-      idsSelecionados.map(id => ({
-        sender_id: userId,            // remetente (usuário logado)
-        receiver_id: id,              // destinatário
-        title: titulo,                // título da melhoria
-        content: mensagem,            // conteúdo digitado
-        created_at: new Date()
-      }))
-    );
-
-    if (error) throw error;
-
-    alert("Mensagem enviada com sucesso!");
-
-    // Fecha modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('modalCompartilhar'));
     modal.hide();
-
-    // Limpa campo de mensagem
-    mensagemElem.value = "";
-  } catch (err) {
-    console.error("Erro ao enviar mensagem:", err);
-    alert("Erro ao enviar mensagem.");
   }
-}
-
-</script>
-
-<script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-let usuariosSelecionados = [];
-
-window.buscarUsuarios = async function () {
-  try {
-    // Buscar usuários da tabela "users"
-    let { data: usuarios, error } = await supabase
-      .from("users")
-      .select("id, email, site_region"); // ajuste os campos conforme seu schema
-
-    if (error) {
-      console.error("Erro ao buscar usuários:", error.message);
-      return;
-    }
-
-    const container = document.getElementById("usuariosEncontrados");
-    if (!container) {
-      console.error("Elemento #usuariosEncontrados não encontrado no DOM");
-      return;
-    }
-
-    // Recupera plantas selecionadas
-    const plantasSelecionadas = Array.from(
-      document.querySelectorAll(".checkbox:checked")
-    ).map((el) => el.value);
-
-    // Filtra usuários pelas plantas selecionadas
-    const usuariosFiltrados = usuarios.filter((u) =>
-      plantasSelecionadas.includes(u.plant_code)
-    );
-
-    // Atualiza container
-    if (usuariosFiltrados.length === 0) {
-      container.innerHTML = "<p>Nenhum usuário encontrado nas plantas selecionadas.</p>";
-      return;
-    }
-
-    container.innerHTML = usuariosFiltrados
-      .map(
-        (u) => `
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="${u.id}" id="user_${u.id}">
-          <label class="form-check-label" for="user_${u.id}">
-            ${u.name || u.email}
-          </label>
-        </div>
-      `
-      )
-      .join("");
-  } catch (err) {
-    console.error("Erro inesperado ao buscar usuários:", err);
-  }
-};
-
-
-// Enviar mensagens apenas para usuários marcados
-window.enviarMensagem = async function() {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    alert("Você precisa estar logado.");
-    return;
-  }
-
-  // Captura título e mensagem com proteção
-  const tituloElem = document.getElementById('tituloMelhoriaSelecionada');
-  const mensagemElem = document.getElementById('mensagemCompartilhamento');
-
-  const titulo = tituloElem && tituloElem.textContent ? tituloElem.textContent.trim() : "";
-const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
-
-if (!titulo || !mensagem) {
-   alert("Preencha título e mensagem.");
-   return;
-}
-
-
-  // Seleciona usuários marcados
-  const checkboxes = document.querySelectorAll('input[name="usuarios"]:checked');
-  const idsSelecionados = Array.from(checkboxes).map(cb => cb.value).filter(id => id);
-
-  if (!idsSelecionados.length) {
-    alert("Nenhum usuário selecionado para enviar mensagem.");
-    return;
-  }
-
-  const usuariosFinal = usuariosSelecionados.filter(u => idsSelecionados.includes(u.id));
-
-  const { error } = await supabase.from("messages").insert(
-    usuariosFinal.map(u => ({
-      sender: user.id,
-      receiver: u.id,
-      subject: `Nova melhoria aprovada: ${titulo}`,
-      body: mensagem,
-      is_read: false,
-      created_at: new Date().toISOString()
-    }))
-  );
-
-  if (error) {
-    console.error("Erro ao enviar mensagens:", error);
-    alert("Erro ao enviar mensagens.");
-    return;
-  }
-
-  alert(`Mensagem enviada com sucesso para ${usuariosFinal.length} usuário(s)!`);
-
-  // Registrar no log de auditoria
-  await supabase.from("audit_log").insert([{
-    user_id: user.id,
-    action: "COMPARTILHAMENTO",
-    detail: `Mensagem enviada para ${usuariosFinal.length} usuário(s) das plantas selecionadas`,
-    created_at: new Date().toISOString()
-  }]);
-
-  // Limpar lista de usuários
-  document.getElementById('usuariosEncontrados').innerHTML = "";
-};
 </script>
 
 <script type="module">
@@ -839,111 +670,47 @@ if (!titulo || !mensagem) {
 <div class="modal fade" id="modalCompartilhar" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      
       <div class="modal-header">
         <h5 class="modal-title">Share Approved Best Practice</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
-
       <div class="modal-body">
-        <!-- Título da melhoria -->
-        <p><strong>Title:</strong> <span id="tituloMelhoriaSelecionada"></span></p>
+        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaSelecionada"></span></p>
+        <p><strong>Para:</strong> <span id="destinatariosSelecionados"></span></p>
+        <textarea id="mensagemCompartilhamento" class="form-control" rows="5">
+The improvement above has been approved and is available for implementation in the selected plants.
+        </textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <!-- Plantas selecionadas -->
-        <p><strong>Plants:</strong> <span id="destinatariosSelecionados"></span></p>
-
-        <!-- 🔹 Container para exibir os usuários encontrados -->
-        <div class="mt-3">
-          <strong>Recipients:</strong>
-          <div id="usuariosEncontrados" class="mt-2">
-            <!-- Aqui os checkboxes de usuários serão inseridos via buscarUsuarios() -->
-          </div>
-        </div>
-
-        <!-- Campo mensagem -->
-        <div class="mt-3">
-          <label for="mensagemCompartilhada" class="form-label">Message:</label>
-          <textarea id="mensagemCompartilhada" class="form-control" rows="3"></textarea>
+<div class="modal fade" id="modalAprovacao" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloModalAprovacao">Aprovar melhoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaModal"></span></p>
+        <div class="form-floating">
+          <textarea class="form-control" id="comentarioAuditor" placeholder="Comentário (opcional)" style="height: 100px"></textarea>
+          <label for="comentarioAuditor">Comentário para o autor (opcional)</label>
         </div>
       </div>
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="enviarMensagem()">Send</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" id="confirmarAcaoBtn" onclick="confirmarAcaoAprovacao()">Confirmar</button>
       </div>
     </div>
   </div>
 </div>
 
 
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
