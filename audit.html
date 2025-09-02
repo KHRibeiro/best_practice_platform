@@ -837,50 +837,47 @@ if (!titulo || !mensagem) {
 <div class="modal fade" id="modalCompartilhar" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+      
       <div class="modal-header">
         <h5 class="modal-title">Share Approved Best Practice</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <div class="modal-body">
-        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaSelecionada"></span></p>
-        <p><strong>Para:</strong> <span id="destinatariosSelecionados"></span></p>
-        <textarea id="mensagemCompartilhamento" class="form-control" rows="5">
-The improvement above has been approved and is available for implementation in the selected plants.
-        </textarea>
+        <!-- Título da melhoria -->
+        <p><strong>Title:</strong> <span id="tituloMelhoriaSelecionada"></span></p>
+
+        <!-- Plantas selecionadas -->
+        <p><strong>Plants:</strong> <span id="destinatariosSelecionados"></span></p>
+
+        <!-- 🔹 Container para exibir os usuários encontrados -->
+        <div class="mt-3">
+          <strong>Recipients:</strong>
+          <div id="usuariosEncontrados" class="mt-2">
+            <!-- Aqui os checkboxes de usuários serão inseridos via buscarUsuarios() -->
+          </div>
+        </div>
+
+        <!-- Campo mensagem -->
+        <div class="mt-3">
+          <label for="mensagemCompartilhada" class="form-label">Message:</label>
+          <textarea id="mensagemCompartilhada" class="form-control" rows="3"></textarea>
+        </div>
       </div>
+
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="enviarMensagem()">Send</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="modalAprovacao" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="tituloModalAprovacao">Aprovar melhoria</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaModal"></span></p>
-        <div class="form-floating">
-          <textarea class="form-control" id="comentarioAuditor" placeholder="Comentário (opcional)" style="height: 100px"></textarea>
-          <label for="comentarioAuditor">Comentário para o autor (opcional)</label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" id="confirmarAcaoBtn" onclick="confirmarAcaoAprovacao()">Confirmar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 </body>
 </html>
+
 
 
 
