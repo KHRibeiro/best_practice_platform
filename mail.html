@@ -91,7 +91,8 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="to" class="form-label">Destinatário</label>
-            <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" required>
+            <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" list="usersList" required>
+            <datalist id="usersList"></datalist>
           </div>
           <div class="mb-3">
             <label for="subject" class="form-label">Assunto</label>
@@ -122,6 +123,7 @@ async function loadUser() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { document.getElementById("user-info").innerHTML = `<a href="login.html" class="text-blue-500">Fazer login</a>`; return; }
   currentUser = user;
+  loadUsersForAutocomplete();
   document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
   loadMessages();
   setupRealtime();
@@ -136,6 +138,21 @@ async function getUserEmail(uid) {
 async function markAsRead(messageId) {
   await supabase.from("messages").update({ is_read: true }).eq("id", messageId);
   loadMessages();
+}
+
+async function loadUsersForAutocomplete() {
+  let { data: users, error } = await supabase.from("auth.users").select("id, email");
+  if (error) {
+    console.error("Erro ao carregar usuários:", error);
+    return;
+  }
+  const datalist = document.getElementById("usersList");
+  datalist.innerHTML = "";
+  users.forEach(u => {
+    const option = document.createElement("option");
+    option.value = u.email;
+    datalist.appendChild(option);
+  });
 }
 
 window.markAsRead = async (messageId) => {
