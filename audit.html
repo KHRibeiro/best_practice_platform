@@ -626,6 +626,10 @@ window.enviarMensagem = async function () {
     .select("id, email, site_region")
     .in("site_region", plantas);
 
+	console.log('Plantas selecionadas:', plantasSelecionadas);
+	console.log('Usuarios retornados:', usuarios);
+
+	
   if (userError) {
     console.error(userError);
     alert("Erro ao buscar usuários.");
@@ -776,6 +780,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
