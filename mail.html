@@ -22,6 +22,8 @@
   body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
   header { background: #2c3e50; color: white; padding: 1rem; text-align: center; }
   .badge-msg { font-size: 0.75rem; margin-left: 6px; }
+  .msg-clickable { cursor: pointer; }
+  .msg-read-icon { color: green; margin-left: 6px; }
 </style>
 </head>
 <body>
@@ -113,7 +115,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 let currentUser = null;
 
@@ -132,6 +133,11 @@ async function getUserEmail(uid) {
   return error ? uid : data;
 }
 
+async function markAsRead(messageId) {
+  await supabase.from("messages").update({ is_read: true }).eq("id", messageId);
+  loadMessages();
+}
+
 async function loadMessages() {
   let { data: inbox } = await supabase.from("messages").select("id, subject, body, is_read, sender, created_at").eq("receiver", currentUser.id).order("created_at", { ascending: false });
   let unreadCount = 0;
@@ -139,14 +145,14 @@ async function loadMessages() {
   for (let m of inbox || []) {
     if (!m.is_read) unreadCount++;
     const senderEmail = await getUserEmail(m.sender);
-    inboxHTML += `<div class="list-group-item ${m.is_read ? '' : 'list-group-item-warning'}">
-      <div><strong>De:</strong> ${senderEmail}</div>
+    inboxHTML += `<div class="list-group-item msg-clickable ${m.is_read ? '' : 'list-group-item-warning'}" onclick="markAsRead('${m.id}')">
+      <div><strong>De:</strong> ${senderEmail} ${m.is_read ? '<i class="bi bi-check-circle-fill msg-read-icon" title="Lida"></i>' : ''}</div>
       <div><strong>Assunto:</strong> ${m.subject}</div>
       <p class="mb-1 text-muted">${m.body}</p>
       <div class="mt-2">
-        <button onclick="replyMessage('${senderEmail}', '${m.subject}')" class="btn btn-sm btn-outline-primary me-1">Responder</button>
-        <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
-        <button onclick="deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
+        <button onclick="event.stopPropagation(); replyMessage('${senderEmail}', '${m.subject}')" class="btn btn-sm btn-outline-primary me-1">Responder</button>
+        <button onclick="event.stopPropagation(); forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
+        <button onclick="event.stopPropagation(); deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
       </div>
     </div>`;
   }
