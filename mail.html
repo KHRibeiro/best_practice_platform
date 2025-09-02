@@ -198,6 +198,7 @@ async function loadMessages() {
     sentHTML += `<div class="list-group-item">
       <div><strong>Para:</strong> ${receiverEmail}</div>
       <div><strong>Assunto:</strong> ${m.subject}</div>
+      
       <p class="mb-1 text-muted">${m.body}</p>
       <div class="mt-2">
         <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
@@ -245,6 +246,27 @@ window.deleteMessage = async (messageId) => {
 function setupRealtime() {
   supabase.channel('public:messages').on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `receiver=eq.${currentUser.id}` }, payload => { loadMessages(); }).subscribe();
 }
+
+async function buscarRegiaoDoDestinatario(email) {
+    const { data, error } = await supabase
+      .from('users')
+      .select('site_region')
+      .eq('email', email)
+      .single();
+
+    if (error) {
+      console.error('Erro ao buscar região:', error);
+      return;
+    }
+
+    // Exibir a região no formulário
+    document.getElementById('regiaoDestinatario').textContent = `Região: ${data.site_region}`;
+  }
+
+  // Exemplo: ao sair do campo de destinatário
+  document.getElementById('destinatario').addEventListener('blur', (e) => {
+    buscarRegiaoDoDestinatario(e.target.value);
+  });
 
 loadUser();
 </script>
