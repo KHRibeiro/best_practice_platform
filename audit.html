@@ -667,7 +667,7 @@ window.buscarUsuarios = async function () {
     // Buscar usuários da tabela "users"
     let { data: usuarios, error } = await supabase
       .from("users")
-      .select("id, name, email, plant_code"); // ajuste os campos conforme seu schema
+      .select("id, email, site_region"); // ajuste os campos conforme seu schema
 
     if (error) {
       console.error("Erro ao buscar usuários:", error.message);
@@ -879,6 +879,7 @@ if (!titulo || !mensagem) {
 
 </body>
 </html>
+
 
 
 
