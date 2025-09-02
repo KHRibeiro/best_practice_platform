@@ -606,7 +606,9 @@ let usuariosSelecionados = [];
 window.buscarUsuarios = async function() {
   // Seleciona checkboxes marcados
   const checkboxes = document.querySelectorAll('.checkbox:checked');
-  const plantas = Array.from(checkboxes).map(cb => cb.value.trim()).filter(p => p);
+  const plantas = Array.from(checkboxes)
+    .map(cb => cb.value ? cb.value.trim() : "")
+    .filter(p => p);
 
   if (!plantas.length) {
     alert("Selecione pelo menos uma planta.");
@@ -623,7 +625,7 @@ window.buscarUsuarios = async function() {
     .or(orQuery);
 
   if (error) {
-    console.error(error);
+    console.error("Erro ao buscar usuários:", error);
     alert("Erro ao buscar usuários.");
     return;
   }
@@ -642,7 +644,7 @@ window.buscarUsuarios = async function() {
   usuarios.forEach(u => {
     const div = document.createElement('div');
     div.innerHTML = `<label>
-      <input type="checkbox" name="usuarios" value="${u.id}" checked> ${u.email} (${u.site_region})
+      <input type="checkbox" name="usuarios" value="${u.id}" checked> ${u.email || '(sem email)'} (${u.site_region || '(sem planta)'})
     </label>`;
     container.appendChild(div);
   });
@@ -656,16 +658,21 @@ window.enviarMensagem = async function() {
     return;
   }
 
-  const titulo = document.getElementById('tituloMelhoriaSelecionada').value.trim();
-  const mensagem = document.getElementById('mensagemCompartilhamento').value.trim();
+  // Captura título e mensagem com proteção
+  const tituloElem = document.getElementById('tituloMelhoriaSelecionada');
+  const mensagemElem = document.getElementById('mensagemCompartilhamento');
+
+  const titulo = tituloElem && tituloElem.value ? tituloElem.value.trim() : "";
+  const mensagem = mensagemElem && mensagemElem.value ? mensagemElem.value.trim() : "";
 
   if (!titulo || !mensagem) {
     alert("Preencha título e mensagem.");
     return;
   }
 
+  // Seleciona usuários marcados
   const checkboxes = document.querySelectorAll('input[name="usuarios"]:checked');
-  const idsSelecionados = Array.from(checkboxes).map(cb => cb.value);
+  const idsSelecionados = Array.from(checkboxes).map(cb => cb.value).filter(id => id);
 
   if (!idsSelecionados.length) {
     alert("Nenhum usuário selecionado para enviar mensagem.");
@@ -686,7 +693,7 @@ window.enviarMensagem = async function() {
   );
 
   if (error) {
-    console.error(error);
+    console.error("Erro ao enviar mensagens:", error);
     alert("Erro ao enviar mensagens.");
     return;
   }
@@ -705,8 +712,6 @@ window.enviarMensagem = async function() {
   document.getElementById('usuariosEncontrados').innerHTML = "";
 };
 </script>
-
-
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -813,6 +818,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
