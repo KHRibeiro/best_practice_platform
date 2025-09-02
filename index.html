@@ -264,13 +264,11 @@ main {
 <a href="audit.html">🧾 Audit Records</a>
 </div>
 <div class="card">
-<h2>Rewards &amp; Points</h2>
-<p><strong>Total Points:</strong> 320</p>
-<ul>
-<li>+50 pts - Submitted Practice A</li>
-<li>+100 pts - Practice B Approved</li>
-<li>+20 pts - Participated in Audit</li>
-</ul>
+  <h2>📩 Minhas Mensagens</h2>
+  <p id="msgInfo">Carregando...</p>
+  <a href="mail.html" class="btn btn-primary btn-sm mt-2">
+    <i class="bi bi-envelope-fill"></i> Ir para mensagens
+  </a>
 </div>
 </div>
   
@@ -334,6 +332,40 @@ function toggleSidebar() {
   const sidebar = document.getElementById("mySidebar");
   sidebar.classList.toggle("collapsed");
 }
+</script>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
+
+async function loadMessageInfo() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  // busca mensagens não lidas
+  let { data: inbox, error } = await supabase
+    .from("messages")
+    .select("id, is_read")
+    .eq("receiver", user.id)
+    .eq("is_read", false);
+
+  if (error) {
+    console.error("Erro ao buscar mensagens:", error);
+    document.getElementById("msgInfo").innerText = "Erro ao carregar mensagens.";
+    return;
+  }
+
+  const count = inbox.length;
+  const msgInfo = document.getElementById("msgInfo");
+  if (count > 0) {
+    msgInfo.innerHTML = `Você tem <strong>${count}</strong> nova(s) mensagem(ns).`;
+  } else {
+    msgInfo.innerText = "Nenhuma nova mensagem.";
+  }
+}
+
+loadMessageInfo();
 </script>
 
 </html>
