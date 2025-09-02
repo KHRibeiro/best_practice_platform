@@ -625,9 +625,10 @@ window.enviarMensagem = async function () {
     .from("users")
     .select("id, email, site_region")
     .in("site_region", plantas);
+	.in("email", email);
 
 	console.log('Plantas selecionadas:', plantas);
-	console.log('Usuários:', usuarios);
+	console.log('E-mail:', email);
 	
   if (userError) {
     console.error(userError);
@@ -779,6 +780,7 @@ The improvement above has been approved and is available for implementation in t
 
 </body>
 </html>
+
 
 
 
