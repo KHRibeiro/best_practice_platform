@@ -1,3 +1,9 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+let currentUser = null;
+
 
 // modal-loader.js
 async function loadMessageModal() {
@@ -22,14 +28,6 @@ async function loadMessageModal() {
 
 // Função global para abrir o modal com segurança
 window.openMessageModal = function (to = "", subject = "", body = "") {
-  
-  
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-let currentUser = null;
-  
   
   const modalEl = document.getElementById("newMessageModal");
 
@@ -63,6 +61,7 @@ let currentUser = null;
 
 // Carrega o modal assim que a página abrir
 loadMessageModal();
+
 
 
 
