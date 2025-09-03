@@ -345,6 +345,28 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
 
+
+// Variável com o email do usuário a buscar
+  const userEmail = "kassio.ribeiro@gknpm.com";
+
+  async function getSiteRegionByEmail(email) {
+    const { data, error } = await supabase
+      .from("users")
+      .select("site_region")
+      .eq("email", email)
+      .single(); // retorna só um resultado
+
+    if (error) {
+      console.error("Erro:", error.message);
+    } else {
+      console.log(`Site region de ${email}:`, data.site_region);
+    }
+  }
+
+  // Executa a função
+  getSiteRegionByEmail(userEmail);
+
+  
 async function loadMessageInfo() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
