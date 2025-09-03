@@ -684,6 +684,7 @@ The improvement above has been approved and is available for implementation in t
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>
+		<button class="btn btn-success" onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">Message</button>  
       </div>
     </div>
   </div>
@@ -712,5 +713,12 @@ The improvement above has been approved and is available for implementation in t
 </div>
 
 
+<!-- Bootstrap JS (necessário) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Loader do modal -->
+<script type="module" src="modal-loader.js"></script>
+	
 </body>
 </html>
+
