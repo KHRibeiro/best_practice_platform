@@ -440,7 +440,7 @@ async function contarRegistros() {
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
 	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Share</button>
-   	  <button class="btn btn-success" onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">Message</button>
+   	  <button class="btn btn-success" onclick="openMessageModal('', '${item.title.replace(/'/g, "\\'")}', 'Take a look!')">Message</button>
 	  </td>
 
 	`;
@@ -721,5 +721,6 @@ The improvement above has been approved and is available for implementation in t
 	
 </body>
 </html>
+
 
 
