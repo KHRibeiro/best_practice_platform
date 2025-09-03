@@ -73,10 +73,9 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
     }
     
     const receiverId = users[0].id;
-    const receiverLOC = users[0].site_region;
     
     const { error: insertError } = await supabase.from("messages").insert([
-        { sender: currentUser.id, receiver: receiverId, subject: subjectValue, body: receiverLOC }
+        { sender: currentUser.id, receiver: receiverId, subject: subjectValue, body: bodyValue }
     ]);
 
     if (insertError) {
@@ -95,6 +94,7 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
 
 // Carrega o modal assim que a página abrir
 loadMessageModal();
+
 
 
 
