@@ -10,3 +10,24 @@
         onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">
   Mensagem Automática
 </button>
+
+
+// Variável com o email do usuário a buscar
+  const userEmail = "usuario@exemplo.com";
+
+  async function getSiteRegionByEmail(email) {
+    const { data, error } = await supabase
+      .from("users")
+      .select("site_region")
+      .eq("email", email)
+      .single(); // retorna só um resultado
+
+    if (error) {
+      console.error("Erro:", error.message);
+    } else {
+      console.log(`Site region de ${email}:`, data.site_region);
+    }
+  }
+
+  // Executa a função
+  getSiteRegionByEmail(userEmail);
