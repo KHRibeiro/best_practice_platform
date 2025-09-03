@@ -440,6 +440,7 @@ async function contarRegistros() {
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
 	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Share</button>
+   	  <button class="btn btn-success" onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">Message</button>
 	  </td>
 
 	`;
@@ -683,8 +684,7 @@ The improvement above has been approved and is available for implementation in t
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>
-		<button class="btn btn-success" onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">Message</button>  
+        <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>  
       </div>
     </div>
   </div>
@@ -721,4 +721,5 @@ The improvement above has been approved and is available for implementation in t
 	
 </body>
 </html>
+
 
