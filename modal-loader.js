@@ -40,5 +40,5 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
 
 // Carrega o modal assim que a página abrir
 loadMessageModal();
-loadUser();
+
 
