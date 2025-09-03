@@ -36,20 +36,24 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
   // Abre o modal usando API do Bootstrap
   const modal = new bootstrap.Modal(modalEl);
   modal.show();
+
+  document.getElementById("send-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const toEmail = document.getElementById("to").value;
+    const subject = document.getElementById("subject").value;
+    const body = document.getElementById("body").value;
+    let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
+    if (error || !users || users.length === 0) { alert("Usuário não encontrado."); return; }
+    const receiverId = users[0].id;
+    await supabase.from("messages").insert([{ sender: currentUser.id, receiver: receiverId, subject, body }]);
+    e.target.reset();
+  });
+  
 };
 
 // Carrega o modal assim que a página abrir
 loadMessageModal();
 
-document.getElementById("send-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const toEmail = document.getElementById("to").value;
-  const subject = document.getElementById("subject").value;
-  const body = document.getElementById("body").value;
-  let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
-  if (error || !users || users.length === 0) { alert("Usuário não encontrado."); return; }
-  const receiverId = users[0].id;
-  await supabase.from("messages").insert([{ sender: currentUser.id, receiver: receiverId, subject, body }]);
-  e.target.reset();
-});
+
+
 
