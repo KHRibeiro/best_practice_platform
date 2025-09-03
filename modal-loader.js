@@ -6,10 +6,10 @@ async function loadMessageModal() {
   try {
     const response = await fetch("modal-mensagem.html");
     container.innerHTML = await response.text();
+    document.dispatchEvent(new Event("modalLoaded")); // 🔔 dispara evento
   } catch (error) {
     console.error("Erro ao carregar modal de mensagem:", error);
   }
 }
 
-// Carregar automaticamente quando a página abrir
 loadMessageModal();
