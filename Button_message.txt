@@ -1,0 +1,12 @@
+<button class="btn btn-primary" onclick="openMessageModal()">
+  Nova Mensagem
+</button>
+
+<script src="modal-loader.js"></script>
+
+
+
+<button class="btn btn-success"
+        onclick="openMessageModal('teste@empresa.com','Aviso','Olá, mensagem automática.')">
+  Mensagem Automática
+</button>
