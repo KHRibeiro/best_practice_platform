@@ -1,10 +1,13 @@
 // modal-loader.js
+
+// 1. Importe a instância do Supabase do seu arquivo de configuração
+import { supabase } from './supabase-client.js'; // Ajuste o caminho se necessário
+
 async function loadMessageModal() {
   const container = document.createElement("div");
   document.body.appendChild(container);
 
   try {
-    // Monta o caminho do arquivo no mesmo diretório da página atual
     const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
     const response = await fetch(basePath + "modal-mensagem.html");
 
@@ -29,36 +32,59 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
     return;
   }
 
-  // Preenche os campos se valores forem passados
   if (to) document.getElementById("to").value = to;
   if (subject) document.getElementById("subject").value = subject;
   if (body) document.getElementById("body").value = body;
 
-  // Abre o modal usando API do Bootstrap
   const modal = new bootstrap.Modal(modalEl);
   modal.show();
-
-  document.getElementById("send-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const toEmail = document.getElementById("to").value;
-    const subject = document.getElementById("subject").value;
-    const body = document.getElementById("body").value;
-    let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
-    if (error || !users || users.length === 0) { alert("Usuário não encontrado."); return; }
-    const receiverId = users[0].id;
-    await supabase.from("messages").insert([{ sender: currentUser.id, receiver: receiverId, subject, body }]);
-    e.target.reset();
-  });
   
+  // Atenção: É melhor adicionar o event listener apenas uma vez.
+  // Para evitar múltiplos listeners, podemos removê-lo e adicioná-lo novamente
+  // ou usar uma abordagem mais robusta, mas para este caso, vamos focar no Supabase.
+  const sendForm = document.getElementById("send-form");
+  
+  // Lógica de envio do formulário
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // 2. Obtenha o usuário logado ATUALMENTE
+    const { data: { user: currentUser }, error: sessionError } = await supabase.auth.getUser();
+
+    if (sessionError || !currentUser) {
+      alert("Erro de autenticação. Por favor, faça login novamente.");
+      return;
+    }
+
+    const toEmail = document.getElementById("to").value;
+    const subjectValue = document.getElementById("subject").value;
+    const bodyValue = document.getElementById("body").value;
+
+    // 3. Sua lógica original agora tem acesso ao `supabase` e `currentUser`
+    let { data: users, error } = await supabase.rpc("get_user_by_email", { email: toEmail });
+    if (error || !users || users.length === 0) {
+      alert("Usuário destinatário não encontrado.");
+      return;
+    }
+    
+    const receiverId = users[0].id;
+    const { error: insertError } = await supabase.from("messages").insert([
+        { sender: currentUser.id, receiver: receiverId, subject: subjectValue, body: bodyValue }
+    ]);
+
+    if (insertError) {
+        alert("Ocorreu um erro ao enviar a mensagem: " + insertError.message);
+    } else {
+        alert("Mensagem enviada com sucesso!");
+        e.target.reset();
+        modal.hide(); // Fecha o modal após o envio
+    }
+  };
+  
+  // Substitui o listener antigo para evitar duplicação
+  sendForm.replaceWith(sendForm.cloneNode(true));
+  document.getElementById("send-form").addEventListener("submit", handleSubmit);
 };
 
 // Carrega o modal assim que a página abrir
 loadMessageModal();
-
-
-
-
-
-
-
-
