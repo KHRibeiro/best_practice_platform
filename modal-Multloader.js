@@ -99,5 +99,10 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
   document.getElementById("send-form").addEventListener("submit", handleSubmit);
 };
 
+window.toggleAllSites = function(select) {
+  const checkboxes = document.querySelectorAll(".site-checkbox");
+  checkboxes.forEach(cb => cb.checked = select);
+};
+
 // Carrega o modal assim que a página abrir
 loadMessageModal();
