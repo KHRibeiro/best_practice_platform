@@ -41,6 +41,9 @@
         campos[el.id] = el.value;
       });
 
+      // Forçar status para Submitted
+      campos["status"] = "Submitted";
+      
       const { error } = await supabase.from('submissions').update(campos).eq('id', id);
       if (error) {
         alert("Erro ao salvar alterações");
