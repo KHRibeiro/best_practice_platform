@@ -14,6 +14,18 @@
           <!-- Seleção de sites -->
           <div class="mb-3">
             <label class="form-label">Destinatários por Site/Region</label>
+
+             <!-- Botões selecionar/desmarcar -->
+            <div class="mb-2">
+              <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleAllSites(true)">
+                Selecionar todos
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAllSites(false)">
+                Desmarcar todos
+              </button>
+            </div>
+
+            
             <div class="checkbox-grid">
               <label><input type="checkbox" value="AUB" class="site-checkbox"> AUB</label>
               <label><input type="checkbox" value="BON" class="site-checkbox"> BON</label>
