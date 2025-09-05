@@ -219,7 +219,7 @@ main {
   <main>
 
 	  
-    <section>
+<section>
       <h2>Submitted Implementations</h2>
 	    
 <form class="row g-3 needs-validation" novalidate>
@@ -269,41 +269,6 @@ main {
 	    
 </section>
 
-<section>
-<h2>Share with other sites:</h2>
-<div class="controls">
-    <button class="btn btn-primary btn-sm" onclick="selectAllCheckboxes(true)">Selecionar todos</button>
-    <button class="btn btn-primary btn-sm" onclick="selectAllCheckboxes(false)">Desmarcar todos</button>
-  </div>
-
-  <div class="checkbox-grid">
-    <label><input type="checkbox" value="AUB" class="checkbox"> AUB</label>
-    <label><input type="checkbox" value="BON" class="checkbox"> BON</label>
-    <label><input type="checkbox" value="BRU" class="checkbox"> BRU</label>
-    <label><input type="checkbox" value="CIN" class="checkbox"> CIN</label>
-    <label><input type="checkbox" value="DAN" class="checkbox"> DAN</label>
-    <label><input type="checkbox" value="FIL" class="checkbox"> FIL</label>
-    <label><input type="checkbox" value="GLA" class="checkbox"> GLA</label>
-    <label><input type="checkbox" value="HOR" class="checkbox"> HOR</label>
-    <label><input type="checkbox" value="INC" class="checkbox"> INC</label>
-    <label><input type="checkbox" value="MIL" class="checkbox"> MIL</label>
-    <label><input type="checkbox" value="NAG" class="checkbox"> NAG</label>
-    <label><input type="checkbox" value="PAS" class="checkbox"> PAS</label>
-    <label><input type="checkbox" value="PIM" class="checkbox"> PIM</label>
-    <label><input type="checkbox" value="SAL" class="checkbox"> SAL</label>
-    <label><input type="checkbox" value="SIT" class="checkbox"> SIT</label>
-    <label><input type="checkbox" value="WIS" class="checkbox"> WIS</label>
-    <label><input type="checkbox" value="YIZ" class="checkbox"> YIZ</label>
-  </div>
-</section>
-
-<br>
-<section>
-<h2>Linked KPIs & Dashboards</h2>
-<div id="kpi-dashboard">
-<!-- KPI visualizations or links -->
-</div>
-</section>
 </main>
 </div>
 	
@@ -439,8 +404,7 @@ async function contarRegistros() {
 	  <td>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
-	  <button onclick="abrirModalCompartilhamento(${item.id}, '${item.title.replace(/'/g, "\\'")}')" class="btn btn-success btn-sm">Share</button>
-   	  <button class="btn btn-success" onclick="openMessageModal('', '${item.title.replace(/'/g, "\\'")}', 'Take a look!')">Message</button>
+   	  <button class="btn btn-success" onclick="openMessageModal('', '${item.title.replace(/'/g, "\\'")}', 'Take a look!')">Share</button>
 	  </td>
 
 	`;
@@ -561,13 +525,6 @@ function filterTable() {
 }
 
 </script>
-
-<script>
-    function selectAllCheckboxes(select) {
-      const checkboxes = document.querySelectorAll('.checkbox');
-      checkboxes.forEach(cb => cb.checked = select);
-    }
-</script>
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -592,22 +549,6 @@ function filterTable() {
     modal.show();
   }
 
-  function enviarMensagem() {
-    const mensagem = document.getElementById('mensagemCompartilhamento').value;
-    const plantas = document.getElementById('destinatariosSelecionados').textContent;
-    const titulo = document.getElementById('tituloMelhoriaSelecionada').textContent;
-
-    // Aqui você poderia integrar com Supabase, e-mail ou outra lógica de backend
-    console.log('Enviando melhoria:', titulo);
-    console.log('ID:', melhoriaSelecionadaId);
-    console.log('Para plantas:', plantas);
-    console.log('Mensagem:', mensagem);
-
-    alert(`Mensagem enviada com sucesso para: ${plantas}`);
-
-    const modal = bootstrap.Modal.getInstance(document.getElementById('modalCompartilhar'));
-    modal.hide();
-  }
 </script>
 
 <script type="module">
@@ -666,29 +607,6 @@ function filterTable() {
       });
     });
   </script>
-	
-<!-- Modal para compartilhar melhoria aprovada -->
-<div class="modal fade" id="modalCompartilhar" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Share Approved Best Practice</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Melhoria:</strong> <span id="tituloMelhoriaSelecionada"></span></p>
-        <p><strong>Para:</strong> <span id="destinatariosSelecionados"></span></p>
-        <textarea id="mensagemCompartilhamento" class="form-control" rows="5">
-The improvement above has been approved and is available for implementation in the selected plants.
-        </textarea>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="enviarMensagem()">Enviar</button>  
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="modal fade" id="modalAprovacao" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -721,6 +639,7 @@ The improvement above has been approved and is available for implementation in t
 	
 </body>
 </html>
+
 
 
 
