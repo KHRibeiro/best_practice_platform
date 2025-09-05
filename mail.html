@@ -85,27 +85,27 @@
     <div class="modal-content">
       <form id="send-form">
         <div class="modal-header">
-          <h5 class="modal-title" id="newMessageLabel"><i class="bi bi-envelope-fill me-2 text-primary"></i>Nova Mensagem</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <h5 class="modal-title" id="newMessageLabel"><i class="bi bi-envelope-fill me-2 text-primary"></i>New Message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="to" class="form-label">Destinatário</label>
+            <label for="to" class="form-label">To: </label>
             <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" list="usersList" required>
             <datalist id="usersList"></datalist>
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">Assunto</label>
+            <label for="subject" class="form-label">Subject</label>
             <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
           </div>
           <div class="mb-3">
-            <label for="body" class="form-label">Mensagem</label>
-            <textarea id="body" class="form-control" rows="4" placeholder="Digite sua mensagem..." required></textarea>
+            <label for="body" class="form-label">Message</label>
+            <textarea id="body" class="form-control" rows="4" placeholder="Type your message..." required></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="reset" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-1"></i> Limpar</button>
-          <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i> Enviar</button>
+          <button type="reset" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-1"></i> Clear</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i> Send</button>
         </div>
       </form>
     </div>
