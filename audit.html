@@ -573,20 +573,41 @@ function filterTable() {
   };
 
   document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
-    const comentario = document.getElementById('comentarioAuditor').value;
-    const { data, error } = await supabase
-      .from('submissions')
-      .update({ status: statusDestino, auditor_comment: comentario })
-      .eq('id', idMelhoriaAtual);
+  const comentario = document.getElementById('comentarioAuditor').value;
 
-    if (error) {
-      alert('Erro ao atualizar melhoria.');
-      console.error(error);
-    } else {
-      alert('Melhoria atualizada com sucesso.');
-      location.reload();
-    }
-  });
+  // 1. Atualiza status
+  const { data, error } = await supabase
+    .from('submissions')
+    .update({ status: statusDestino, auditor_comment: comentario })
+    .eq('id', idMelhoriaAtual)
+    .select("id, title, responsible")
+    .single();
+
+  if (error) {
+    alert('Erro ao atualizar melhoria.');
+    console.error(error);
+    return;
+  }
+
+  // 2. Buscar responsável (email)
+  const responsavelEmail = data.responsible;
+
+  // 3. Montar mensagem padrão
+  const assunto = `Melhoria ${statusDestino}`;
+  const corpoMsg = statusDestino === "Approved"
+    ? `Sua melhoria "${data.title}" foi aprovada.\n\nComentário do auditor: ${comentario || "sem comentários"}`
+    : `Sua melhoria "${data.title}" foi reprovada.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
+
+  // 4. Abrir modal de mensagem já existente (do modal-loader.js)
+  openMessageModal(responsavelEmail, assunto, corpoMsg);
+
+  // Fecha modal de aprovação
+  const modalAprovacao = bootstrap.Modal.getInstance(document.getElementById('modalAprovacao'));
+  modalAprovacao.hide();
+});
+
+
+	
 </script>
 
 <script type="module">
@@ -639,6 +660,7 @@ function filterTable() {
 	
 </body>
 </html>
+
 
 
 
