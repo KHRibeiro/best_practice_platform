@@ -25,13 +25,19 @@ async function loadMessageModal() {
   }
 }
 
-// Função global para abrir o modal
 window.openMessageModal = function (to = "", subject = "", body = "") {
   const modalEl = document.getElementById("newMessageModal");
 
   if (!modalEl) {
     alert("Modal ainda não carregado, aguarde...");
     return;
+  }
+
+  // Se recebeu um destinatário (caso approve/reprove), guardamos ele
+  if (to) {
+    modalEl.setAttribute("data-fixed-to", to);
+  } else {
+    modalEl.removeAttribute("data-fixed-to");
   }
 
   if (subject) document.getElementById("subject").value = subject;
@@ -45,26 +51,48 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Usuário logado
     const { data: { user: currentUser }, error: sessionError } = await supabase.auth.getUser();
     if (sessionError || !currentUser) {
       alert("Erro de autenticação. Faça login novamente.");
       return;
     }
 
-    // Sites selecionados
-    const selectedSites = Array.from(document.querySelectorAll(".site-checkbox:checked"))
-      .map(cb => cb.value);
+    const subjectValue = document.getElementById("subject").value;
+    const bodyValue = document.getElementById("body").value;
 
+    // Caso 1: envio para responsável (um único email)
+    if (modalEl.hasAttribute("data-fixed-to")) {
+      const toEmail = modalEl.getAttribute("data-fixed-to");
+
+      let { data: users, error } = await supabase.from("users").select("id").eq("email", toEmail);
+      if (error || !users || users.length === 0) {
+        alert("Responsável não encontrado.");
+        return;
+      }
+
+      const receiverId = users[0].id;
+
+      const { error: insertError } = await supabase.from("messages").insert([
+        { sender: currentUser.id, receiver: receiverId, subject: subjectValue, body: bodyValue }
+      ]);
+
+      if (insertError) {
+        alert("Erro ao enviar: " + insertError.message);
+      } else {
+        alert("Mensagem enviada com sucesso ao responsável!");
+        e.target.reset();
+        modal.hide();
+      }
+      return;
+    }
+
+    // Caso 2: envio normal para múltiplos sites
+    const selectedSites = Array.from(document.querySelectorAll(".site-checkbox:checked")).map(cb => cb.value);
     if (selectedSites.length === 0) {
       alert("Selecione pelo menos um site.");
       return;
     }
 
-    const subjectValue = document.getElementById("subject").value;
-    const bodyValue = document.getElementById("body").value;
-
-    // Buscar usuários dos sites selecionados
     let { data: users, error } = await supabase
       .from("users")
       .select("id, email, site_region")
@@ -75,7 +103,6 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
       return;
     }
 
-    // Inserir mensagens para cada usuário
     const messages = users.map(u => ({
       sender: currentUser.id,
       receiver: u.id,
@@ -94,10 +121,10 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
     }
   };
 
-  // Substitui listener antigo
   sendForm.replaceWith(sendForm.cloneNode(true));
   document.getElementById("send-form").addEventListener("submit", handleSubmit);
 };
+
 
 window.toggleAllSites = function(select) {
   const checkboxes = document.querySelectorAll(".site-checkbox");
