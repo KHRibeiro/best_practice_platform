@@ -124,7 +124,7 @@ async function loadUser() {
   if (!user) { document.getElementById("user-info").innerHTML = `<a href="login.html" class="text-blue-500">Fazer login</a>`; return; }
   currentUser = user;
   loadUsersForAutocomplete();
-  document.getElementById("user-info").innerText = `Logado como: ${user.email}`;
+  document.getElementById("user-info").innerText = `User: ${user.email}`;
   loadMessages();
   setupRealtime();
 }
