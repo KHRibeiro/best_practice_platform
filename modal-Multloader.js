@@ -12,7 +12,7 @@ async function loadMessageModal() {
 
   try {
     const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
-    const response = await fetch(basePath + "modal-mensagem.html");
+    const response = await fetch(basePath + "modal-MultMessage.html");
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
