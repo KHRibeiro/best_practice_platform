@@ -34,13 +34,13 @@ window.openMessageModal = function (to = "", subject = "", body = "") {
   }
 
   // Se recebeu um destinatário (caso approve/reprove), guardamos ele
-  if (to) {
-    modalEl.setAttribute("data-fixed-to", to);
-    document.getElementById("recipientDisplay").value = to; // 👈 Mostra o email
-  } else {
-    modalEl.removeAttribute("data-fixed-to");
-    document.getElementById("recipientDisplay").value = ""; // limpa
-  }
+ if (to) {
+  modalEl.setAttribute("data-fixed-to", to);
+  document.getElementById("recipientDisplay").value = to; // 👈 Mostra o email
+} else {
+  modalEl.removeAttribute("data-fixed-to");
+  document.getElementById("recipientDisplay").value = ""; // limpa
+}
 
   if (subject) document.getElementById("subject").value = subject;
   if (body) document.getElementById("body").value = body;
