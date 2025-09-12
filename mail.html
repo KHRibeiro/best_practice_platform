@@ -32,6 +32,18 @@
   <img alt="Best Practice Platform Logo" src="lamp_light.png" style="height:150px; background-color:transparent;"/>
   
   <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
+
+  <div id="navbar-container"></div>
+<script>
+  fetch("navbar.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("navbar-container").innerHTML = html;
+      loadNewMessagesCount(); // chama a função ao carregar
+    });
+</script>
+
+  
 </header>
 
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
