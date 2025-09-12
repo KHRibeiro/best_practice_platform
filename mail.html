@@ -35,15 +35,7 @@
   <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
 
 <div id="navbar-container"></div>
-
-<div id="navbar-container"></div>
-<script>
-  fetch("navbar.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("navbar-container").innerHTML = html;
-    });
-</script>
+<script type="module" src="navbar.js"></script>
 
   
 </header>
