@@ -1,8 +1,26 @@
+<!-- navbar.html -->
 <nav class="navbar bg-light px-3 d-flex justify-content-end">
   <div id="msg-icon" class="position-relative" style="cursor:pointer;">
+    <!-- Ícone do envelope (Bootstrap Icons) -->
     <i class="bi bi-envelope fs-3"></i>
-    <span id="msg-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
+
+    <!-- Badge de mensagens novas -->
+    <span id="msg-badge"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
       0
     </span>
   </div>
 </nav>
+
+<script>
+  // Função de clique no envelope
+  document.addEventListener("DOMContentLoaded", () => {
+    const icon = document.getElementById("msg-icon");
+    if (icon) {
+      icon.addEventListener("click", () => {
+        // redireciona para inbox.html (ajuste se usar outro nome/rota)
+        window.location.href = "inbox.html";
+      });
+    }
+  });
+</script>
