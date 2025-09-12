@@ -139,9 +139,25 @@ async function getUserEmail(uid) {
 }
 
 async function markAsRead(messageId) {
-  await supabase.from("messages").update({ is_read: true }).eq("id", messageId);
-  loadMessages();
+  try {
+    const { data, error } = await supabase
+      .from("messages")
+      .update({ is_read: true })
+      .eq("id", messageId);
+
+    if (error) {
+      console.error("Erro update:", error);
+      alert("Erro ao marcar como lida: " + error.message);
+      return;
+    }
+    await loadMessages();
+  } catch (err) {
+    console.error(err);
+  }
 }
+
+// expõe para o HTML inline onclick
+window.markAsRead = markAsRead;
 
 async function loadUsersForAutocomplete() {
   let { data: inbox } = await supabase.from("messages").select("sender");
