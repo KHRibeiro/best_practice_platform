@@ -252,13 +252,12 @@ main {
 </div>
   
 <div class="card">
-<h2>Recent Best Practices</h2>
-<ul>
-<li>Practice A - Adopted by 5 teams</li>
-<li>Practice B - Pending approval</li>
-<li>Practice C - Recently submitted</li>
-</ul>
+  <h2>Recent Best Practices</h2>
+  <ul id="recentPractices">
+    <li>Loading...</li>
+  </ul>
 </div>
+
   
 <div class="card">
 <h2>KPIs</h2>
@@ -371,6 +370,38 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
       console.log(`Site region de ${email}:`, data.site_region);
     }
   }
+
+  async function loadRecentPractices() {
+  const { data, error } = await supabase
+    .from("submissions")
+    .select("title, region_plant, creation_date")
+    .order("creation_date", { ascending: false })
+    .limit(5);
+
+  const list = document.getElementById("recentPractices");
+  list.innerHTML = "";
+
+  if (error) {
+    console.error("Erro ao carregar práticas:", error.message);
+    list.innerHTML = "<li>Erro ao carregar práticas.</li>";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML = "<li>Nenhuma prática encontrada.</li>";
+    return;
+  }
+
+  data.forEach((item) => {
+    const li = document.createElement("li");
+    // corta o título se for muito grande
+    const shortTitle = item.title.length > 40 ? item.title.substring(0, 40) + "..." : item.title;
+    li.innerHTML = `<strong>${shortTitle}</strong> <em>(${item.region_plant})</em>`;
+    list.appendChild(li);
+  });
+}
+
+loadRecentPractices();
 
   async function loadRanking() {
   const { data, error } = await supabase
