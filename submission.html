@@ -377,7 +377,7 @@ function toggleSidebar() {
 
       if (file) {
         const filePath = `uploads/${Date.now()}_${file.name}`;
-        const { data: uploadData, error: uploadError } = await supabase
+        const { error: uploadError } = await supabase
           .storage
           .from('practicesfiles')
           .upload(filePath, file);
@@ -395,12 +395,14 @@ function toggleSidebar() {
         fileUrl = publicUrlData.publicUrl;
       }
 
+      const regionPlant = form.querySelector('[name="region_plant"]').value;
+
       const data = {
         title: form.querySelector('[name="title"]').value,
         description: form.querySelector('[name="description"]').value,
         category: form.querySelector('[name="category"]').value,
         functional_area: form.querySelector('[name="functional_area"]').value,
-        region_plant: form.querySelector('[name="region_plant"]').value,
+        region_plant: regionPlant,
         applicability: form.querySelector('[name="applicability"]').value,
         responsible: form.querySelector('[name="usuario"]').value,
         steps: form.querySelector('[name="steps"]').value,
@@ -409,7 +411,7 @@ function toggleSidebar() {
         item_type: "Best Practice Submission",
         creation_date: form.querySelector('[name="creation_date"]').value,
         version_history: form.querySelector('[name="version_history"]').value,
-        file_url: fileUrl, // <-- vínculo com o arquivo
+        file_url: fileUrl,
         cost: form.querySelector('[name="cost"]').value
       };
 
@@ -418,7 +420,27 @@ function toggleSidebar() {
       if (error) {
         alert('Error sending: ' + error.message);
       } else {
-        alert('Submitted successfully!');
+        // --- Atualizar pontuação da localidade ---
+        const { data: locData, error: locError } = await supabase
+          .from('location')
+          .select('points')
+          .eq('region', regionPlant)   // ajuste o nome da coluna (region/site)
+          .single();
+
+        if (!locError && locData) {
+          const newPoints = (locData.points || 0) + 50;
+
+          const { error: updateError } = await supabase
+            .from('location')
+            .update({ points: newPoints })
+            .eq('region', regionPlant);
+
+          if (updateError) {
+            console.error("Erro ao atualizar pontos:", updateError.message);
+          }
+        }
+
+        alert('Submitted successfully! Points added to ' + regionPlant);
         form.reset();
       }
     });
@@ -484,6 +506,7 @@ function toggleSidebar() {
 
 </body>
 </html>
+
 
 
 
