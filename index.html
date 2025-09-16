@@ -289,6 +289,15 @@ main {
   <h2>📄 Github </h2>
   <a href="https://github.com/KHRibeiro/best_practice_platform/tree/main" class="btn btn-primary btn-sm mt-2">Access</a>
 </div>
+
+<div class="card">
+  <h2>🏆 Top 5 Locations</h2>
+  <ul id="rankingList">
+    <li>Loading...</li>
+  </ul>
+</div>
+
+  
 </div>
   
 </body>
@@ -363,6 +372,36 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
       console.log(`Site region de ${email}:`, data.site_region);
     }
   }
+
+  async function loadRanking() {
+  const { data, error } = await supabase
+    .from("location")
+    .select("region_plantloc, points")
+    .order("points", { ascending: false })
+    .limit(5);
+
+  const rankingList = document.getElementById("rankingList");
+  rankingList.innerHTML = "";
+
+  if (error) {
+    console.error("Erro ao buscar ranking:", error.message);
+    rankingList.innerHTML = "<li>Erro ao carregar ranking</li>";
+    return;
+  }
+
+  if (data.length === 0) {
+    rankingList.innerHTML = "<li>Sem dados disponíveis</li>";
+    return;
+  }
+
+  data.forEach((loc, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>#${index + 1}</strong> ${loc.region_plantloc} - ${loc.points} pts`;
+    rankingList.appendChild(li);
+  });
+}
+
+loadRanking();
 
   // Executa a função
   getSiteRegionByEmail(userEmail);
