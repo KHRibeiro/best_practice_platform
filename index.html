@@ -297,6 +297,28 @@ main {
 </div>
   
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="practiceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="practiceTitle">Best Practice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Region:</strong> <span id="practiceRegion"></span></p>
+        <p id="practiceDescription"></p>
+      </div>
+      <div class="modal-footer">
+        <a href="library.html" class="btn btn-primary">Go to Library</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   
 </body>
 </main>
@@ -371,10 +393,10 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
     }
   }
 
-  async function loadRecentPractices() {
+ async function loadRecentPractices() {
   const { data, error } = await supabase
     .from("submissions")
-    .select("title, region_plant, creation_date")
+    .select("id, title, region_plant, description, creation_date")
     .order("creation_date", { ascending: false })
     .limit(5);
 
@@ -394,10 +416,39 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
 
   data.forEach((item) => {
     const li = document.createElement("li");
-    // corta o título se for muito grande
     const shortTitle = item.title.length > 40 ? item.title.substring(0, 40) + "..." : item.title;
-    li.innerHTML = `<strong>${shortTitle}</strong> <em>(${item.region_plant})</em>`;
+
+    li.innerHTML = `<a href="#" class="practice-link" data-id="${item.id}"><strong>${shortTitle}</strong> <em>(${item.region_plant})</em></a>`;
     list.appendChild(li);
+  });
+
+  // adiciona eventos de clique para abrir modal
+  document.querySelectorAll(".practice-link").forEach(link => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const id = link.getAttribute("data-id");
+
+      // busca detalhes no Supabase
+      const { data: practice, error: detailError } = await supabase
+        .from("submissions")
+        .select("title, region_plant, description")
+        .eq("id", id)
+        .single();
+
+      if (detailError) {
+        console.error("Erro ao carregar detalhes:", detailError.message);
+        return;
+      }
+
+      // preenche modal
+      document.getElementById("practiceTitle").innerText = practice.title;
+      document.getElementById("practiceRegion").innerText = practice.region_plant;
+      document.getElementById("practiceDescription").innerText = practice.description ?? "No description provided.";
+
+      // abre modal
+      const modal = new bootstrap.Modal(document.getElementById("practiceModal"));
+      modal.show();
+    });
   });
 }
 
