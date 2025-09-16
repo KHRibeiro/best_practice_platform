@@ -424,7 +424,7 @@ function toggleSidebar() {
         const { data: locData, error: locError } = await supabase
           .from('location')
           .select('points')
-          .eq('region', regionPlant)   // ajuste o nome da coluna (region/site)
+          .eq('region_plantloc', regionPlant)   // ajuste o nome da coluna (region/site)
           .single();
 
         if (!locError && locData) {
@@ -433,7 +433,7 @@ function toggleSidebar() {
           const { error: updateError } = await supabase
             .from('location')
             .update({ points: newPoints })
-            .eq('region', regionPlant);
+            .eq('region_plantloc', regionPlant);
 
           if (updateError) {
             console.error("Erro ao atualizar pontos:", updateError.message);
@@ -506,6 +506,7 @@ function toggleSidebar() {
 
 </body>
 </html>
+
 
 
 
