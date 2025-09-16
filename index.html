@@ -376,7 +376,7 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
   async function loadRanking() {
   const { data, error } = await supabase
     .from("location")
-    .select("region_plantloc, points")
+    .select("region_plantloc, points")   // ajuste se o nome da coluna for diferente
     .order("points", { ascending: false })
     .limit(5);
 
@@ -389,19 +389,28 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
     return;
   }
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     rankingList.innerHTML = "<li>Sem dados disponíveis</li>";
     return;
   }
 
   data.forEach((loc, index) => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>#${index + 1}</strong> ${loc.region_plantloc} - ${loc.points} pts`;
+    const points = loc.points ?? 0; // garante 0 caso seja null
+
+    // Escolher medalha ou posição
+    let prefix = `<strong>#${index + 1}</strong>`;
+    if (index === 0) prefix = "🥇";
+    else if (index === 1) prefix = "🥈";
+    else if (index === 2) prefix = "🥉";
+
+    li.innerHTML = `${prefix} ${loc.region_plantloc} - ${points} pts`;
     rankingList.appendChild(li);
   });
 }
 
 loadRanking();
+
 
   // Executa a função
   getSiteRegionByEmail(userEmail);
