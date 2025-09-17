@@ -5,15 +5,15 @@
       <form id="send-form">
         <div class="modal-header">
           <h5 class="modal-title" id="newMessageLabel">
-            <i class="bi bi-envelope-fill me-2 text-primary"></i>Nova Mensagem
+            <i class="bi bi-envelope-fill me-2 text-primary"></i>New Message
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
 
           <div class="mb-3">
-            <label for="recipientDisplay" class="form-label">Destinatário</label>
+            <label for="recipientDisplay" class="form-label">To</label>
             <input type="text" id="recipientDisplay" class="form-control" readonly>
           </div>
 
@@ -21,15 +21,15 @@
           
           <!-- Seleção de sites -->
           <div class="mb-3">
-            <label class="form-label">Destinatários por Site/Region</label>
+            <label class="form-label">Site/Region</label>
 
              <!-- Botões selecionar/desmarcar -->
             <div class="mb-2">
               <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleAllSites(true)">
-                Selecionar todos
+                Select All
               </button>
               <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAllSites(false)">
-                Desmarcar todos
+                Deselect all
               </button>
             </div>
            
@@ -55,22 +55,22 @@
           </div>
 
           <div class="mb-3">
-            <label for="subject" class="form-label">Assunto</label>
-            <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" class="form-control" placeholder="Write the subject..." required>
           </div>
 
           <div class="mb-3">
-            <label for="body" class="form-label">Mensagem</label>
-            <textarea id="body" class="form-control" rows="4" placeholder="Digite sua mensagem..." required></textarea>
+            <label for="body" class="form-label">Message</label>
+            <textarea id="body" class="form-control" rows="4" placeholder="Write your message..." required></textarea>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="reset" class="btn btn-outline-secondary">
-            <i class="bi bi-x-circle me-1"></i> Limpar
+            <i class="bi bi-x-circle me-1"></i> Clear
           </button>
           <button type="submit" class="btn btn-primary">
-            <i class="bi bi-send-fill me-1"></i> Enviar
+            <i class="bi bi-send-fill me-1"></i> Send
           </button>
         </div>
       </form>
