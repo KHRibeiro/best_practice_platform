@@ -574,7 +574,7 @@ function filterTable() {
     .single();
 
   if (error) {
-    alert("Erro ao atualizar melhoria.");
+    alert("Error: Fail during attempt to update.");
     console.error(error);
     return;
   }
@@ -583,8 +583,8 @@ function filterTable() {
   const responsavelEmail = data.responsible;
   const assunto = `Melhoria ${statusDestino}`;
   const corpoMsg = statusDestino === "Approved"
-    ? `Sua melhoria "${data.title}" foi aprovada.\n\nComentário do auditor: `
-    : `Sua melhoria "${data.title}" foi reprovada.\n\nComentário do auditor: `;
+    ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
+    : `Your best practice "${data.title}" was returned for review.\n\nComentário do auditor: `;
 
   // 3. Abrir modal de mensagem já preenchido
   openMessageModal(responsavelEmail, assunto, corpoMsg);
@@ -614,8 +614,8 @@ function filterTable() {
   // 3. Montar mensagem padrão
   const assunto = `Melhoria ${statusDestino}`;
   const corpoMsg = statusDestino === "Approved"
-    ? `Sua melhoria "${data.title}" foi aprovada.\n\nComentário do auditor: ${comentario || "sem comentários"}`
-    : `Sua melhoria "${data.title}" foi reprovada.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
+    ? `Your Best Practice "${data.title}" was approved.\n\nComentário do auditor: ${comentario || "sem comentários"}`
+    : `Your Best Practice "${data.title}" was returned for review.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
 
   // 4. Abrir modal de mensagem já existente (do modal-loader.js)
   openMessageModal(responsavelEmail, assunto, corpoMsg);
@@ -641,7 +641,7 @@ function filterTable() {
         if (error) {
           console.error('Erro ao fazer logout:', error.message);
         } else {
-          alert('Logout realizado com sucesso!');
+          alert('Logout done!');
           window.location.href = 'login.html'; // ou outra página desejada
         }
       });
@@ -656,6 +656,7 @@ function filterTable() {
 	
 </body>
 </html>
+
 
 
 
