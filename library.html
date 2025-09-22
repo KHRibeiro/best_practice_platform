@@ -135,16 +135,12 @@ main {
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script></head>
 <body>
 <header>
-	
-<div id="map" style="height: 350px; margin-top: 20px;"></div>
-	
 <!--<img alt="Best Practice Platform Logo" src="lamp_light.png" style="height:150px; background-color:transparent;"/>-->
-
+<!-- Botão de toggle -->
+<button onclick="toggleSidebar()" class="openbtn">☰</button>
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
 
 </header>
-<!-- Botão de toggle -->
-<button onclick="toggleSidebar()" class="openbtn">☰</button>
 
 <!-- Container do layout -->
 <div class="layout">
@@ -251,6 +247,8 @@ main {
 </thead>
 <tbody></tbody>
 </table>
+	
+<div id="map" style="height: 350px; margin-top: 20px;"></div>
 	
 </main>
 </div>
