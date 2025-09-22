@@ -323,7 +323,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   acoes.innerHTML = ''; // limpa antes de preencher
 
   if (item.status.toLowerCase() === 'approved') {
-    acoes.innerHTML = `<button class="btn btn-success" onclick="iniciarImplementacao(${item.id})">Iniciar Implementação</button>`;
+    acoes.innerHTML = `<button class="btn btn-success" onclick="iniciarImplementacao(${item.id})">Implement</button>`;
   } else {
     acoes.innerHTML = `
       <div class="mb-3">
@@ -383,6 +383,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>	
 </body>
 </html>
+
 
 
 
