@@ -159,6 +159,42 @@ main {
       color: #2980b9;
       text-decoration: none;
     }
+
+
+    .arrow-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .arrow-btn {
+      position: relative;
+      padding: 20px 40px;
+      background: linear-gradient(to bottom, #eaf0fa, #a9c2e7);
+      color: #0a1a33;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      clip-path: polygon(
+        0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%, 30px 50%
+      );
+      transition: 0.3s;
+      text-align: center;
+      line-height: 1.4em;
+    }
+
+    .arrow-btn span {
+      display: block;
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    .arrow-btn:hover {
+      background: linear-gradient(to bottom, #d0e0ff, #6f9de7);
+      color: #fff;
+    }
+
+    
   </style>
 </head>
 <body>
@@ -297,6 +333,12 @@ main {
   <a href="https://github.com/KHRibeiro/best_practice_platform/tree/main" class="btn btn-primary btn-sm mt-2">Access</a>
 </div>
   
+</div>
+
+<div class="arrow-container">
+    <a href="#share" class="arrow-btn">Share<span>Begin drafting a new Best Practice.</span></a>
+    <a href="#search" class="arrow-btn">Search<span>Explore the Library to stay updated on activities across the sites.</span></a>
+    <a href="#implement" class="arrow-btn">Implement<span>Integrate compelling ideas into your site for enhanced functionality.</span></a>
 </div>
 
 
