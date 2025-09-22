@@ -493,8 +493,8 @@ window.editarLinha = function(id) {
       <td>${item.item_type}</td>
       <td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)" title="Send"><i class="bi bi-cart"></i></td>
       <td>
-        <button class="btn btn-warning btn-sm" title="Edit" onclick="editarLinha(this)"><i class="bi bi-pencil"></i>
-        <button class="btn btn-danger btn-sm" title="Delete" onclick="removerLinha(this)"><i class="bi bi-x-lg"></i>
+        <button class="btn btn-warning btn-sm" title="Edit" onclick="editarLinha(${item.id})"><i class="bi bi-pencil"></i>
+        <button class="btn btn-danger btn-sm" title="Delete" onclick="removerLinha(${item.id})"><i class="bi bi-x-lg"></i>
       </td>
     `;
     tbody.appendChild(row);
