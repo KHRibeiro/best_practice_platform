@@ -213,7 +213,7 @@ window.removerLinha = async function(id) {
     const { data: locData, error: locError } = await supabase
       .from('location')
       .select('points')
-      .eq('region_plantloc', region_plant) // ajuste se a coluna tiver outro nome
+      .eq('region_plantloc', localizacao) // ajuste se a coluna tiver outro nome
       .single();
 
     if (locError || !locData) {
