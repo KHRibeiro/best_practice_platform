@@ -145,12 +145,12 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // Funções que são usadas por botões inline devem ser expostas em window
 window.selecionarAtividade = async function(botao) {
   const linha = botao.closest("tr");
-  const titulo = linha.cells[0].innerText;
-  const categoria = linha.cells[1].innerText;
-  const localizacao = linha.cells[2].innerText;
-  const responsavel = linha.cells[3].innerText;
-  const status = linha.cells[4].innerText;
-  const detalhes_link = linha.cells[6].querySelector('a')?.href || '';
+  const titulo = linha.cells[1].innerText;
+  const categoria = linha.cells[2].innerText;
+  const localizacao = linha.cells[3].innerText;
+  const responsavel = linha.cells[4].innerText;
+  const status = linha.cells[5].innerText;
+  const detalhes_link = linha.cells[7].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
