@@ -187,7 +187,7 @@ window.removerLinha = async function(id) {
     // 1️⃣ Buscar a submissão para identificar a região/localização
     const { data: submission, error: fetchError } = await supabase
       .from('submissions')
-      .select('localizacao')
+      .select('region_plant')
       .eq('id', id)
       .single();
 
@@ -213,7 +213,7 @@ window.removerLinha = async function(id) {
     const { data: locData, error: locError } = await supabase
       .from('location')
       .select('points')
-      .eq('region_plantloc', localizacao) // ajuste se a coluna tiver outro nome
+      .eq('region_plantloc', region_plant) // ajuste se a coluna tiver outro nome
       .single();
 
     if (locError || !locData) {
@@ -223,7 +223,7 @@ window.removerLinha = async function(id) {
       const { error: updateError } = await supabase
         .from('location')
         .update({ points: newPoints })
-        .eq('region_plantloc', localizacao);
+        .eq('region_plantloc', region_plant);
 
       if (updateError) {
         console.error('Erro ao atualizar pontos:', updateError);
