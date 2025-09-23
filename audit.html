@@ -288,6 +288,14 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+
+if (user) {
+    document.getElementById("usuario").innerText = `Welcome, ${user.email}`;
+  } else {
+    window.location.href = "login.html"; // redireciona se não estiver logado
+  }
+
+	
 window.atualizarLinha = async function (botao) {
   const id = parseInt(botao.getAttribute('data-id')) // extrai o ID como número
   const textoBotao = botao.textContent.trim().toLowerCase();
@@ -654,6 +662,7 @@ function filterTable() {
 	
 </body>
 </html>
+
 
 
 
