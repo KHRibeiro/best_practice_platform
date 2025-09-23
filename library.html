@@ -196,7 +196,7 @@ window.removerLinha = async function(id) {
       return;
     }
 
-    const { localizacao } = submission;
+    const localizacao = submission.region_plant; // 🔹 Corrigido
 
     // 2️⃣ Deletar a submissão
     const { error: deleteError } = await supabase
