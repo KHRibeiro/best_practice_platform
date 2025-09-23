@@ -13,6 +13,13 @@
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  if (user) {
+    document.getElementById("usuario").innerText = `Welcome, ${user.email}`;
+  } else {
+    window.location.href = "login.html"; // redireciona se não estiver logado
+  }
+
+    
     async function carregarDados() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
