@@ -223,7 +223,7 @@ window.removerLinha = async function(id) {
       const { error: updateError } = await supabase
         .from('location')
         .update({ points: newPoints })
-        .eq('region_plantloc', region_plant);
+        .eq('region_plantloc', localizacao);
 
       if (updateError) {
         console.error('Erro ao atualizar pontos:', updateError);
