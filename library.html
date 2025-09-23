@@ -104,7 +104,7 @@ input[type="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
       <table id="results-table" class="table table-hover">
         <thead>
           <tr>
-            <th>Created at</th>
+            <th>Creation Date</th>
             <th>Title</th>
             <th>Category</th>
             <th>Region/Site</th>
@@ -326,7 +326,7 @@ async function fetchData() {
     row.dataset.id = item.id ?? '';
 
     row.innerHTML = `
-      <td>${escapeHtml(item.created_at)}</td>
+      <td>${escapeHtml(item.creation_date)}</td>
       <td>${escapeHtml(item.title)}</td>
       <td>${escapeHtml(item.category)}</td>
       <td>${escapeHtml(item.region_plant)}</td>
