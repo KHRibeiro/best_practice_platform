@@ -183,9 +183,61 @@ window.selecionarAtividade = async function(botao) {
 };
 
 window.removerLinha = async function(id) {
-  const { error } = await supabase.from('submissions').delete().eq('id', id);
-  if (error) { alert('Erro ao remover: ' + error.message); } else { alert('Linha removida com sucesso!'); location.reload(); }
+  try {
+    // 1️⃣ Buscar a submissão para identificar a região/localização
+    const { data: submission, error: fetchError } = await supabase
+      .from('submissions')
+      .select('localizacao')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !submission) {
+      alert('Erro ao buscar a submissão: ' + (fetchError?.message || 'Submissão não encontrada'));
+      return;
+    }
+
+    const { localizacao } = submission;
+
+    // 2️⃣ Deletar a submissão
+    const { error: deleteError } = await supabase
+      .from('submissions')
+      .delete()
+      .eq('id', id);
+
+    if (deleteError) {
+      alert('Erro ao remover a submissão: ' + deleteError.message);
+      return;
+    }
+
+    // 3️⃣ Atualizar pontos da localidade (-50)
+    const { data: locData, error: locError } = await supabase
+      .from('location')
+      .select('points')
+      .eq('region_plantloc', localizacao) // ajuste se a coluna tiver outro nome
+      .single();
+
+    if (locError || !locData) {
+      console.warn('Erro ao buscar dados da localidade:', locError);
+    } else {
+      const newPoints = Math.max((locData.points || 0) - 50, 0); // evita pontos negativos
+      const { error: updateError } = await supabase
+        .from('location')
+        .update({ points: newPoints })
+        .eq('region_plantloc', localizacao);
+
+      if (updateError) {
+        console.error('Erro ao atualizar pontos:', updateError);
+      }
+    }
+
+    alert('Linha removida com sucesso e pontos atualizados!');
+    location.reload();
+  } catch (err) {
+    console.error(err);
+    alert('Erro inesperado ao remover linha.');
+  }
 };
+
 
 window.editarLinha = function(id) { window.location.href = `edit.html?id=${id}`; };
 
