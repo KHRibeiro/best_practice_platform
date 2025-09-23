@@ -376,9 +376,9 @@ window.applyFilters = function() {
   const rows = Array.from(document.querySelectorAll('#results-table tbody tr'));
   rows.forEach(row => {
     const text = row.textContent.toLowerCase();
-    const cat = row.children[1]?.textContent.trim() || '';
-    const loc = row.children[2]?.textContent.trim() || '';
-    const stat = row.children[4]?.textContent.trim() || '';
+    const cat = row.children[2]?.textContent.trim() || '';
+    const loc = row.children[3]?.textContent.trim() || '';
+    const stat = row.children[5]?.textContent.trim() || '';
 
     const matched = (!category || cat === category) &&
                     (!status || stat === status) &&
