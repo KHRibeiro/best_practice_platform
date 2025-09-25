@@ -392,7 +392,7 @@ window.applyFilters = function() {
   renderTablePage(currentPage);
 
   // Atualiza marcadores do mapa para mostrar apenas locais com resultados
-  const visibleLocations = new Set(rows.filter(r => r.dataset.matched === 'true').map(r => r.children[2]?.textContent.trim()));
+  const visibleLocations = new Set(rows.filter(r => r.dataset.matched === 'true').map(r => r.children[3]?.textContent.trim()));
   markers.forEach(marker => {
     if (visibleLocations.has(marker.siteName)) marker.addTo(map); else map.removeLayer(marker);
   });
