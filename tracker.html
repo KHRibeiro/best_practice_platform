@@ -216,7 +216,7 @@ main {
   <p><strong>Region/Site:</strong> <span id="detalhe-localizacao"></span></p>
   <p><strong>Responsible:</strong> <span id="detalhe-responsavel"></span></p>
   <p><strong>Status:</strong> <span id="detalhe-status"></span></p>
-  <p><strong>Comentários:</strong> <span id="detalhe-comentario"></span></p>
+  <p><strong>Comments:</strong> <span id="detalhe-comentario"></span></p>
 	
   <div id="acoes">
     <!-- Será preenchido dinamicamente -->
@@ -334,14 +334,14 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   } else {
     acoes.innerHTML = `
   <div class="mb-3">
-    <label>Comentários:</label>
-    <textarea id="comentarios-${item.id}" class="form-control" rows="3" placeholder="Descreva a implementação..."></textarea>
+    <label>Comments:</label>
+    <textarea id="comentarios-${item.id}" class="form-control" rows="3" placeholder="Write here..."></textarea>
   </div>
   <div class="mb-3">
-    <label>Anexos (provas):</label>
+    <label>Files:</label>
     <input id="anexo-${item.id}" type="file" class="form-control">
   </div>
-  <button class="btn btn-primary" onclick="submeterImplementacao(${item.id})">Submeter</button>
+  <button class="btn btn-primary" onclick="submeterImplementacao(${item.id})">Submit</button>
   <button class="btn btn-secondary" onclick="cancelaImplementacao(${item.id})">Cancel</button>
 `;
 
@@ -449,6 +449,7 @@ window.submeterImplementacao = async function(id) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>	
 </body>
 </html>
+
 
 
 
