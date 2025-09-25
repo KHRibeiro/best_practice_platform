@@ -23,23 +23,30 @@
 
     
     async function carregarDados() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      if (!id) return;
-
-      const { data, error } = await supabase.from('submissions').select('*').eq('id', id).single();
-      if (error) {
-        alert("Error loading data");
-        console.error(error);
-        return;
-      }
-
-      for (const campo in data) {
-        if (document.getElementById(campo)) {
-          document.getElementById(campo).value = data[campo] || '';
-        }
-      }
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+  
+    const { data, error } = await supabase
+      .from('submissions')
+      .select('*')
+      .eq('id', id)
+      .single();
+  
+    if (error) {
+      alert("Erro ao carregar dados");
+      console.error(error);
+      return;
     }
+  
+    document.getElementById("title").value = data.title || '';
+    document.getElementById("category").value = data.category || '';
+    document.getElementById("region_plant").value = data.region_plant || '';
+    document.getElementById("responsible").value = data.responsible || '';
+    document.getElementById("description").value = data.description || '';
+    document.getElementById("steps").value = data.steps || '';
+  }
+
 
     async function salvarDados() {
       const params = new URLSearchParams(window.location.search);
