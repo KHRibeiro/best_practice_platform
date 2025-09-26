@@ -662,8 +662,8 @@ function compartilharMelhoria(id, titulo) {
   // Monta link para detail.html
   const linkDetail = `${window.location.origin}/detail.html?id=${id}`;
   
-  // Corpo padrão da mensagem
-  const corpoMsg = `Take a look at this Best Practice: "${titulo}"\n\n👉 ${linkDetail}`;
+  // Corpo da mensagem em TEXTO PLANO
+  const corpoMsg = `Take a look at this Best Practice: "${titulo}"\n\n${linkDetail}`;
   
   // Abre o modal de mensagem já existente
   openMessageModal('', `Shared Best Practice: ${titulo}`, corpoMsg);
@@ -679,6 +679,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
