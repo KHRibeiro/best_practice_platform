@@ -659,8 +659,11 @@ function filterTable() {
 
 <script>
 function compartilharMelhoria(id, titulo) {
-  // Monta link para detail.html
-  const linkDetail = `${window.location.origin}/detail.html?id=${id}`;
+  // Pega o caminho base do projeto (ex.: /best_practice_platform/)
+  const basePath = window.location.pathname.split('/')[1]; 
+  
+  // Monta link correto
+  const linkDetail = `${window.location.origin}/${basePath}/detail.html?id=${id}`;
   
   // Corpo da mensagem em TEXTO PLANO
   const corpoMsg = `Take a look at this Best Practice: "${titulo}"\n\n${linkDetail}`;
@@ -679,6 +682,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
