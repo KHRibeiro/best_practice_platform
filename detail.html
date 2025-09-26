@@ -323,7 +323,14 @@ async function getCurrentUser() {
   }
 
   function gerarTexto() {
-    const texto = `🚀 *New Best Practice Available!*
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+
+  // Pega o caminho base do repositório no GitHub Pages
+  const basePath = window.location.pathname.split('/')[1];
+  const linkDetail = `${window.location.origin}/${basePath}/detail.html?id=${id}`;
+
+  const texto = `🚀 *New Best Practice Available!*
 
 We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
 
@@ -335,12 +342,13 @@ We are excited to announce a new Best Practice that aims to raise our standards 
 
 💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
 
-👉 https://khribeiro.github.io/best_practice_platform/library.html
+👉 ${linkDetail}
 
 #Excellence #Innovation #BestPractices`;
 
-    document.getElementById("textoGerado").value = texto;
-  }
+  document.getElementById("textoGerado").value = texto;
+}
+
 
   function copiarTexto() {
     const texto = document.getElementById("textoGerado");
