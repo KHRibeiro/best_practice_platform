@@ -412,7 +412,8 @@ async function contarRegistros() {
 	  <td>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
-   	  <button class="btn btn-success" onclick="openMessageModal('', '${item.title.replace(/'/g, "\\'")}', 'Take a look!')">Share</button>
+   	  <button class="btn btn-success" onclick="compartilharMelhoria(${item.id}, '${item.title.replace(/'/g, "\\'")}')"> Share </button>
+
 	  </td>
 
 	`;
@@ -656,6 +657,20 @@ function filterTable() {
     });
   </script>
 
+<script>
+function compartilharMelhoria(id, titulo) {
+  // Monta link para detail.html
+  const linkDetail = `${window.location.origin}/detail.html?id=${id}`;
+  
+  // Corpo padrão da mensagem
+  const corpoMsg = `Take a look at this Best Practice: "${titulo}"\n\n👉 ${linkDetail}`;
+  
+  // Abre o modal de mensagem já existente
+  openMessageModal('', `Shared Best Practice: ${titulo}`, corpoMsg);
+}
+</script>
+
+
 <!-- Bootstrap JS (necessário) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -664,6 +679,7 @@ function filterTable() {
 	
 </body>
 </html>
+
 
 
 
