@@ -107,6 +107,7 @@ input[type="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
             <th>Creation Date</th>
             <th>Title</th>
             <th>Category</th>
+            <th>Area</th>
             <th>Region/Site</th>
             <th>Responsible</th>
             <th>Status</th>
@@ -328,6 +329,7 @@ async function fetchData() {
     row.innerHTML = `
       <td>${escapeHtml(item.creation_date)}</td>
       <td>${escapeHtml(item.title)}</td>
+      <td>${escapeHtml(item.functional_area)}</td>
       <td>${escapeHtml(item.category)}</td>
       <td>${escapeHtml(item.region_plant)}</td>
       <td>${escapeHtml(item.responsible)}</td>
@@ -376,9 +378,9 @@ window.applyFilters = function() {
   const rows = Array.from(document.querySelectorAll('#results-table tbody tr'));
   rows.forEach(row => {
     const text = row.textContent.toLowerCase();
-    const cat = row.children[2]?.textContent.trim() || '';
-    const loc = row.children[3]?.textContent.trim() || '';
-    const stat = row.children[5]?.textContent.trim() || '';
+    const cat = row.children[3]?.textContent.trim() || '';
+    const loc = row.children[4]?.textContent.trim() || '';
+    const stat = row.children[6]?.textContent.trim() || '';
 
     const matched = (!category || cat === category) &&
                     (!status || stat === status) &&
@@ -392,7 +394,7 @@ window.applyFilters = function() {
   renderTablePage(currentPage);
 
   // Atualiza marcadores do mapa para mostrar apenas locais com resultados
-  const visibleLocations = new Set(rows.filter(r => r.dataset.matched === 'true').map(r => r.children[3]?.textContent.trim()));
+  const visibleLocations = new Set(rows.filter(r => r.dataset.matched === 'true').map(r => r.children[4]?.textContent.trim()));
   markers.forEach(marker => {
     if (visibleLocations.has(marker.siteName)) marker.addTo(map); else map.removeLayer(marker);
   });
