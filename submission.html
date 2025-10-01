@@ -340,8 +340,10 @@ button:hover, input[type="submit"]:hover {
     <label>KPIs *</label><br/>
     <input type="text" name="kpis" /><br/>
 
-    <label>Date *</label><br/>
-    <input type="date" name="creation_date" value="2025-07-28" required /><br/>
+    <!-- <label>Date *</label><br/>
+    <input type="date" name="creation_date" value="2025-07-28" required /><br/> -->
+
+    <input type="hidden" name="creation_date">
 
     <label>Version *</label><br/>
     <textarea name="version_history" required>Version 1.0</textarea><br/>
@@ -404,6 +406,8 @@ function toggleSidebar() {
 
       const regionPlant = form.querySelector('[name="region_plant"]').value;
 
+      form.querySelector('[name="creation_date"]').value = new Date().toISOString();
+      
       const data = {
         title: form.querySelector('[name="title"]').value,
         description: form.querySelector('[name="description"]').value,
@@ -513,6 +517,7 @@ function toggleSidebar() {
 
 </body>
 </html>
+
 
 
 
