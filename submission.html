@@ -345,8 +345,8 @@ button:hover, input[type="submit"]:hover {
 
     <input type="hidden" name="creation_date">
 
-    <label>Version *</label><br/>
-    <textarea name="version_history" required>Version 1.0</textarea><br/>
+    <!-- <label>Version *</label><br/>
+    <textarea name="version_history" required>Version 1.0</textarea><br/> -->
 
     <input type="file" id="fileInput" name="file" >
     
@@ -421,7 +421,7 @@ function toggleSidebar() {
         kpis: form.querySelector('[name="kpis"]').value,
         item_type: "Best Practice Submission",
         creation_date: form.querySelector('[name="creation_date"]').value,
-        version_history: form.querySelector('[name="version_history"]').value,
+        // version_history: form.querySelector('[name="version_history"]').value,
         file_url: fileUrl,
         cost: form.querySelector('[name="cost"]').value
       };
@@ -517,6 +517,7 @@ function toggleSidebar() {
 
 </body>
 </html>
+
 
 
 
