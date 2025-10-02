@@ -136,12 +136,12 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="to" class="form-label">To: </label>
-            <input type="email" id="to" class="form-control" placeholder="Digite o e-mail" list="usersList" required>
+            <input type="email" id="to" class="form-control" placeholder="E-mail address" list="usersList" required>
             <datalist id="usersList"></datalist>
           </div>
           <div class="mb-3">
             <label for="subject" class="form-label">Subject</label>
-            <input type="text" id="subject" class="form-control" placeholder="Digite o assunto" required>
+            <input type="text" id="subject" class="form-control" placeholder="Subject..." required>
           </div>
           <div class="mb-3">
             <label for="body" class="form-label">Message</label>
@@ -236,13 +236,13 @@ async function loadMessages() {
     if (!m.is_read) unreadCount++;
     const senderEmail = await getUserEmail(m.sender);
     inboxHTML += `<div class="list-group-item msg-clickable ${m.is_read ? '' : 'list-group-item-warning'}" onclick="markAsRead('${m.id}')">
-      <div><strong>De:</strong> ${senderEmail} ${m.is_read ? '<i class="bi bi-check-circle-fill msg-read-icon" title="Lida"></i>' : ''}</div>
-      <div><strong>Assunto:</strong> ${m.subject}</div>
+      <div><strong>From:</strong> ${senderEmail} ${m.is_read ? '<i class="bi bi-check-circle-fill msg-read-icon" title="Lida"></i>' : ''}</div>
+      <div><strong>Subject:</strong> ${m.subject}</div>
       <p class="mb-1 text-muted">${formatMessageBody(m.body)}</p>
       <div class="mt-2">
-        <button onclick="event.stopPropagation(); replyMessage('${senderEmail}', '${m.subject}')" class="btn btn-sm btn-outline-primary me-1">Responder</button>
-        <button onclick="event.stopPropagation(); forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
-        <button onclick="event.stopPropagation(); deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
+        <button onclick="event.stopPropagation(); replyMessage('${senderEmail}', '${m.subject}')" class="btn btn-sm btn-outline-primary me-1">Answer</button>
+        <button onclick="event.stopPropagation(); forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Forward</button>
+        <button onclick="event.stopPropagation(); deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Delete</button>
       </div>
     </div>`;
   }
@@ -261,12 +261,12 @@ async function loadMessages() {
   for (let m of sent || []) {
     const receiverEmail = await getUserEmail(m.receiver);
     sentHTML += `<div class="list-group-item">
-      <div><strong>Para:</strong> ${receiverEmail}</div>
-      <div><strong>Assunto:</strong> ${m.subject}</div>
+      <div><strong>To:</strong> ${receiverEmail}</div>
+      <div><strong>Subject:</strong> ${m.subject}</div>
       <p class="mb-1 text-muted">${formatMessageBody(m.body)}</p>
       <div class="mt-2">
-        <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Encaminhar</button>
-        <button onclick="deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Deletar</button>
+        <button onclick="forwardMessage('${m.subject}', '${m.body}')" class="btn btn-sm btn-outline-success me-1">Forward</button>
+        <button onclick="deleteMessage('${m.id}')" class="btn btn-sm btn-outline-danger">Delete</button>
       </div>
     </div>`;
   }
