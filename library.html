@@ -150,7 +150,7 @@ window.selecionarAtividade = async function(botao) {
   const categoria = linha.cells[3].innerText;
   const localizacao = linha.cells[4].innerText;
   const responsavel = linha.cells[5].innerText;
-  const status = linha.cells[6].innerText;
+  const status = 'Open';
   const detalhes_link = linha.cells[8].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
 
