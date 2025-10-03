@@ -153,6 +153,7 @@ window.selecionarAtividade = async function(botao) {
   const status = 'Open';
   const detalhes_link = linha.cells[8].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
+  const type = 'Selected to Implement'
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
@@ -170,7 +171,7 @@ window.selecionarAtividade = async function(botao) {
     .from('atividades_selecionadas')
     .insert([{
       title, category, region_plant, responsible, status,
-      description, functional_area, applicability, steps
+      description, functional_area, applicability, steps, type
     }]);
 
   if (insertError) {
