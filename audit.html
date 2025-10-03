@@ -374,12 +374,88 @@ window.atualizarLinha = async function (botao) {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  let tabelaAtual = "submissions"; // padrão inicial
+	
   async function fetchData() {
-    const { data, error } = await supabase.from('submissions').select('*');
-    if (error) {
-      console.error('Erro ao buscar dados:', error.message);
-      return;
-    }
+  const { data, error } = await supabase.from(tabelaAtual).select('*');
+  if (error) {
+    console.error('Erro ao buscar dados:', error.message);
+    return;
+  }
+
+  renderTable(data);
+}
+
+function renderTable(data) {
+	
+  const tbody = document.querySelector('#results-table tbody');
+  tbody.innerHTML = '';
+
+  const categories = new Set();
+  const statuses = new Set();
+  const locations = new Set();
+
+  data.forEach(item => {
+    const mainRow = document.createElement('tr');
+    mainRow.classList.add('clickable-row');
+    mainRow.style.cursor = 'pointer';
+
+    mainRow.innerHTML = `
+      <td>${item.title || item.titulo || ''}</td>
+      <td>${item.category || item.categoria || ''}</td>
+      <td>${item.region_plant || item.localizacao || ''}</td>
+      <td>${item.responsible || item.responsavel || ''}</td>
+      <td>${item.status || ''}</td>
+      <td>${item.item_type || item.tipo || ''}</td>
+      <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
+      <td>
+        <button onclick="abrirModalAprovacao(${item.id}, '${(item.title || item.titulo || "").replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
+        <button onclick="abrirModalAprovacao(${item.id}, '${(item.title || item.titulo || "").replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
+      </td>
+    `;
+
+    const detailRow = document.createElement('tr');
+    detailRow.classList.add('detail-row');
+    detailRow.style.display = 'none';
+    detailRow.innerHTML = `
+      <td colspan="7" style="background:#f9f9f9; text-align:justify; padding:10px;">
+        <p><strong>Applicability:</strong> ${item.applicability || ''}</p>
+        <p><strong>Description:</strong> ${item.description || item.descricao || ''}</p>
+        <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
+      </td>
+    `;
+
+    mainRow.addEventListener('click', function(e) {
+      if (e.target.tagName.toLowerCase() === 'button') return;
+      detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
+    });
+
+    tbody.appendChild(mainRow);
+    tbody.appendChild(detailRow);
+
+    if (item.category || item.categoria) categories.add(item.category || item.categoria);
+    if (item.status) statuses.add(item.status);
+    if (item.region_plant || item.localizacao) locations.add(item.region_plant || item.localizacao);
+  });
+
+  populateFilter('filter-category', categories);
+  populateFilter('filter-status', statuses);
+  populateFilter('filter-location', locations);
+}
+
+document.getElementById("btnSubmissions").addEventListener("click", () => {
+  tabelaAtual = "submissions";
+  document.getElementById("btnSubmissions").classList.add("active");
+  document.getElementById("btnAtividades").classList.remove("active");
+  fetchData();
+});
+
+document.getElementById("btnAtividades").addEventListener("click", () => {
+  tabelaAtual = "atividades_selecionadas";
+  document.getElementById("btnAtividades").classList.add("active");
+  document.getElementById("btnSubmissions").classList.remove("active");
+  fetchData();
+});
 		
 async function contarRegistros() {
       const { count, error } = await supabase
@@ -393,71 +469,6 @@ async function contarRegistros() {
         document.getElementById('record-count').textContent = count;
       }
     }
-
-
-    const tbody = document.querySelector('#results-table tbody');
-    tbody.innerHTML = '';
-
-    const categories = new Set();
-    const statuses = new Set();
-    const locations = new Set();
-
-    data.forEach(item => {
-	const mainRow = document.createElement('tr');
-	mainRow.classList.add('clickable-row');
-	mainRow.style.cursor = 'pointer';
-
-	mainRow.innerHTML = `
-	  <td>${item.title}</td>
-	  <td>${item.category}</td>
-	  <td>${item.region_plant}</td>
-	  <td>${item.responsible}</td>
-	  <td>${item.status}</td>
-   	  <td>${item.item_type}</td>
-	  <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
-	  <td>
-	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
-	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
-   	  <button class="btn btn-success" onclick="compartilharMelhoria(${item.id}, '${item.title.replace(/'/g, "\\'")}')"> Share </button>
-
-	  </td>
-
-	`;
-
-	const detailRow = document.createElement('tr');
-	detailRow.classList.add('detail-row');
-	detailRow.style.display = 'none';
-	detailRow.innerHTML = `
-	<td colspan="7" style="background:#f9f9f9; text-align:justify; padding:10px;">
-    <p><strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}</p>
-    <p><strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}</p>
-    <p><strong>Description:</strong> ${item.description || 'Sem detalhes'}</p>
-    <p><strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}</p>
-    <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
-	</td>
-
-	`;
-
-	mainRow.addEventListener('click', function (e) {
-	  // Ignorar cliques nos botões para evitar conflitos
-	  if (e.target.tagName.toLowerCase() === 'button') return;
-	  detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
-	});
-
-	tbody.appendChild(mainRow);
-	tbody.appendChild(detailRow);
-
-
-
-      if (item.category) categories.add(item.category);
-      if (item.status) statuses.add(item.status);
-      if (item.region_plant) locations.add(item.region_plant);
-    });
-
-    populateFilter('filter-category', categories);
-    populateFilter('filter-status', statuses);
-    populateFilter('filter-location', locations);
-  }
 
   function populateFilter(id, values) {
     const select = document.getElementById(id);
@@ -688,6 +699,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
