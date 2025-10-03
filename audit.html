@@ -381,7 +381,7 @@ window.atualizarLinha = async function (botao) {
   async function fetchData() {
     //const { data, error } = await supabase.from('submissions').select('*');
 	//const { data, error } = await supabase.from('atividades_selecionadas').select('*');
-	const { data, error } = await supabase..from(tabelaAtual).select('*');
+	const { data, error } = await supabase.from(tabelaAtual).select('*');
 
     if (error) {
       console.error('Erro ao buscar dados:', error.message);
@@ -719,6 +719,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
