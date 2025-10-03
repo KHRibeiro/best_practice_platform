@@ -465,6 +465,8 @@ async function contarRegistros() {
     populateFilter('filter-status', statuses);
     populateFilter('filter-location', locations);
   }
+  
+window.fetchData = fetchData;
 
   function populateFilter(id, values) {
     const select = document.getElementById(id);
@@ -717,6 +719,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
