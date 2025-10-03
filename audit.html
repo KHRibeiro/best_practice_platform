@@ -313,8 +313,8 @@ window.atualizarLinha = async function (botao) {
     }
 	
   const { data, error } = await supabase
-    //.from('submissions')
-	.from('tabela_unificada')
+    .from('submissions')
+	//.from('tabela_unificada')
     .update({ status: novoStatus })
     .eq('id', id)
 
@@ -370,8 +370,8 @@ window.atualizarLinha = async function (botao) {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   async function fetchData() {
-    //const { data, error } = await supabase.from('submissions').select('*');
-	const { data, error } = await supabase.from('tabela_unificada').select('*');
+    const { data, error } = await supabase.from('submissions').select('*');
+	//const { data, error } = await supabase.from('tabela_unificada').select('*');
     if (error) {
       console.error('Erro ao buscar dados:', error.message);
       return;
@@ -578,8 +578,8 @@ function filterTable() {
 
   // 1. Atualiza status diretamente
   const { data, error } = await supabase
-    //.from('submissions')
-	.from('tabela_unificada')
+    .from('submissions')
+	//.from('tabela_unificada')
     .update({ status: statusDestino })
     .eq('id', id)
     .select("id, title, responsible")
@@ -608,8 +608,8 @@ function filterTable() {
 
   // 1. Atualiza status
   const { data, error } = await supabase
-    //.from('submissions')
-	.from('tabela_unificada')
+    .from('submissions')
+	//.from('tabela_unificada')
     .update({ status: statusDestino, auditor_comment: comentario })
     .eq('id', idMelhoriaAtual)
     .select("id, title, responsible")
@@ -686,5 +686,6 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
