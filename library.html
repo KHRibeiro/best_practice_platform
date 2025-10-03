@@ -169,7 +169,7 @@ window.selecionarAtividade = async function(botao) {
   const { error: insertError } = await supabase
     .from('atividades_selecionadas')
     .insert([{
-      titulo, categoria, localizacao, responsavel, status,
+      title, category, region_plant, responsible, status,
       description, functional_area, applicability, steps
     }]);
 
