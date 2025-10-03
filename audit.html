@@ -376,6 +376,8 @@ window.atualizarLinha = async function (botao) {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+	// Variável global para controlar qual tabela exibir
+	window.tabelaAtual = 'submissions';
  
   //CONSIDERAR LOGICA	
   async function fetchData() {
@@ -582,23 +584,22 @@ function filterTable() {
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  let tabelaAtual = 'submissions'; // default	
+	
   let idMelhoriaAtual = null;
   let statusDestino = null;
 
-document.getElementById('btnSubmissions').addEventListener('click', () => {
-  tabelaAtual = 'submissions';
+document.getElementById('btnSubmissions').addEventListener('click', async () => {
+  window.tabelaAtual = 'submissions';
   document.getElementById('btnSubmissions').classList.add('active');
   document.getElementById('btnAtividades').classList.remove('active');
-  fetchData();
+  await fetchData();
 });
 
-document.getElementById('btnAtividades').addEventListener('click', () => {
-  tabelaAtual = 'atividades_selecionadas';
+document.getElementById('btnAtividades').addEventListener('click', async () => {
+  window.tabelaAtual = 'atividades_selecionadas';
   document.getElementById('btnAtividades').classList.add('active');
   document.getElementById('btnSubmissions').classList.remove('active');
-  fetchData();
+  await fetchData();
 });
 
 
@@ -719,6 +720,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
