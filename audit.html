@@ -302,7 +302,6 @@ const { data: { user } } = await supabase.auth.getUser();
   } else {
     window.location.href = "login.html"; // redireciona se não estiver logado
   }
-
 	
 window.atualizarLinha = async function (botao) {
   const id = parseInt(botao.getAttribute('data-id')) // extrai o ID como número
@@ -321,7 +320,8 @@ window.atualizarLinha = async function (botao) {
 	//CONSIDERAR LOGICA
   const { data, error } = await supabase
     //.from('submissions')
-	.from('atividades_selecionadas')
+	//.from('atividades_selecionadas')
+	.from(tabelaAtual)
     .update({ status: novoStatus })
     .eq('id', id)
 
@@ -380,7 +380,9 @@ window.atualizarLinha = async function (botao) {
   //CONSIDERAR LOGICA	
   async function fetchData() {
     //const { data, error } = await supabase.from('submissions').select('*');
-	const { data, error } = await supabase.from('atividades_selecionadas').select('*');
+	//const { data, error } = await supabase.from('atividades_selecionadas').select('*');
+	const { data, error } = await supabase..from(tabelaAtual).select('*');
+
     if (error) {
       console.error('Erro ao buscar dados:', error.message);
       return;
@@ -578,9 +580,25 @@ function filterTable() {
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-	
+
+  let tabelaAtual = 'submissions'; // default	
   let idMelhoriaAtual = null;
   let statusDestino = null;
+
+document.getElementById('btnSubmissions').addEventListener('click', () => {
+  tabelaAtual = 'submissions';
+  document.getElementById('btnSubmissions').classList.add('active');
+  document.getElementById('btnAtividades').classList.remove('active');
+  fetchData();
+});
+
+document.getElementById('btnAtividades').addEventListener('click', () => {
+  tabelaAtual = 'atividades_selecionadas';
+  document.getElementById('btnAtividades').classList.add('active');
+  document.getElementById('btnSubmissions').classList.remove('active');
+  fetchData();
+});
+
 
   window.abrirModalAprovacao = async function(id, titulo, status) {
   const statusDestino = status;
@@ -589,7 +607,8 @@ function filterTable() {
   // 1. Atualiza status diretamente
   const { data, error } = await supabase
     //.from('submissions')
-	.from('atividades_selecionadas')
+	//.from('atividades_selecionadas')
+	.from(tabelaAtual)
     .update({ status: statusDestino })
     .eq('id', id)
     .select("id, title, responsible")
@@ -620,7 +639,8 @@ function filterTable() {
   // 1. Atualiza status
   const { data, error } = await supabase
     //.from('submissions')
-	.from('atividades_selecionadas')
+	//.from('atividades_selecionadas')
+	.from(tabelaAtual)
     .update({ status: statusDestino, auditor_comment: comentario })
     .eq('id', idMelhoriaAtual)
     .select("id, title, responsible")
@@ -697,6 +717,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
