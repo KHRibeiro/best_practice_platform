@@ -1,251 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<link rel="icon" href="simb.ico" type="image/x-icon">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <title>Audit & Verification</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-
-/* Layout principal em duas colunas */
-.layout {
-  display: flex;
-  height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 200px;
-  background-color: #9AB6DE;
-  padding-top: 60px;
-  transition: width 0.3s ease;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar.collapsed {
-  width: 60px;
-}
-
-.sidebar a {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #fff;
-  white-space: nowrap;
-  transition: background-color 0.2s;
-}
-
-.sidebar a:hover {
-  background-color: #575757;
-}
-
-.sidebar a span:first-child {
-  width: 30px;
-  text-align: center;
-}
-
-.sidebar .link-text {
-  opacity: 1;
-  transition: opacity 0.2s ease;
-}
-
-.sidebar.collapsed .link-text {
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  overflow: hidden;
-}
-
-/* Conteúdo principal */
-main {
-  flex: 1;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-  overflow-y: auto;
-}
-
-/* Botão para abrir sidebar */
-.openbtn {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1100;
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #9AB6DE;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-
-		
-	.checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      max-width: 600px;
-      margin-bottom: 20px;
-    }
-
-    .checkbox-grid label {
-      display: block;
-    }
-
-    .controls {
-      margin-bottom: 20px;
-    }
-
-    button {
-      margin-right: 10px;
-      padding: 8px 16px;
-	    
-    }
-    
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f6f8;
-    }
-	    
-    header {
-      background: #9AB6DE;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-	    
-    nav {
-      background: #34495e;
-      padding: 0.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    nav a {
-      margin: 0 1em;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    main {
-      padding: 2em;
-    }
-    
-    input[type="text"], select {
-      padding: 0.5em;
-      margin: 0.5em 0;
-      width: 200px;
-    }
-  </style>
+<style>
+/* --- Seu CSS existente --- */
+.layout { display: flex; height: 100vh; }
+.sidebar { width: 200px; background-color: #9AB6DE; padding-top: 60px; transition: width 0.3s ease; overflow-x: hidden; display: flex; flex-direction: column; }
+.sidebar.collapsed { width: 60px; }
+.sidebar a { display: flex; align-items: center; padding: 12px 16px; text-decoration: none; font-size: 18px; color: #fff; white-space: nowrap; transition: background-color 0.2s; }
+.sidebar a:hover { background-color: #575757; }
+.sidebar a span:first-child { width: 30px; text-align: center; }
+.sidebar .link-text { opacity: 1; transition: opacity 0.2s ease; }
+.sidebar.collapsed .link-text { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
+main { flex: 1; padding: 20px; transition: margin-left 0.3s ease; overflow-y: auto; }
+.openbtn { position: fixed; top: 10px; left: 10px; z-index: 1100; font-size: 20px; cursor: pointer; background-color: #9AB6DE; color: white; padding: 10px 15px; border: none; }
+.checkbox-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 600px; margin-bottom: 20px; }
+.checkbox-grid label { display: block; }
+.controls { margin-bottom: 20px; }
+button { margin-right: 10px; padding: 8px 16px; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
+header { background: #9AB6DE; color: white; padding: 1rem; text-align: center; }
+nav { background: #34495e; padding: 0.5rem; display: flex; justify-content: center; gap: 1rem; }
+nav a { margin: 0 1em; text-decoration: none; color: white; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+input[type="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
+</style>
 </head>
 <body>
- 
-  <header>
-  <!-- <img alt="Best Practice Platform Logo" src="lamp_light.png" style="height:150px; background-color:transparent;"/> -->
-<!-- Botão de toggle -->	  
+
+<header>
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
 <div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
-  </header>
+</header>
 
-<!-- Container do layout -->
 <div class="layout">
-  <!-- Sidebar -->
-  <div id="mySidebar" class="sidebar collapsed">
-    <a href="index.html" title="Dashboard">
-  <span><i class="bi bi-speedometer2 text-white"></i></span>
-  <span class="link-text">Dashboard</span>
-</a>
-
-<a href="library.html" title="Library">
-  <span><i class="bi bi-journals text-white"></i></span>
-  <span class="link-text">Library</span>
-</a>
-
-<a href="submission.html" title="Submit">
-  <span><i class="bi bi-upload text-white"></i></span>
-  <span class="link-text">Submit</span>
-</a>
-
-<a href="tracker.html" title="Tracker">
-  <span><i class="bi bi-graph-up-arrow text-white"></i></span>
-  <span class="link-text">Implement</span>
-</a>
-
-<a href="audit.html" title="Audit">
-  <span><i class="bi bi-search text-white"></i></span>
-  <span class="link-text">Audit</span>
-</a>
-
-<a href="admin.html" title="Admin">
-  <span><i class="bi bi-person-gear text-white"></i></span>
-  <span class="link-text">Admin</span>
-</a>
-
-<a href="login.html" title="Login">
-  <span><i class="bi bi-box-arrow-in-right text-white"></i></span>
-  <span class="link-text">Login</span>
-</a>
-
-   <!-- Novo botão de mensagens -->
-  <a href="mail.html" title="Mensagens">
-    <span><i class="bi bi-envelope-fill text-white"></i></span>
-    <span class="link-text">BP Mail</span>
-  </a>
-	  
-    <!-- Botão logout fixado no rodapé -->
-<div class="logout-container">
-    <a href="#" id="logoutBtn" title="Logout">
-    <span><i class="bi bi-box-arrow-right text-white"></i></span>
-    <span class="link-text">Logout</span>
-    </a>
-</div>
+<div id="mySidebar" class="sidebar collapsed">
+  <!-- Links da sidebar -->
+  <a href="index.html" title="Dashboard"><span><i class="bi bi-speedometer2 text-white"></i></span><span class="link-text">Dashboard</span></a>
+  <a href="library.html" title="Library"><span><i class="bi bi-journals text-white"></i></span><span class="link-text">Library</span></a>
+  <a href="submission.html" title="Submit"><span><i class="bi bi-upload text-white"></i></span><span class="link-text">Submit</span></a>
+  <a href="tracker.html" title="Tracker"><span><i class="bi bi-graph-up-arrow text-white"></i></span><span class="link-text">Implement</span></a>
+  <a href="audit.html" title="Audit"><span><i class="bi bi-search text-white"></i></span><span class="link-text">Audit</span></a>
+  <a href="admin.html" title="Admin"><span><i class="bi bi-person-gear text-white"></i></span><span class="link-text">Admin</span></a>
+  <a href="login.html" title="Login"><span><i class="bi bi-box-arrow-in-right text-white"></i></span><span class="link-text">Login</span></a>
+  <a href="mail.html" title="Mensagens"><span><i class="bi bi-envelope-fill text-white"></i></span><span class="link-text">BP Mail</span></a>
+  <div class="logout-container">
+    <a href="#" id="logoutBtn" title="Logout"><span><i class="bi bi-box-arrow-right text-white"></i></span><span class="link-text">Logout</span></a>
   </div>
-	
-	
-  <main>
+</div>
 
-	  
+<main>
 <section>
-      <h2>Audit & Verification</h2>
-	    
+<h2>Audit & Verification</h2>
 <form class="row g-3 needs-validation" novalidate>
-
 <div class="col-md-3">
 <label class="form-label">Keywords: </label>
 <input id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="Keywords..." type="text"/>
 </div>
-
 <div class="col-md-3">
 <label for="filter-category" class="form-label">Categoria:</label>
-<select id="filter-category" class="form-select">
-<option value="">Todas</option>
-</select>
+<select id="filter-category" class="form-select"><option value="">Todas</option></select>
 </div>
-
 <div class="col-md-3">
 <label for="filter-status">Status:</label>
-<select id="filter-status" class="form-select">
-<option value="">Todos</option>
-</select>
+<select id="filter-status" class="form-select"><option value="">Todos</option></select>
 </div>
-
 <div class="col-md-3">
 <label for="filter-location">Localização:</label>
-<select id="filter-location" class="form-select">
-<option value="">Todas</option>
-</select>
+<select id="filter-location" class="form-select"><option value="">Todas</option></select>
 </div>
 </form>
 
@@ -254,7 +81,6 @@ main {
   <button id="btnAtividades" class="btn btn-outline-primary">Implementations</button>
 </div>
 
-	
 <table class="table table-hover" id="results-table">
 <thead>
 <tr>
@@ -263,443 +89,159 @@ main {
 <th>Site/Region</th>
 <th>Responsible</th>
 <th>Status</th>
-<th>Type</th>	
+<th>Type</th>  
 <th>Files</th>
 <th>Decision</th>
 </tr>
 </thead>
 <tbody></tbody>
 </table>
-	    
 </section>
-
 </main>
 </div>
-	
-<script>
-function toggleSidebar() {
-  const sidebar = document.getElementById("mySidebar");
-  sidebar.classList.toggle("collapsed");
-}
-</script>
 
-
-	
 <script type="module">
-
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
 const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+let tabelaAtual = 'submissions';
+let idMelhoriaAtual = null;
+let statusDestino = null;
 
-const { data: { user } } = await supabase.auth.getUser();
-
-  if (user) {
-    document.getElementById("usuario").innerText = `Welcome, ${user.email}`;
-  } else {
-    window.location.href = "login.html"; // redireciona se não estiver logado
-  }
-
-	
-window.atualizarLinha = async function (botao) {
-  const id = parseInt(botao.getAttribute('data-id')) // extrai o ID como número
-  const textoBotao = botao.textContent.trim().toLowerCase();
-
-  let novoStatus = '';
-    if (textoBotao === 'approve') {
-      novoStatus = 'Approved';
-    } else if (textoBotao === 'reprove') {
-      novoStatus = 'Revision';
-    } else {
-      console.warn('Texto do botão não reconhecido:', textoBotao);
-      return;
-    }
-
-	//CONSIDERAR LOGICA
-  const { data, error } = await supabase
-    //.from('submissions')
-	.from('atividades_selecionadas')
-    .update({ status: novoStatus })
-    .eq('id', id)
-
-  if (error) {
-  console.error('Erro ao atualizar:', error);
-  alert('Erro ao atualizar o status. Tente novamente.');
-} else {
-  console.log('Linha atualizada com sucesso:', data);
-  location.reload(); // Recarrega a página
+// Toggle sidebar
+function toggleSidebar() {
+  document.getElementById("mySidebar").classList.toggle("collapsed");
 }
-}
-	
-</script>
-	
-<script>
-    function capitalize(str) {
-      if (!str) return "";
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
-    const user = localStorage.getItem("username");
-    const role = localStorage.getItem("userRole");
-    if (user && role) {
-      const formattedUser = capitalize(user);
-      const formattedRole = capitalize(role);
-      document.getElementById("user-info").textContent = `Logged in as: ${formattedUser} (${formattedRole})`;
-    }
+// Botões de alternar tabela
+document.getElementById('btnSubmissions').addEventListener('click', () => {
+  tabelaAtual = 'submissions';
+  document.getElementById('btnSubmissions').classList.add('active');
+  document.getElementById('btnAtividades').classList.remove('active');
+  fetchData();
+});
+document.getElementById('btnAtividades').addEventListener('click', () => {
+  tabelaAtual = 'atividades_selecionadas';
+  document.getElementById('btnAtividades').classList.add('active');
+  document.getElementById('btnSubmissions').classList.remove('active');
+  fetchData();
+});
 
-    document.getElementById('title-filter').addEventListener('input', filterTable);
-    document.getElementById('category-filter').addEventListener('change', filterTable);
+// Função para buscar dados
+async function fetchData() {
+  const { data, error } = await supabase.from(tabelaAtual).select('*');
+  if (error) { console.error(error); return; }
 
-    function filterTable() {
-      const title = document.getElementById('title-filter').value.toLowerCase();
-      const category = document.getElementById('category-filter').value;
-      const rows = document.querySelectorAll('#practices-table tbody tr');
+  const tbody = document.querySelector('#results-table tbody');
+  tbody.innerHTML = '';
 
-      rows.forEach(row => {
-        const titleText = row.cells[0].textContent.toLowerCase();
-        const categoryText = row.cells[1].textContent;
-        const matchTitle = titleText.includes(title);
-        const matchCategory = category === "" || categoryText === category;
-        row.style.display = matchTitle && matchCategory ? "" : "none";
-      });
-    }
-  </script>
+  const categories = new Set();
+  const statuses = new Set();
+  const locations = new Set();
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  data.forEach(item => {
+    const mainRow = document.createElement('tr');
+    mainRow.classList.add('clickable-row');
+    mainRow.style.cursor = 'pointer';
+    mainRow.innerHTML = `
+      <td>${item.title}</td>
+      <td>${item.category}</td>
+      <td>${item.region_plant}</td>
+      <td>${item.responsible}</td>
+      <td>${item.status}</td>
+      <td>${item.type}</td>
+      <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
+      <td>
+        <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
+        <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
+        <button class="btn btn-success" onclick="compartilharMelhoria(${item.id}, '${item.title.replace(/'/g, "\\'")}')">Share</button>
+      </td>`;
 
-  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+    const detailRow = document.createElement('tr');
+    detailRow.classList.add('detail-row');
+    detailRow.style.display = 'none';
+    detailRow.innerHTML = `
+      <td colspan="8" style="background:#f9f9f9; text-align:justify; padding:10px;">
+        <p><strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}</p>
+        <p><strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}</p>
+        <p><strong>Description:</strong> ${item.description || 'Sem detalhes'}</p>
+        <p><strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}</p>
+        <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
+      </td>`;
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
- 
-  //CONSIDERAR LOGICA	
-  async function fetchData() {
-    //const { data, error } = await supabase.from('submissions').select('*');
-	const { data, error } = await supabase.from('atividades_selecionadas').select('*');
-    if (error) {
-      console.error('Erro ao buscar dados:', error.message);
-      return;
-    }
-		
-async function contarRegistros() {
-      const { count, error } = await supabase
-        .from('sua_tabela')
-        .select('*', { count: 'exact', head: true });
-
-      if (error) {
-        document.getElementById('record-count').textContent = 'Erro ao buscar dados';
-        console.error(error);
-      } else {
-        document.getElementById('record-count').textContent = count;
-      }
-    }
-
-
-    const tbody = document.querySelector('#results-table tbody');
-    tbody.innerHTML = '';
-
-    const categories = new Set();
-    const statuses = new Set();
-    const locations = new Set();
-
-    data.forEach(item => {
-	const mainRow = document.createElement('tr');
-	mainRow.classList.add('clickable-row');
-	mainRow.style.cursor = 'pointer';
-
-	mainRow.innerHTML = `
-	  <td>${item.title}</td>
-	  <td>${item.category}</td>
-	  <td>${item.region_plant}</td>
-	  <td>${item.responsible}</td>
-	  <td>${item.status}</td>
-   	  <td>${item.type}</td>
-	  <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
-	  <td>
-	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
-	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Revision')" class="btn btn-primary btn-sm">Reprove</button>
-   	  <button class="btn btn-success" onclick="compartilharMelhoria(${item.id}, '${item.title.replace(/'/g, "\\'")}')"> Share </button>
-
-	  </td>
-
-	`;
-
-	const detailRow = document.createElement('tr');
-	detailRow.classList.add('detail-row');
-	detailRow.style.display = 'none';
-	detailRow.innerHTML = `
-	<td colspan="7" style="background:#f9f9f9; text-align:justify; padding:10px;">
-    <p><strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}</p>
-    <p><strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}</p>
-    <p><strong>Description:</strong> ${item.description || 'Sem detalhes'}</p>
-    <p><strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}</p>
-    <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
-	</td>
-
-	`;
-
-	mainRow.addEventListener('click', function (e) {
-	  // Ignorar cliques nos botões para evitar conflitos
-	  if (e.target.tagName.toLowerCase() === 'button') return;
-	  detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
-	});
-
-	tbody.appendChild(mainRow);
-	tbody.appendChild(detailRow);
-
-
-
-      if (item.category) categories.add(item.category);
-      if (item.status) statuses.add(item.status);
-      if (item.region_plant) locations.add(item.region_plant);
+    mainRow.addEventListener('click', e => {
+      if (e.target.tagName.toLowerCase() === 'button') return;
+      detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
     });
 
-    populateFilter('filter-category', categories);
-    populateFilter('filter-status', statuses);
-    populateFilter('filter-location', locations);
-  }
+    tbody.appendChild(mainRow);
+    tbody.appendChild(detailRow);
 
-  function populateFilter(id, values) {
-    const select = document.getElementById(id);
-    values.forEach(value => {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = value;
-      select.appendChild(option);
-    });
-  }
-
-  function applyFilters() {
-  const category = document.getElementById('filter-category').value;
-  const status = document.getElementById('filter-status').value;
-  const location = document.getElementById('filter-location').value;
-
-  const rows = document.querySelectorAll('#results-table tbody tr');
-
-  for (let i = 0; i < rows.length; i += 2) {
-    const mainRow = rows[i];
-    const detailRow = rows[i + 1];
-
-    const cells = mainRow.children;
-    const cat = cells[1].textContent;
-    const loc = cells[2].textContent;
-    const stat = cells[4].textContent;
-
-    const show = (!category || cat === category) &&
-                 (!status || stat === status) &&
-                 (!location || loc === location);
-
-    mainRow.style.display = show ? '' : 'none';
-    if (detailRow) detailRow.style.display = show ? 'none' : 'none'; // sempre escondida até clique
-  }
-}
-
-
-  document.addEventListener('DOMContentLoaded', () => {
-    fetchData();
-    document.getElementById('filter-category').addEventListener('change', applyFilters);
-    document.getElementById('filter-status').addEventListener('change', applyFilters);
-    document.getElementById('filter-location').addEventListener('change', applyFilters);
+    if (item.category) categories.add(item.category);
+    if (item.status) statuses.add(item.status);
+    if (item.region_plant) locations.add(item.region_plant);
   });
-	
-contarRegistros();
-</script>
-	
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
-
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user) {
-    document.getElementById("usuarioDisplay").innerText = `User: ${user.email}`;
-    document.getElementById("usuario").value = user.email;
-  } else {
-    window.location.href = "login.html"; // redireciona se não estiver logado
-  }
-</script>
-	
-<script>
-function filterTable() {
-  const input = document.getElementById("searchInput").value.toLowerCase();
-  const rows = document.querySelectorAll("table tbody tr");
-
-  for (let i = 0; i < rows.length; i += 2) {
-    const mainRow = rows[i];
-    const detailRow = rows[i + 1];
-
-    const cells = mainRow.querySelectorAll("td");
-    const match = Array.from(cells).some(cell =>
-      cell.textContent.toLowerCase().includes(input)
-    );
-
-    mainRow.style.display = match ? "" : "none";
-    if (detailRow) detailRow.style.display = "none"; // esconder detalhes até clicar
-  }
+  populateFilter('filter-category', categories);
+  populateFilter('filter-status', statuses);
+  populateFilter('filter-location', locations);
 }
 
-</script>
-	
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+function populateFilter(id, values) {
+  const select = document.getElementById(id);
+  select.innerHTML = '<option value="">Todos</option>';
+  values.forEach(value => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+}
 
-<script>
-  let melhoriaSelecionadaId = null;
+// Modal aprovação
+window.abrirModalAprovacao = async function(id, titulo, status) {
+  statusDestino = status;
+  idMelhoriaAtual = id;
 
-  function abrirModalCompartilhamento(id, titulo) {
-    melhoriaSelecionadaId = id;
-    const selecionadas = Array.from(document.querySelectorAll('.checkbox:checked'))
-                              .map(cb => cb.value)
-                              .join('; ');
-
-    if (!selecionadas) {
-      alert('Select at least one plant to share.');
-      return;
-    }
-
-    document.getElementById('destinatariosSelecionados').textContent = selecionadas;
-    document.getElementById('tituloMelhoriaSelecionada').textContent = titulo;
-
-    const modal = new bootstrap.Modal(document.getElementById('modalCompartilhar'));
-    modal.show();
-  }
-
-</script>
-
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-	
-  let idMelhoriaAtual = null;
-  let statusDestino = null;
-
-  window.abrirModalAprovacao = async function(id, titulo, status) {
-  const statusDestino = status;
-
-  //CONSIDERAR LOGICA
-  // 1. Atualiza status diretamente
-  const { data, error } = await supabase
-    //.from('submissions')
-	.from('atividades_selecionadas')
+  const { data, error } = await supabase.from(tabelaAtual)
     .update({ status: statusDestino })
     .eq('id', id)
-    .select("id, title, responsible")
+    .select('id,title,responsible')
     .single();
+  if (error) { console.error(error); alert('Erro ao atualizar status'); return; }
 
-  if (error) {
-    alert("Error: Fail during attempt to update.");
-    console.error(error);
-    return;
-  }
-
-  // 2. Montar mensagem padrão
   const responsavelEmail = data.responsible;
   const assunto = `Melhoria ${statusDestino}`;
   const corpoMsg = statusDestino === "Approved"
-    ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
-    : `Your best practice "${data.title}" was returned for review.\n\nComentário do auditor: `;
-
-  // 3. Abrir modal de mensagem já preenchido
+    ? `Your Best Practice "${data.title}" was approved.\n\nComentário do auditor: `
+    : `Your Best Practice "${data.title}" was returned for review.\n\nComentário do auditor: `;
   openMessageModal(responsavelEmail, assunto, corpoMsg);
 };
 
+document.addEventListener('DOMContentLoaded', fetchData);
 
-  document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
-  const comentario = document.getElementById('comentarioAuditor').value;
-
-  //CONSIDERAR LOGICA
-  // 1. Atualiza status
-  const { data, error } = await supabase
-    //.from('submissions')
-	.from('atividades_selecionadas')
-    .update({ status: statusDestino, auditor_comment: comentario })
-    .eq('id', idMelhoriaAtual)
-    .select("id, title, responsible")
-    .single();
-
-  if (error) {
-    alert('Erro ao atualizar melhoria.');
-    console.error(error);
-    return;
+function filterTable() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("table tbody tr");
+  for (let i = 0; i < rows.length; i += 2) {
+    const mainRow = rows[i];
+    const detailRow = rows[i + 1];
+    const match = Array.from(mainRow.cells).some(cell => cell.textContent.toLowerCase().includes(input));
+    mainRow.style.display = match ? "" : "none";
+    if (detailRow) detailRow.style.display = "none";
   }
+}
 
-  // 2. Buscar responsável (email)
-  const responsavelEmail = data.responsible;
-
-  // 3. Montar mensagem padrão
-  const assunto = `Melhoria ${statusDestino}`;
-  const corpoMsg = statusDestino === "Approved"
-    ? `Your Best Practice "${data.title}" was approved.\n\nComentário do auditor: ${comentario || "sem comentários"}`
-    : `Your Best Practice "${data.title}" was returned for review.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
-
-  // 4. Abrir modal de mensagem já existente (do modal-loader.js)
-  openMessageModal(responsavelEmail, assunto, corpoMsg);
-
-  // Fecha modal de aprovação
-  const modalAprovacao = bootstrap.Modal.getInstance(document.getElementById('modalAprovacao'));
-  modalAprovacao.hide();
-});
-
-
-	
-</script>
-
-<script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-
-    const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const logoutBtn = document.getElementById('logoutBtn');
-      logoutBtn.addEventListener('click', async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-          console.error('Erro ao fazer logout:', error.message);
-        } else {
-          alert('Logout done!');
-          window.location.href = 'login.html'; // ou outra página desejada
-        }
-      });
-    });
-  </script>
-
-<script>
 function compartilharMelhoria(id, titulo) {
-  // Pega o caminho base do projeto (ex.: /best_practice_platform/)
-  const basePath = window.location.pathname.split('/')[1]; 
-  
-  // Monta link correto
-  const linkDetail = `${window.location.origin}/${basePath}/detail.html?id=${id}`;
-  
-  // Corpo da mensagem em TEXTO PLANO
+  const linkDetail = `${window.location.origin}/detail.html?id=${id}`;
   const corpoMsg = `Take a look at this Best Practice: "${titulo}"\n\n${linkDetail}`;
-  
-  // Abre o modal de mensagem já existente
   openMessageModal('', `Shared Best Practice: ${titulo}`, corpoMsg);
 }
 </script>
 
-
-<!-- Bootstrap JS (necessário) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Loader do modal -->
-<script type="module" src="modal-Multloader.js"></script>
-	
 </body>
 </html>
-
-
-
-
-
-
