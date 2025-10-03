@@ -407,7 +407,7 @@ async function contarRegistros() {
 	  <td>${item.region_plant}</td>
 	  <td>${item.responsible}</td>
 	  <td>${item.status}</td>
-   	  <td>${item.item_type}</td>
+   	  <td>${item.type}</td>
 	  <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
 	  <td>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
@@ -682,3 +682,4 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
