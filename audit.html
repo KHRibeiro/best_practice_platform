@@ -317,10 +317,11 @@ window.atualizarLinha = async function (botao) {
       console.warn('Texto do botão não reconhecido:', textoBotao);
       return;
     }
-	
+
+	//CONSIDERAR LOGICA
   const { data, error } = await supabase
-    .from('submissions')
-	//.from('tabela_unificada')
+    //.from('submissions')
+	.from('atividades_selecionadas')
     .update({ status: novoStatus })
     .eq('id', id)
 
@@ -375,9 +376,11 @@ window.atualizarLinha = async function (botao) {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+ 
+  //CONSIDERAR LOGICA	
   async function fetchData() {
-    const { data, error } = await supabase.from('submissions').select('*');
-	//const { data, error } = await supabase.from('tabela_unificada').select('*');
+    //const { data, error } = await supabase.from('submissions').select('*');
+	const { data, error } = await supabase.from('atividades_selecionadas').select('*');
     if (error) {
       console.error('Erro ao buscar dados:', error.message);
       return;
@@ -582,10 +585,11 @@ function filterTable() {
   window.abrirModalAprovacao = async function(id, titulo, status) {
   const statusDestino = status;
 
+  //CONSIDERAR LOGICA
   // 1. Atualiza status diretamente
   const { data, error } = await supabase
-    .from('submissions')
-	//.from('tabela_unificada')
+    //.from('submissions')
+	.from('atividades_selecionadas')
     .update({ status: statusDestino })
     .eq('id', id)
     .select("id, title, responsible")
@@ -612,10 +616,11 @@ function filterTable() {
   document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
   const comentario = document.getElementById('comentarioAuditor').value;
 
+  //CONSIDERAR LOGICA
   // 1. Atualiza status
   const { data, error } = await supabase
-    .from('submissions')
-	//.from('tabela_unificada')
+    //.from('submissions')
+	.from('atividades_selecionadas')
     .update({ status: statusDestino, auditor_comment: comentario })
     .eq('id', idMelhoriaAtual)
     .select("id, title, responsible")
@@ -692,6 +697,7 @@ function compartilharMelhoria(id, titulo) {
 	
 </body>
 </html>
+
 
 
 
