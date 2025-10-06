@@ -46,7 +46,7 @@ nav { background: #34495e; padding: 0.5rem; display: flex; justify-content: cent
 nav a { margin: 0 1em; text-decoration: none; color: white; font-weight: bold; }
 nav a:hover { text-decoration: underline; }
 main { padding: 2em; }
-input[type="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
+input[="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
 </style>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
@@ -337,7 +337,7 @@ async function fetchData() {
       <td>${escapeHtml(item.status)}</td>
       <td>${item.file_url ? `<a href="${escapeHtml(item.file_url)}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
       <td><a href="detail.html?id=${item.id}">Detail</a></td>
-      <td>${escapeHtml(item.item_type)}</td>
+      <td>${escapeHtml(item.type)}</td>
       <td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)" title="Send"><i class="bi bi-cart"></i></button></td>
       <td>
         <button class="btn btn-warning btn-sm" title="Edit" onclick="editarLinha(${item.id})"><i class="bi bi-pencil"></i></button>
