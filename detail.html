@@ -229,7 +229,7 @@ body {
 <!-- Botão que chama a verificação -->
 <br><br>
 <button class="btn btn-primary btn-sm" onclick="abrirModalGerarPost()">
-  Gerar Post
+  Generate Post
 </button>
 
 <!-- Modal Bootstrap -->
@@ -402,16 +402,29 @@ We are excited to announce a new Best Practice that aims to raise our standards 
   window.verificarEgerarPost = verificarEgerarPost;
   window.copiarTexto = copiarTexto;
 
+// 🔹 Função para abrir o modal após gerar o post
 async function abrirModalGerarPost() {
-  await verificarEgerarPost();
+  try {
+    // Executa a verificação e geração do texto
+    await verificarEgerarPost();
 
-  // Verifica se o texto foi gerado
-  const texto = document.getElementById("textoGerado").value;
-  if (texto.trim() !== "") {
-    const modal = new bootstrap.Modal(document.getElementById('postModal'));
+    // Verifica se o texto foi realmente gerado
+    const texto = document.getElementById("textoGerado")?.value.trim();
+    if (!texto) return; // nada gerado → não abre modal
+
+    // Abre o modal Bootstrap
+    const modalElement = document.getElementById('postModal');
+    const modal = new bootstrap.Modal(modalElement);
     modal.show();
+
+  } catch (error) {
+    console.error('Erro ao abrir modal:', error);
+    alert('Erro ao gerar o post.');
   }
 }
+
+// 🔹 Expõe a função globalmente para funcionar com onclick do HTML
+window.abrirModalGerarPost = abrirModalGerarPost;
 
 </script>
 
