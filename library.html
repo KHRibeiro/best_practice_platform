@@ -125,8 +125,34 @@ input[="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
 
       <div id="map" style="height: 350px; margin-top: 20px;"></div>
     </section>
+
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="postModalLabel">Generated Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating">
+          <textarea class="form-control" id="textoGerado" style="height: 250px" placeholder="Generate the post..."></textarea>
+          <label class="form-label">Your post text</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" onclick="copiarTexto()">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
   </main>
 </div>
+
 
 <script>
 function toggleSidebar() {
@@ -340,6 +366,7 @@ async function fetchData() {
       <td>${escapeHtml(item.type)}</td>
       <td><button class="btn btn-primary btn-sm" onclick="selecionarAtividade(this)" title="Send"><i class="bi bi-cart"></i></button></td>
       <td>
+        <button class="btn btn-primary btn-sm" onclick="abrirModalGerarPost()">Generate Post</button>
         <button class="btn btn-warning btn-sm" title="Edit" onclick="editarLinha(${item.id})"><i class="bi bi-pencil"></i></button>
         <button class="btn btn-danger btn-sm" title="Delete" onclick="removerLinha(${item.id})"><i class="bi bi-x-lg"></i></button>
       </td>
@@ -467,6 +494,11 @@ function renderPagination(totalPages) {
 document.addEventListener('DOMContentLoaded', () => {
   fetchData();
 });
+
+
+
+
+  
 </script>
 
 <!-- Autenticação do usuário (mantive sua lógica original) -->
@@ -539,6 +571,131 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script type="module">
+ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 🧠 Função para buscar a Best Practice pelo ID
+  
+async function fetchBestPractice(id) {
+    const { data, error } = await supabase
+      .from('submissions')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Erro ao buscar Best Practice:', error);
+      return null;
+    }
+
+    return data;
+  }
+
+  
+async function getCurrentUser() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Erro ao obter usuário:', error);
+      return null;
+    }
+    return user;
+  }
+
+  function gerarTexto() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+
+  // Pega o caminho base do repositório no GitHub Pages
+  const basePath = window.location.pathname.split('/')[1];
+  const linkDetail = `${window.location.origin}/${basePath}/detail.html?id=${id}`;
+
+  const texto = `🚀 *New Best Practice Available!*
+
+We are excited to announce a new Best Practice that aims to raise our standards of excellence! This initiative has been carefully developed to optimize processes, increase efficiency, and ensure consistent results across all units.
+
+📌 *What you'll find:*
+- Clear and measurable objectives
+- Step-by-step implementation guide
+- Deployment map by site
+- Supporting materials such as documents and videos
+
+💬 Your participation is essential! Explore the details, share your feedback, and contribute to our collective success.
+
+👉 ${linkDetail}
+
+#Excellence #Innovation #BestPractices`;
+
+  document.getElementById("textoGerado").value = texto;
+}
+
+
+  function copiarTexto() {
+    const texto = document.getElementById("textoGerado");
+    texto.select();
+    texto.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Texto copiado para a área de transferência!");
+  }
+
+  async function verificarEgerarPost() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    if (!id) {
+      alert('ID da Best Practice não encontrado na URL.');
+      return;
+    }
+
+    const bestPractice = await fetchBestPractice(id);
+    const currentUser = await getCurrentUser();
+
+    if (!bestPractice || !currentUser) {
+      alert('Erro ao carregar dados.');
+      return;
+    }
+
+    // ✅ Comparação por e-mail
+    if (bestPractice.status === 'Approved' && bestPractice.responsible === currentUser.email) {
+      gerarTexto();
+    } else {
+      alert('Você só pode gerar posts de Best Practices aprovadas que você criou.');
+    }
+  }
+
+  // Expor funções para os botões
+  window.verificarEgerarPost = verificarEgerarPost;
+  window.copiarTexto = copiarTexto;
+
+// 🔹 Função para abrir o modal após gerar o post
+async function abrirModalGerarPost() {
+  try {
+    // Executa a verificação e geração do texto
+    await verificarEgerarPost();
+
+    // Verifica se o texto foi realmente gerado
+    const texto = document.getElementById("textoGerado")?.value.trim();
+    if (!texto) return; // nada gerado → não abre modal
+
+    // Abre o modal Bootstrap
+    const modalElement = document.getElementById('postModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+
+  } catch (error) {
+    console.error('Erro ao abrir modal:', error);
+    alert('Erro ao gerar o post.');
+  }
+}
+
+// 🔹 Expõe a função globalmente para funcionar com onclick do HTML
+window.abrirModalGerarPost = abrirModalGerarPost;
+
+</script>
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
