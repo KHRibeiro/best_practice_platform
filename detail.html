@@ -230,14 +230,33 @@ body {
 <br><br>
 <button class="btn btn-primary btn-sm" onclick="verificarEgerarPost()">Gerar Post</button>
 
+<!-- Botão que chama a verificação -->
 <br><br>
-<div class="form-floating">
-<textarea class="form-control" id="textoGerado" style="height: 150px" placeholder="Generate the post..."></textarea>
-<label class="form-label">Generate your post!</label>
-</div>
+<button class="btn btn-primary btn-sm" onclick="abrirModalGerarPost()">
+  Gerar Post
+</button>
 
-<br>
-<button class="btn btn-primary btn-sm" onclick="copiarTexto()">Copy</button>
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="postModalLabel">Generated Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating">
+          <textarea class="form-control" id="textoGerado" style="height: 250px" placeholder="Generate the post..."></textarea>
+          <label class="form-label">Your post text</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" onclick="copiarTexto()">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
 	  
 <img src="LogoTogether.png" alt="Ramification" class="rounded mx-auto d-block" style="height:200px; background-color:transparent;" />
 	  
@@ -387,6 +406,16 @@ We are excited to announce a new Best Practice that aims to raise our standards 
   window.verificarEgerarPost = verificarEgerarPost;
   window.copiarTexto = copiarTexto;
 
+async function abrirModalGerarPost() {
+  await verificarEgerarPost();
+
+  // Verifica se o texto foi gerado
+  const texto = document.getElementById("textoGerado").value;
+  if (texto.trim() !== "") {
+    const modal = new bootstrap.Modal(document.getElementById('postModal'));
+    modal.show();
+  }
+}
 
 </script>
 
