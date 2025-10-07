@@ -646,10 +646,10 @@ We are excited to announce a new Best Practice that aims to raise our standards 
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    if (!id) {
-      alert('ID da Best Practice não encontrado na URL.');
-      return;
-    }
+    //if (!id) {
+    //  alert('ID da Best Practice não encontrado na URL.');
+    //  return;
+   // }
 
     const bestPractice = await fetchBestPractice(id);
     const currentUser = await getCurrentUser();
