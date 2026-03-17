@@ -439,7 +439,7 @@ async function getLoggedUser() {
 async function getUserData(email) {
   const { data, error } = await supabase
     .from("users")
-    .select("site_region, user_level")
+    .select("site_region, role")
     .eq("email", email)
     .single();
 
