@@ -426,10 +426,6 @@ function toggleSidebar() {
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
-
-import { carregarDadosUsuario } from "./user-info.js";
-
-carregarDadosUsuario();
   
  async function loadRecentPractices() {
   const { data, error } = await supabase
@@ -558,6 +554,11 @@ async function loadMessageInfo() {
 
 loadMessageInfo();
   
+</script>
+
+<script>
+  import { carregarDadosUsuario } from "./user-info.js";
+  carregarDadosUsuario();
 </script>
 
 <!-- Bootstrap JS (necessário) -->
