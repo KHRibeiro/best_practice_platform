@@ -446,10 +446,10 @@ async function contarRegistros() {
 	detailRow.style.display = 'none';
 	detailRow.innerHTML = `
 	<td colspan="7" style="background:#f9f9f9; text-align:justify; padding:10px;">
-    <p><strong>Applicability:</strong> ${item.applicability || 'Nenhuma'}</p>
-    <p><strong>Functional Area:</strong> ${item.functional_area || 'Nenhuma'}</p>
-    <p><strong>Description:</strong> ${item.description || 'Sem detalhes'}</p>
-    <p><strong>Steps to Implement:</strong> ${item.steps || 'Nenhuma'}</p>
+    <p><strong>Applicability:</strong> ${item.applicability || 'None'}</p>
+    <p><strong>Functional Area:</strong> ${item.functional_area || 'None'}</p>
+    <p><strong>Description:</strong> ${item.description || 'None'}</p>
+    <p><strong>Steps to Implement:</strong> ${item.steps || 'None'}</p>
     <p><strong>Auditor Comments:</strong> ${item.auditor_comment || ''}</p>
 	</td>
 
