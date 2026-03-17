@@ -212,6 +212,7 @@ main {
 <header><img alt="Best Practice Platform Logo" src="Logo_title.png" style="height:150px; background-color:transparent;"/>
   
 <div id="usuario" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
+<div id="region" style="text-align:right; padding: 0.5em; font-size: 0.9em; color:white"></div>
   
 </header>
 <!--<nav>
@@ -425,19 +426,37 @@ const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhb
 // Variável com o email do usuário a buscar
   const userEmail = "kassio.ribeiro@gknpm.com";
 
-  async function getSiteRegionByEmail(email) {
-    const { data, error } = await supabase
-      .from("users")
-      .select("site_region")
-      .eq("email", email)
-      .single(); // retorna só um resultado
+//Função para identificar a região do usuário
+async function getSiteRegionByEmail(email) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("site_region")
+    .eq("email", email)
+    .single();
 
-    if (error) {
-      console.error("Erro:", error.message);
-    } else {
-      console.log(`Site region de ${email}:`, data.site_region);
-    }
+  if (error) {
+    console.error("Erro:", error.message);
+    return null;
   }
+
+  return data.site_region;
+  }
+
+//Função para mostrar a planta do usuário
+async function mostrarPlantaUsuario() {
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return;
+
+  const email = user.email;
+
+  const siteRegion = await getSiteRegionByEmail(email);
+
+  if (siteRegion) {
+    document.getElementById("region").innerText = siteRegion;
+  }
+}
 
  async function loadRecentPractices() {
   const { data, error } = await supabase
@@ -539,9 +558,10 @@ loadRecentPractices();
 loadRanking();
 
 
-  // Executa a função
-  getSiteRegionByEmail(userEmail);
+// Executa a função
+getSiteRegionByEmail(userEmail);
 
+mostrarPlantaUsuario();
   
 async function loadMessageInfo() {
   const { data: { user } } = await supabase.auth.getUser();
