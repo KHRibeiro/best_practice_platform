@@ -156,8 +156,16 @@ main {
   <!-- <img alt="Best Practice Platform Logo" src="lamp_light.png" style="height:150px; background-color:transparent;"/> -->
 <!-- Botão de toggle -->	  
 <button onclick="toggleSidebar()" class="openbtn">☰</button>
-<div id="user-info" style="text-align:right; padding: 0.5em; font-size: 0.9em;"></div>
-  </header>
+	  
+<div style="text-align:right; padding:0.5em; font-size:0.9em; color:white">
+
+  👤 <span id="usuario"></span> |
+  🌎 <span id="region"></span> |
+  🔐 <span id="userlvl"></span>
+
+</div>
+  
+</header>
 
 <!-- Container do layout -->
 <div class="layout">
@@ -709,6 +717,11 @@ function compartilharMelhoria(id, titulo) {
   // Abre o modal de mensagem já existente
   openMessageModal('', `Shared Best Practice: ${titulo}`, corpoMsg);
 }
+</script>
+
+<script type="module">
+	import { carregarDadosUsuario } from "./user-info.js";
+	carregarDadosUsuario();
 </script>
 
 
