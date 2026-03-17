@@ -468,8 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fileUrl = publicUrlData.publicUrl;
       }
 
-	const currentUser = await getLoggedUser();
-	const responsibleName = currentUser.email;
+	const user = await getLoggedUser();
+	const responsibleName = user.email;
 		
 	const regionPlant = form.querySelector('[name="region_plant"]').value;
 
