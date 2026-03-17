@@ -1,3 +1,4 @@
+import { supabase } from "./supabaseClient.js";
 
 //Função para identificar usuário
 export async function getLoggedUser() {
