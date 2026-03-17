@@ -470,7 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const currentUser = await getLoggedUser();
 	const responsibleName = currentUser.email;
-	const userEmail = currentUser.email;
 		
 	const regionPlant = form.querySelector('[name="region_plant"]').value;
 
@@ -483,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
         functional_area: form.querySelector('[name="functional_area"]').value,
         region_plant: regionPlant,
         // : form.querySelector('[name=""]').value,
-        responsible: userEmail,//getLoggedUser(),
+        responsible: responsibleName,//getLoggedUser(),
         steps: form.querySelector('[name="steps"]').value,
         status: "Submitted",
         kpis: form.querySelector('[name="kpis"]').value,
