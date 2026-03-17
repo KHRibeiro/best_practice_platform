@@ -468,7 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fileUrl = publicUrlData.publicUrl;
       }
 
-      const regionPlant = form.querySelector('[name="region_plant"]').value;
+	const responsibleName = getLoggedUser();
+	const regionPlant = form.querySelector('[name="region_plant"]').value;
 
       form.querySelector('[name="creation_date"]').value = new Date().toISOString();
       
@@ -479,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         functional_area: form.querySelector('[name="functional_area"]').value,
         region_plant: regionPlant,
         // : form.querySelector('[name=""]').value,
-        responsible: "kassiocamp@gmail.com",//getLoggedUser(),
+        responsible: responsibleName,//getLoggedUser(),
         steps: form.querySelector('[name="steps"]').value,
         status: "Submitted",
         kpis: form.querySelector('[name="kpis"]').value,
