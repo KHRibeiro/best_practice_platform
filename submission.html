@@ -470,6 +470,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const user = await getLoggedUser();
 	const responsibleName = user.email;
+
+	console.log(responsibleName);
 		
 	const regionPlant = form.querySelector('[name="region_plant"]').value;
 
