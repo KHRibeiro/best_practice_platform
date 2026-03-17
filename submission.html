@@ -436,7 +436,7 @@ function toggleSidebar() {
 
 	const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-	import { carregarDadosUsuario } from "./user-info.js";
+	import { getLoggedUser } from "./user-info.js";
 	
 	document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
