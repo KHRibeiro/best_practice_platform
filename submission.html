@@ -430,15 +430,15 @@ function toggleSidebar() {
 
     
 <script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+	import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+	const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+	const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 
-    const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+	const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  document.addEventListener('DOMContentLoaded', () => {
+	import { carregarDadosUsuario } from "./user-info.js";
+	
+	document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
 
     form.addEventListener('submit', async (e) => {
@@ -478,7 +478,7 @@ function toggleSidebar() {
         functional_area: form.querySelector('[name="functional_area"]').value,
         region_plant: regionPlant,
         // : form.querySelector('[name=""]').value,
-        responsible: "usuario",
+        responsible: getLoggedUser(),
         steps: form.querySelector('[name="steps"]').value,
         status: "Submitted",
         kpis: form.querySelector('[name="kpis"]').value,
