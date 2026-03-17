@@ -424,7 +424,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const supabase = createClient('https://qnxvprptwczutzojjyve.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio');
 
 //Função para identificar a região do usuário
-async function getSiteRegionByEmail() {
+aasync function getSiteRegionByEmail(email) {
   const { data, error } = await supabase
     .from("users")
     .select("site_region")
@@ -437,7 +437,7 @@ async function getSiteRegionByEmail() {
   }
 
   return data.site_region;
-  }
+}
 
 //Função para mostrar a planta do usuário
 async function mostrarPlantaUsuario() {
@@ -572,7 +572,6 @@ loadRanking();
 
 
 // Executa a função
-getSiteRegionByEmail();
 
 mostrarPlantaUsuario();
 
