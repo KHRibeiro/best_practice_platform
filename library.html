@@ -180,12 +180,12 @@ const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-//import { getLoggedUser } from "./user-info.js";
+import { getLoggedUser } from "./user-info.js";
 	
-//const user = await getLoggedUser();
-//const responsibleName = user.email;
-//console.log(responsibleName);
-//const imp_plant = form.querySelector('[name="region_plant"]').value;
+const user = await getLoggedUser();
+const responsibleName = user.email;
+console.log(responsibleName);
+const rola = form.querySelector('[name="region_plant"]').value;
 	
 // Funções que são usadas por botões inline devem ser expostas em window
 window.selecionarAtividade = async function(botao) {
@@ -198,7 +198,7 @@ window.selecionarAtividade = async function(botao) {
   const detalhes_link = linha.cells[8].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
   const type = 'Selected to Implement'
-  const plantImp = "Rola";
+  const imp_plant = Rola;
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
