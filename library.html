@@ -188,7 +188,7 @@ let userDataGlobal = null;
 async function initUser() {
   const user = await getLoggedUser();
   if (!user) return;
-
+  userGlobal = user;
   userDataGlobal = await getUserData(user.email);
 }
 console.log("ANTES initUser");
@@ -208,8 +208,7 @@ window.selecionarAtividade = async function(botao) {
   const type = 'Selected to Implement'
  
   const imp_plant = userDataGlobal?.site_region || null;
-
-  const ImpResp = user?.email || null;
+  const ImpResp = userGlobal?.email || null;
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
