@@ -185,7 +185,6 @@ import { getLoggedUser } from "./user-info.js";
 const user = await getLoggedUser();
 const responsibleName = user.email;
 console.log(responsibleName);
-const rola = form.querySelector('[name="region_plant"]').value;
 	
 // Funções que são usadas por botões inline devem ser expostas em window
 window.selecionarAtividade = async function(botao) {
@@ -198,7 +197,7 @@ window.selecionarAtividade = async function(botao) {
   const detalhes_link = linha.cells[8].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
   const type = 'Selected to Implement'
-  const imp_plant = Rola;
+  const imp_plant = form.querySelector('[name="region_plant"]').value;
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
