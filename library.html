@@ -161,12 +161,6 @@ input[="text"], select { padding: 0.5em; margin: 0.5em 0; width: 200px; }
   </main>
 </div>
 
-
-<script type="module">
-	import { carregarDadosUsuario } from "./user-info.js";
-	carregarDadosUsuario();
-</script>
-
 <script>
 function toggleSidebar() {
   const sidebar = document.getElementById("mySidebar");
@@ -182,6 +176,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+
+import { carregarDadosUsuario } from "./user-info.js";
+carregarDadosUsuario();
+	
 const user = await getLoggedUser();
 const responsibleName = user.email;
 console.log(responsibleName);
