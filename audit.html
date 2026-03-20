@@ -613,7 +613,7 @@ document.getElementById('btnAtividades').addEventListener('click', async () => {
 
   window.abrirModalAprovacao = async function(id, titulo, status) {
   const statusDestino = status;
-
+  const isAtividades = tabelaAtual === 'atividades_selecionadas';
   //CONSIDERAR LOGICA
   // 1. Atualiza status diretamente
   const { data, error } = await supabase
@@ -622,7 +622,10 @@ document.getElementById('btnAtividades').addEventListener('click', async () => {
 	.from(tabelaAtual)
     .update({ status: statusDestino })
     .eq('id', id)
-    .select("id, title, responsible")
+    .select(isAtividades 
+      ? 'id, title, responsible, "ImpResp"' 
+      : 'id, title, responsible'
+    )
     .single();
 
   if (error) {
@@ -631,8 +634,20 @@ document.getElementById('btnAtividades').addEventListener('click', async () => {
     return;
   }
 
+  // 🔄 Ajuste dos campos
+  let responsibleFinal = data.responsible;
+  let responsibleOriginal = null;
+
+  if (isAtividades) {
+    responsibleOriginal = data.responsible;
+    responsibleFinal = data.ImpResp;
+  }
+
+  console.log("Responsible final:", responsibleFinal);
+  console.log("Responsible original:", responsibleOriginal);
+
   // 2. Montar mensagem padrão
-  const responsavelEmail = data.responsible;
+  const responsavelEmail = responsibleFinal;
   const assunto = `Melhoria ${statusDestino}`;
   const corpoMsg = statusDestino === "Approved"
     ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
