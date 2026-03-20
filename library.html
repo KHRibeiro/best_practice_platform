@@ -209,6 +209,8 @@ window.selecionarAtividade = async function(botao) {
  
   const imp_plant = userDataGlobal?.site_region || null;
 
+  const ImpResp = user?.email || null;
+
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
   const { data, error } = await supabase
