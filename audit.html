@@ -376,6 +376,122 @@ window.atualizarLinha = async function (botao) {
     }
   </script>
 
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  window.responsibleOriginal = null;
+  window.responsibleFinal = null;
+	
+  let idMelhoriaAtual = null;
+  let statusDestino = null;
+
+document.getElementById('btnSubmissions').addEventListener('click', async () => {
+  window.tabelaAtual = 'submissions';
+  document.getElementById('btnSubmissions').classList.add('active');
+  document.getElementById('btnAtividades').classList.remove('active');
+  await fetchData();
+});
+
+document.getElementById('btnAtividades').addEventListener('click', async () => {
+  window.tabelaAtual = 'atividades_selecionadas';
+  document.getElementById('btnAtividades').classList.add('active');
+  document.getElementById('btnSubmissions').classList.remove('active');
+  await fetchData();
+});
+
+
+  window.abrirModalAprovacao = async function(id, titulo, status) {
+  const statusDestino = status;
+
+  const isAtividades = tabelaAtual === 'atividades_selecionadas';
+
+  const { data, error } = await supabase
+    .from(tabelaAtual)
+    .update({ status: statusDestino })
+    .eq('id', id)
+    .select(isAtividades 
+      ? 'id, title, responsible, "ImpResp"' 
+      : 'id, title, responsible'
+    )
+    .single();
+
+  if (error) {
+    alert("Error: Fail during attempt to update.");
+    console.error(error);
+    return;
+  }
+
+  if (isAtividades) {
+    window.responsibleOriginal = data.responsible;
+    window.responsibleFinal = data.ImpResp;
+  } else {
+    window.responsibleOriginal = null;
+    window.responsibleFinal = data.responsible;
+  }
+
+  console.log("Global responsibleFinal:", window.responsibleFinal);
+  console.log("Global responsibleOriginal:", window.responsibleOriginal);
+
+  // 2. Montar mensagem padrão
+  const responsavelEmail = window.responsibleFinal;
+  const assunto = `Melhoria ${statusDestino}`;
+  const corpoMsg = statusDestino === "Approved"
+    ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
+    : `Your best practice "${data.title}" was returned for review.\n\nComentário do auditor: `;
+
+  // 3. Abrir modal de mensagem já preenchido
+  openMessageModal(responsavelEmail, assunto, corpoMsg);
+};
+
+
+  document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
+  const comentario = document.getElementById('comentarioAuditor').value;
+
+  //CONSIDERAR LOGICA
+  // 1. Atualiza status
+  const { data, error } = await supabase
+    //.from('submissions')
+	//.from('atividades_selecionadas')
+	.from(tabelaAtual)
+    .update({ status: statusDestino, auditor_comment: comentario })
+    .eq('id', idMelhoriaAtual)
+    .select("id, title, responsible")
+    .single();
+
+  if (error) {
+    alert('Erro ao atualizar melhoria.');
+    console.error(error);
+    return;
+  }
+
+  // 2. Buscar responsável (email)
+  const responsavelEmail = data.responsible;
+
+  // 3. Montar mensagem padrão
+  const assunto = `Melhoria ${statusDestino}`;
+  const corpoMsg = statusDestino === "Approved"
+    ? `Your Best Practice "${data.title}" was approved.\n\nComentário do auditor: ${comentario || "sem comentários"}`
+    : `Your Best Practice "${data.title}" was returned for review.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
+
+  // 4. Abrir modal de mensagem já existente (do modal-loader.js)
+  openMessageModal(responsavelEmail, assunto, corpoMsg);
+
+  // Fecha modal de aprovação
+  const modalAprovacao = bootstrap.Modal.getInstance(document.getElementById('modalAprovacao'));
+  modalAprovacao.hide();
+});
+
+
+	
+</script>
+
+
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -586,119 +702,7 @@ function filterTable() {
 
 </script>
 
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-  const SUPABASE_URL = 'https://qnxvprptwczutzojjyve.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  window.responsibleOriginal = null;
-  window.responsibleFinal = null;
-	
-  let idMelhoriaAtual = null;
-  let statusDestino = null;
-
-document.getElementById('btnSubmissions').addEventListener('click', async () => {
-  window.tabelaAtual = 'submissions';
-  document.getElementById('btnSubmissions').classList.add('active');
-  document.getElementById('btnAtividades').classList.remove('active');
-  await fetchData();
-});
-
-document.getElementById('btnAtividades').addEventListener('click', async () => {
-  window.tabelaAtual = 'atividades_selecionadas';
-  document.getElementById('btnAtividades').classList.add('active');
-  document.getElementById('btnSubmissions').classList.remove('active');
-  await fetchData();
-});
-
-
-  window.abrirModalAprovacao = async function(id, titulo, status) {
-  const statusDestino = status;
-
-  const isAtividades = tabelaAtual === 'atividades_selecionadas';
-
-  const { data, error } = await supabase
-    .from(tabelaAtual)
-    .update({ status: statusDestino })
-    .eq('id', id)
-    .select(isAtividades 
-      ? 'id, title, responsible, "ImpResp"' 
-      : 'id, title, responsible'
-    )
-    .single();
-
-  if (error) {
-    alert("Error: Fail during attempt to update.");
-    console.error(error);
-    return;
-  }
-
-  if (isAtividades) {
-    window.responsibleOriginal = data.responsible;
-    window.responsibleFinal = data.ImpResp;
-  } else {
-    window.responsibleOriginal = null;
-    window.responsibleFinal = data.responsible;
-  }
-
-  console.log("Global responsibleFinal:", window.responsibleFinal);
-  console.log("Global responsibleOriginal:", window.responsibleOriginal);
-
-  // 2. Montar mensagem padrão
-  const responsavelEmail = window.responsibleFinal;
-  const assunto = `Melhoria ${statusDestino}`;
-  const corpoMsg = statusDestino === "Approved"
-    ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
-    : `Your best practice "${data.title}" was returned for review.\n\nComentário do auditor: `;
-
-  // 3. Abrir modal de mensagem já preenchido
-  openMessageModal(responsavelEmail, assunto, corpoMsg);
-};
-
-
-  document.getElementById('confirmarAcaoBtn').addEventListener('click', async () => {
-  const comentario = document.getElementById('comentarioAuditor').value;
-
-  //CONSIDERAR LOGICA
-  // 1. Atualiza status
-  const { data, error } = await supabase
-    //.from('submissions')
-	//.from('atividades_selecionadas')
-	.from(tabelaAtual)
-    .update({ status: statusDestino, auditor_comment: comentario })
-    .eq('id', idMelhoriaAtual)
-    .select("id, title, responsible")
-    .single();
-
-  if (error) {
-    alert('Erro ao atualizar melhoria.');
-    console.error(error);
-    return;
-  }
-
-  // 2. Buscar responsável (email)
-  const responsavelEmail = data.responsible;
-
-  // 3. Montar mensagem padrão
-  const assunto = `Melhoria ${statusDestino}`;
-  const corpoMsg = statusDestino === "Approved"
-    ? `Your Best Practice "${data.title}" was approved.\n\nComentário do auditor: ${comentario || "sem comentários"}`
-    : `Your Best Practice "${data.title}" was returned for review.\n\nComentário do auditor: ${comentario || "sem comentários"}`;
-
-  // 4. Abrir modal de mensagem já existente (do modal-loader.js)
-  openMessageModal(responsavelEmail, assunto, corpoMsg);
-
-  // Fecha modal de aprovação
-  const modalAprovacao = bootstrap.Modal.getInstance(document.getElementById('modalAprovacao'));
-  modalAprovacao.hide();
-});
-
-
-	
-</script>
 
 <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
