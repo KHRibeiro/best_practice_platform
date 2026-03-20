@@ -267,15 +267,43 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  async function carregarAtividadesSelecionadas() {
-    const { data, error } = await supabase
-      .from('atividades_selecionadas')
-      .select('*');
+// async function carregarAtividadesSelecionadas() {
+//  const { data, error } = await supabase
+//     .from('atividades_selecionadas')
+//     .select('*');
 
-    if (error) {
-      console.error('Error loading best practices:', error);
-      return;
-    }
+//    if (error) {
+//      console.error('Error loading best practices:', error);
+//      return;
+//    }
+
+import { getLoggedUser, getUserData } from "./user-info.js";
+
+async function carregarAtividadesSelecionadas() {
+
+  // 1️⃣ pega usuário
+  const user = await getLoggedUser();
+  if (!user) return;
+
+  // 2️⃣ pega dados do usuário
+  const userData = await getUserData(user.email);
+  if (!userData) return;
+
+  const siteRegion = userData.site_region;
+
+  // 3️⃣ filtra direto no Supabase 🎯
+  const { data, error } = await supabase
+    .from('atividades_selecionadas')
+    .select('*')
+    .eq('imp_plant', siteRegion);
+
+  if (error) {
+    console.error('Error loading best practices:', error);
+    return;
+  }
+
+  console.log(data);
+}
 
     const tabela = document.querySelector('#tabela-atividades tbody');
     tabela.innerHTML = ''; // limpa antes de preencher
