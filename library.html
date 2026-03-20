@@ -227,7 +227,7 @@ window.selecionarAtividade = async function(botao) {
     .from('atividades_selecionadas')
     .insert([{
       title, category, region_plant, responsible, status,
-      description, functional_area, applicability, steps, type, imp_plant,
+      description, functional_area, applicability, steps, type, imp_plant, ImpResp,
     }]);
 
   if (insertError) {
