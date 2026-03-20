@@ -563,6 +563,7 @@ function filterTable() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+	
   let melhoriaSelecionadaId = null;
 
   function abrirModalCompartilhamento(id, titulo) {
@@ -592,6 +593,9 @@ function filterTable() {
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFueHZwcnB0d2N6dXR6b2pqeXZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3MzIxMjAsImV4cCI6MjA2OTMwODEyMH0.oBi3ZBvEIBUzsaAPvYRJIhAZlJuetYVMcxFTRs_gBio';
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  window.responsibleOriginal = null;
+  window.responsibleFinal = null;
 	
   let idMelhoriaAtual = null;
   let statusDestino = null;
@@ -613,13 +617,11 @@ document.getElementById('btnAtividades').addEventListener('click', async () => {
 
   window.abrirModalAprovacao = async function(id, titulo, status) {
   const statusDestino = status;
+
   const isAtividades = tabelaAtual === 'atividades_selecionadas';
-  //CONSIDERAR LOGICA
-  // 1. Atualiza status diretamente
+
   const { data, error } = await supabase
-    //.from('submissions')
-	//.from('atividades_selecionadas')
-	.from(tabelaAtual)
+    .from(tabelaAtual)
     .update({ status: statusDestino })
     .eq('id', id)
     .select(isAtividades 
@@ -634,20 +636,19 @@ document.getElementById('btnAtividades').addEventListener('click', async () => {
     return;
   }
 
-  // 🔄 Ajuste dos campos
-  let responsibleFinal = data.responsible;
-  let responsibleOriginal = null;
-
   if (isAtividades) {
-    responsibleOriginal = data.responsible;
-    responsibleFinal = data.ImpResp;
+    window.responsibleOriginal = data.responsible;
+    window.responsibleFinal = data.ImpResp;
+  } else {
+    window.responsibleOriginal = null;
+    window.responsibleFinal = data.responsible;
   }
 
-  console.log("Responsible final:", responsibleFinal);
-  console.log("Responsible original:", responsibleOriginal);
+  console.log("Global responsibleFinal:", window.responsibleFinal);
+  console.log("Global responsibleOriginal:", window.responsibleOriginal);
 
   // 2. Montar mensagem padrão
-  const responsavelEmail = responsibleFinal;
+  const responsavelEmail = window.responsibleFinal;
   const assunto = `Melhoria ${statusDestino}`;
   const corpoMsg = statusDestino === "Approved"
     ? `Your best practice "${data.title}" was approved.\n\nAuditor comment: `
