@@ -192,7 +192,7 @@ async function initUser() {
   userDataGlobal = await getUserData(user.email);
 }
 console.log("ANTES initUser");
-await initUser();
+initUser();
 console.log("DEPOIS initUser");
 	
 // Funções que são usadas por botões inline devem ser expostas em window
