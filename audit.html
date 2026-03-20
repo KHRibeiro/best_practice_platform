@@ -267,12 +267,12 @@ main {
 <thead>
 <tr>
 <th>Title</th>
-<th>Best Practice Creator</th>
-<th>Category</th>
 <th>Site/Region</th>
 <th>Local Responsible</th>
+<th>Category</th>
 <th>Status</th>
-<th>Type</th>	
+<th>Type</th>
+<th>Best Practice Creator</th>
 <th>Files</th>
 <th>Decision</th>
 </tr>
@@ -543,12 +543,12 @@ async function contarRegistros() {
 
 	mainRow.innerHTML = `
 	  <td>${item.title}</td>
-	  <td>${item.responsible}</td>
-	  <td>${item.category}</td>
-	  <td>${item.region_plant}</td>
+	  <td>${item.imp_plant || item.region_plant}</td>
 	  <td>${item.ImpResp || item.responsible }</td>
+	  <td>${item.category}</td>
 	  <td>${item.status}</td>
    	  <td>${item.type}</td>
+	  <td>${item.responsible}</td>
 	  <td>${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : 'Sem arquivo'}</td>
 	  <td>
 	  <button onclick="abrirModalAprovacao(${item.id}, '${item.title.replace(/'/g, "\\'")}', 'Approved')" class="btn btn-primary btn-sm">Approve</button>
