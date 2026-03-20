@@ -267,31 +267,21 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// async function carregarAtividadesSelecionadas() {
-//  const { data, error } = await supabase
-//     .from('atividades_selecionadas')
-//     .select('*');
-
-//    if (error) {
-//      console.error('Error loading best practices:', error);
-//      return;
-//    }
-
-import { getLoggedUser, getUserData } from "./user-info.js";
+ import { getLoggedUser, getUserData } from "./user-info.js";
 
 async function carregarAtividadesSelecionadas() {
 
-  // 1️⃣ pega usuário
+  // 1️⃣ usuário logado
   const user = await getLoggedUser();
   if (!user) return;
 
-  // 2️⃣ pega dados do usuário
+  // 2️⃣ dados do usuário
   const userData = await getUserData(user.email);
   if (!userData) return;
 
   const siteRegion = userData.site_region;
 
-  // 3️⃣ filtra direto no Supabase 🎯
+  // 3️⃣ filtro direto no Supabase 🎯
   const { data, error } = await supabase
     .from('atividades_selecionadas')
     .select('*')
@@ -302,35 +292,36 @@ async function carregarAtividadesSelecionadas() {
     return;
   }
 
-  console.log(data);
+  const tabela = document.querySelector('#tabela-atividades tbody');
+  if (!tabela) return;
+
+  tabela.innerHTML = '';
+
+  data.forEach(item => {
+    const linha = tabela.insertRow();
+    linha.setAttribute('data-id', item.id);
+    linha.style.cursor = 'pointer';
+
+    linha.innerHTML = `
+      <td>${item.title}</td>
+      <td>${item.category}</td>
+      <td>${item.region_plant}</td>
+      <td>${item.responsible}</td>
+      <td>${item.status}</td>
+      <td>
+        ${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : ''}
+      </td>
+      <td>
+        <button class="btn btn-primary" title="Delete"
+          onclick="removerAtividade(this); event.stopPropagation();">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </td>
+    `;
+
+    linha.addEventListener('click', () => mostrarDetalhes(item));
+  });
 }
-
-    const tabela = document.querySelector('#tabela-atividades tbody');
-    tabela.innerHTML = ''; // limpa antes de preencher
-
-    data.forEach(item => {
-  const linha = tabela.insertRow();
-  linha.setAttribute('data-id', item.id);
-  linha.style.cursor = 'pointer';
-
-  linha.innerHTML = `
-    <td>${item.title}</td>
-    <td>${item.category}</td>
-    <td>${item.region_plant}</td>
-    <td>${item.responsible}</td>
-    <td>${item.status}</td>
-	<td>
-    ${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : ''}
-  	</td>
-    <td>
-      <button class="btn btn-primary" title="Delete" onclick="removerAtividade(this); event.stopPropagation();"><i class="bi bi-x-lg"></i></button>
-    </td>
-  `;
-
-  linha.addEventListener('click', () => mostrarDetalhes(item));
-});
-
-  
 	
   window.removerAtividade = async function(botao) {
     const linha = botao.closest('tr');
