@@ -299,17 +299,8 @@ window.removerLinha = async function(id) {
 window.editarLinha = function(id) { window.location.href = `edit.html?id=${id}`; };
 
 // MAPA (mantive seu código praticamente igual)
-//const map = L.map('map', { minZoom: 2, maxBounds: [[-90, -180], [90, 180]] }).setView([20,0],2);
+const map = L.map('map', { minZoom: 2, maxBounds: [[-90, -180], [90, 180]] }).setView([20,0],2);
 
-document.addEventListener('DOMContentLoaded', () => {
-
-  const map = L.map('map').setView([20, 0], 2);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-
-});
 	
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors', noWrap: true }).addTo(map);
 map.fitWorld();
