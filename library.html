@@ -177,6 +177,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const user = await getLoggedUser();
+const responsibleName = user.email;
+console.log(responsibleName);
+	
 // Funções que são usadas por botões inline devem ser expostas em window
 window.selecionarAtividade = async function(botao) {
   const linha = botao.closest("tr");
@@ -188,7 +192,7 @@ window.selecionarAtividade = async function(botao) {
   const detalhes_link = linha.cells[8].querySelector('a')?.href || '';
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
   const type = 'Selected to Implement'
-  const imp_plant = 'Batata'
+  const imp_plant = form.querySelector('[name="region_plant"]').value;
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
