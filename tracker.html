@@ -202,7 +202,7 @@ main {
 	<th>Title</th>
 	<th>Category</th>
 	<th>Region/Site</th>
-	<th>Responsible</th>
+	<th>Local Responsible</th>
 	<th>Status</th>
 	<th>Files</th>
 	<th>Remove</th>
@@ -220,7 +220,7 @@ main {
   <p><strong>Description:</strong> <span id="detalhe-desc"></span></p>
   <p><strong>Steps:</strong> <span id="detalhe-steps"></span></p>
   <p><strong>Region/Site:</strong> <span id="detalhe-region_plant"></span></p>
-  <p><strong>Responsible:</strong> <span id="detalhe-responsible"></span></p>
+  <p><strong>Best Practice Responsible:</strong> <span id="detalhe-responsible"></span></p>
   <p><strong>Status:</strong> <span id="detalhe-status"></span></p>
   <p><strong>Comments:</strong> <span id="detalhe-comentario"></span></p>
 	
@@ -306,7 +306,8 @@ async function carregarAtividadesSelecionadas() {
       <td>${item.title}</td>
       <td>${item.category}</td>
       <td>${item.region_plant}</td>
-      <td>${item.responsible}</td>
+	  //TABELA
+      <td>${user.email}</td>
       <td>${item.status}</td>
       <td>
         ${item.file_url ? `<a href="${item.file_url}" target="_blank">Download</a>` : ''}
