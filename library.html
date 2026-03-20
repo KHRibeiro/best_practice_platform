@@ -182,14 +182,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 import { getLoggedUser, getUserData } from "./user-info.js";
 
-let userDataGlobal = null;
+window.userGlobal = null;
+window.userDataGlobal = null;
+	
+//let userDataGlobal = null;
 
 // carrega uma vez só
 async function initUser() {
   const user = await getLoggedUser();
   if (!user) return;
-  userGlobal = user;
-  userDataGlobal = await getUserData(user.email);
+  window.userGlobal = user;
+  window.userDataGlobal = await getUserData(user.email);
 }
 console.log("ANTES initUser");
 initUser();
@@ -207,8 +210,8 @@ window.selecionarAtividade = async function(botao) {
   const id = new URL(detalhes_link, window.location.origin).searchParams.get('id');
   const type = 'Selected to Implement'
  
-  const imp_plant = userDataGlobal?.site_region || null;
-  const ImpResp = userGlobal?.email || null;
+  const ImpResp = window.userGlobal?.email || null;
+  const imp_plant = window.userDataGlobal?.site_region || null;
 
   if (!id) { alert("ID da submissão não encontrado."); return; }
 
