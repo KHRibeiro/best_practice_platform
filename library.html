@@ -390,7 +390,13 @@ function populateFilter(id, values) {
 
 // Busca dados do Supabase e popula a tabela
 async function fetchData() {
-  const { data, error } = await supabase.from('submissions').select('*');
+  //const { data, error } = await supabase.from('submissions').select('*');
+
+	const { data, error } = await supabase
+	  .from('submissions')
+	  .select('*')
+	  .eq('status', 'Approved');
+	
   if (error) { console.error('Erro ao buscar dados:', error.message); return; }
 
   const tbody = document.querySelector('#results-table tbody');
