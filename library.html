@@ -390,14 +390,24 @@ function populateFilter(id, values) {
 
 // Busca dados do Supabase e popula a tabela
 async function fetchData() {
-  //const { data, error } = await supabase.from('submissions').select('*');
+  await initUser();
 
-	const { data, error } = await supabase
-	  .from('submissions')
-	  .select('*')
-	  .eq('status', 'Approved');
-	
-  if (error) { console.error('Erro ao buscar dados:', error.message); return; }
+  const loggedEmail = window.userGlobal?.email;
+
+  if (!loggedEmail) {
+    console.error('Usuário não encontrado.');
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from('submissions')
+    .select('*')
+    .or(`status.eq.Approved,responsible.eq.${loggedEmail}`);
+
+  if (error) {
+    console.error('Erro ao buscar dados:', error.message);
+    return;
+  }
 
   const tbody = document.querySelector('#results-table tbody');
   tbody.innerHTML = '';
@@ -443,14 +453,14 @@ async function fetchData() {
   populateFilter('filter-status', statuses);
   populateFilter('filter-location', locations);
 
-  // Atualiza popups no mapa com contagem real
   markers.forEach(marker => {
     const site = marker.siteName;
     const total = countsByLocation[site] || 0;
-    marker.bindPopup(`<b>${site}</b><br>Practices: ${total}<br><button class="btn btn-primary btn-sm" onclick="filterByLocation('${site}')">Filter Practices</button>`);
+    marker.bindPopup(
+      `<b>${site}</b><br>Practices: ${total}<br><button class="btn btn-primary btn-sm" onclick="filterByLocation('${site}')">Filter Practices</button>`
+    );
   });
 
-  // Aplicar filtros (inicialmente todos) e renderizar a página 1
   applyFilters();
 }
 
